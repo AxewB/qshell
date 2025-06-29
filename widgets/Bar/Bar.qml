@@ -10,27 +10,19 @@ import "root:/utils"
 import "root:/components"
 import "./Tray"
 
-Item {
+WrapperItem {
     id: root
-    property int padding: Appearance.padding.huge
-
+    margin: Appearance.padding.huge
     implicitHeight: contentWrapper.implicitHeight
     anchors.fill: parent
 
-    WrapperItem {
-        id: contentWrapper
-
+    RowLayout {
+        id: content
         anchors.fill: parent
-        margin: root.padding
+        spacing: root.padding
 
-        RowLayout {
-            id: content
-            anchors.fill: parent
-            spacing: root.padding
-
-            BarLeftSection {}
-            BarCenterSection {}
-            BarRightSection {}
-        }
+        BarLeftSection {}
+        BarCenterSection {}
+        BarRightSection {}
     }
 }
