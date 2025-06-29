@@ -12,7 +12,6 @@ import "./Tray"
 
 WrapperItem {
     id: root
-    margin: Appearance.padding.huge
     implicitHeight: contentWrapper.implicitHeight
     anchors.fill: parent
 
