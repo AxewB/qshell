@@ -29,7 +29,14 @@ Variants {
             color: "transparent"
 
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
-            WlrLayershell.layer: WlrLayer.Bottom
+
+            mask: Region {
+                x: borders.thickness
+                y: bar.implicitHeight
+                width: window.width - borders.thickness * 2
+                height: window.height - borders.thickness
+                intersection: Intersection.Xor
+            }
 
             anchors {
                 left: true
@@ -102,6 +109,5 @@ Variants {
             leftContent: frameLeft
             borders: borders
         }
-
     }
 }
