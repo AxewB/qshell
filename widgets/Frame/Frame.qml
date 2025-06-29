@@ -73,7 +73,7 @@ Variants {
                     left: parent.left
                     right: parent.right
                 }
-                // Bar { id: bar }
+                Bar { id: bar }
             }
             WrapperItem {
                 id: frameRight
@@ -81,8 +81,9 @@ Variants {
                     top: parent.top
                     right: parent.right
                     bottom: parent.bottom
+                    bottomMargin: frameBottom.implicitHeight + borders.thickness
+                    topMargin: frameTop.implicitHeight + borders.thickness
                 }
-                // BarVertical {}
             }
             WrapperItem {
                 id: frameBottom
@@ -91,7 +92,6 @@ Variants {
                     right: parent.right
                     bottom: parent.bottom
                 }
-                Bar { id: bar1 }
             }
             WrapperItem {
                 id: frameLeft
@@ -99,8 +99,9 @@ Variants {
                     top: parent.top
                     left: parent.left
                     bottom: parent.bottom
+                    bottomMargin: frameBottom.implicitHeight + borders.thickness
+                    topMargin: frameTop.implicitHeight + borders.thickness
                 }
-                // BarVertical {}
             }
         }
 
