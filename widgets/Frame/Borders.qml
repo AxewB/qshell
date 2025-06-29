@@ -11,7 +11,10 @@ import "root:/components"
 
 Item {
     id: root
-    required property Item bar
+    required property Item topContent
+    required property Item rightContent
+    required property Item bottomContent
+    required property Item leftContent
     property ShellScreen screen
     property int thickness: 10
 
@@ -34,7 +37,10 @@ Item {
         Rectangle {
             anchors.fill: parent
             anchors.margins: root.thickness
-            anchors.topMargin: root.thickness + root.bar.implicitHeight - root.bar.padding
+            anchors.topMargin: root.thickness + root.topContent.implicitHeight
+            anchors.rightMargin: root.thickness + root.rightContent.implicitWidth
+            anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight
+            anchors.leftMargin: root.thickness + root.leftContent.implicitWidth
             radius: Appearance.radius.normal
         }
     }
@@ -48,7 +54,4 @@ Item {
         maskThresholdMin: 0.5
         maskSpreadAtMin: 1
     }
-
-
-
 }

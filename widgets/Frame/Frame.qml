@@ -17,51 +17,102 @@ import "root:/widgets/Bar"
 Variants {
     model: Quickshell.screens
 
-    PanelWindow {
-        property var modelData
-        screen: modelData
-        id: window
+    Scope {
+        id: scope
+        property ShellScreen modelData
 
-        color: "transparent"
-
-
-        WlrLayershell.exclusionMode: ExclusionMode.Ignore
-        WlrLayershell.layer: WlrLayer.Bottom
+        PanelWindow {
+            screen: modelData
+            id: window
 
 
-        mask: Region {
-            x: bar.implicitWidth
-            y: Config.border.thickness
-            width: win.width - bar.implicitWidth - Config.border.thickness
-            height: win.height - Config.border.thickness * 2
-            intersection: Intersection.Xor
+            color: "transparent"
 
-            regions: regions.instances
+
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            WlrLayershell.layer: WlrLayer.Bottom
+
+
+            mask: Region {
+                x: bar.implicitWidth
+                y: Config.border.thickness
+                width: win.width - bar.implicitWidth - Config.border.thickness
+                height: win.height - Config.border.thickness * 2
+                intersection: Intersection.Xor
+
+                regions: regions.instances
+            }
+
+            anchors {
+                left: true
+                right: true
+                top: true
+                bottom: true
+            }
+
+            Borders {
+                id: borders;
+                screen: modelData
+                topContent: frameTop
+                rightContent: frameRight
+                bottomContent: frameBottom
+                leftContent: frameLeft
+            }
+
+            MultiEffect {
+                source: borders
+                anchors.fill: borders
+                shadowEnabled: true
+                shadowColor: Colors.palette.m3shadow
+            }
+
+            WrapperItem {
+                id: frameTop
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                // Bar { id: bar }
+            }
+            WrapperItem {
+                id: frameRight
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+                // BarVertical {}
+            }
+            WrapperItem {
+                id: frameBottom
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+                Bar { id: bar1 }
+            }
+            WrapperItem {
+                id: frameLeft
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    bottom: parent.bottom
+                }
+                // BarVertical {}
+            }
         }
-
-        anchors {
-            left: true
-            right: true
-            top: true
-            bottom: true
-        }
-
-        Borders {id: borders; bar: bar; screen: modelData }
-
-        MultiEffect {
-            source: borders
-            anchors.fill: borders
-            shadowEnabled: true
-            shadowColor: Colors.palette.m3shadow
-        }
-
-        Bar { id: bar }
 
 
         Exclusions {
             screen: modelData
-            bar: bar
+            topContent: frameTop
+            rightContent: frameRight
+            bottomContent: frameBottom
+            leftContent: frameLeft
             borders: borders
         }
+
     }
 }
