@@ -13,6 +13,7 @@ import "root:/config"
 import "root:/utils"
 import "root:/components"
 import "root:/widgets/Bar"
+import "./FrameDrawer"
 
 Variants {
     model: Quickshell.screens
@@ -25,23 +26,10 @@ Variants {
             screen: modelData
             id: window
 
-
             color: "transparent"
-
 
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.layer: WlrLayer.Bottom
-
-
-            mask: Region {
-                x: bar.implicitWidth
-                y: Config.border.thickness
-                width: win.width - bar.implicitWidth - Config.border.thickness
-                height: win.height - Config.border.thickness * 2
-                intersection: Intersection.Xor
-
-                regions: regions.instances
-            }
 
             anchors {
                 left: true
@@ -63,11 +51,13 @@ Variants {
                 source: borders
                 anchors.fill: borders
                 shadowEnabled: true
+                blurMax: 16
                 shadowColor: Colors.palette.m3shadow
             }
 
             WrapperItem {
                 id: frameTop
+                margin: Appearance.padding.huge
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -75,36 +65,34 @@ Variants {
                 }
                 Bar { id: bar }
             }
-            WrapperItem {
-                id: frameRight
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                    bottom: parent.bottom
-                    bottomMargin: frameBottom.implicitHeight + borders.thickness
-                    topMargin: frameTop.implicitHeight + borders.thickness
-                }
-            }
-            WrapperItem {
+            FrameDrawer {
                 id: frameBottom
+                side: "bottom"
                 anchors {
                     left: parent.left
                     right: parent.right
                     bottom: parent.bottom
                 }
             }
-            WrapperItem {
-                id: frameLeft
+            FrameDrawer {
+                id: frameRight
+                side: "right"
                 anchors {
+                    right: parent.right
                     top: parent.top
-                    left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: frameBottom.implicitHeight + borders.thickness
-                    topMargin: frameTop.implicitHeight + borders.thickness
+                }
+            }
+            FrameDrawer {
+                id: frameLeft
+                side: "left"
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
                 }
             }
         }
-
 
         Exclusions {
             screen: modelData
