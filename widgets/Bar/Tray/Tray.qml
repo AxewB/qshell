@@ -27,7 +27,7 @@ Item {
                 to: 1
                 duration: Appearance.anim.durations.normal
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.anim.curves.standardDecel
+                easing.bezierCurve: Appearance.anim.curves.ease
             }
         }
 
