@@ -28,9 +28,6 @@ Scope {
                 bottom: true
             }
 
-            Rectangle {
-                anchors.fill: parent
-            }
             Wallpaper {
                 anchors.fill: parent
             }
