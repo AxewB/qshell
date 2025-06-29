@@ -13,7 +13,7 @@ import "root:/config"
 import "root:/utils"
 import "root:/components"
 import "root:/widgets/Bar"
-import "./FrameDrawer"
+import "./BorderDrawer"
 
 Variants {
     model: Quickshell.screens
@@ -65,7 +65,7 @@ Variants {
                 }
                 Bar { id: bar }
             }
-            FrameDrawer {
+            BorderDrawer {
                 id: frameBottom
                 side: "bottom"
                 anchors {
@@ -74,7 +74,7 @@ Variants {
                     bottom: parent.bottom
                 }
             }
-            FrameDrawer {
+            BorderDrawer {
                 id: frameRight
                 side: "right"
                 anchors {
@@ -83,7 +83,7 @@ Variants {
                     bottom: parent.bottom
                 }
             }
-            FrameDrawer {
+            BorderDrawer {
                 id: frameLeft
                 side: "left"
                 anchors {

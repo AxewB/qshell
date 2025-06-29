@@ -37,14 +37,14 @@ WrapperItem {
 
     Component {
         id: rightDrawer
-        FrameDrawerRight { isOpened: root.isOpened }
+        BorderDrawerRight { isOpened: root.isOpened }
     }
     Component {
         id: bottomDrawer
-        FrameDrawerBottom { isOpened: root.isOpened }
+        BorderDrawerBottom { isOpened: root.isOpened }
     }
     Component {
         id: leftDrawer
-        FrameDrawerLeft { isOpened: root.isOpened }
+        BorderDrawerLeft { isOpened: root.isOpened }
     }
 }
