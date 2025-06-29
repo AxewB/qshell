@@ -4,7 +4,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/config"
+import "root:/service"
 import "root:/utils"
 import "root:/components"
 

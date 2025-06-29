@@ -7,7 +7,7 @@ import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Services.Mpris
 import "root:/utils"
-import "root:/config"
+import "root:/service"
 import "root:/components"
 
 StyledRectangle {

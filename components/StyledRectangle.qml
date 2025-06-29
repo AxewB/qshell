@@ -1,5 +1,5 @@
 import QtQuick
-import "root:/config"
+import "root:/service"
 
 Rectangle {
     id: root

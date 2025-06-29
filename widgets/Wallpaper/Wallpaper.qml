@@ -6,7 +6,7 @@ import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
-import "root:/config"
+import "root:/service"
 import "root:/utils"
 import "root:/components"
 

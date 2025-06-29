@@ -9,7 +9,7 @@ import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Wayland
 import Quickshell.Hyprland
-import "root:/config"
+import "root:/service"
 import "root:/utils"
 import "root:/components"
 import "root:/widgets/Bar"

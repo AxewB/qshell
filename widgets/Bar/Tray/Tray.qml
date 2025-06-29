@@ -5,7 +5,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.SystemTray
-import "root:/config"
+import "root:/service"
 import "root:/utils"
 import "root:/components"
 

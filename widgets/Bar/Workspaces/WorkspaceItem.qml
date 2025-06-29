@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell.Hyprland
 import "root:."
-import "root:/config"
+import "root:/service"
 import "root:/components"
 import "root:/utils"
 

@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
-import "root:/config"
+import "root:/service"
 
 
 // Все размеры буквально зависят от внутренностей. Каждый `Item`

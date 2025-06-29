@@ -1,5 +1,5 @@
 import QtQuick
-import "root:/config"
+import "root:/service"
 
 Text {
     id: root

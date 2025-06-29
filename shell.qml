@@ -5,7 +5,7 @@ import "root:/widgets/Bar"
 import "root:/widgets/Wallpaper"
 import "root:/widgets/Frame"
 import "root:/widgets/ColorsPreview"
-import "root:/config"
+import "root:/service"
 
 Scope {
 	// Bar {}
