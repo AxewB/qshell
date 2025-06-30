@@ -23,10 +23,8 @@ Rectangle{
     }
 
     function apply(data: string) {
-        console.log("updating wallpaper. Old: ", root.current)
         const jsonData = JSON.parse(data.trim())
         root.current = jsonData.path
-        console.log("New: ", root.current)
 
         updateColors()
     }

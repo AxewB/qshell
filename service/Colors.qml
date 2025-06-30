@@ -52,7 +52,6 @@ Singleton {
     }
 
     function apply(data: string) {
-        console.log("updaring colors")
         const jsonData = JSON.parse(data.trim());
 
         // Палитра цветов
