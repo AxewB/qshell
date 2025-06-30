@@ -10,49 +10,56 @@ import "root:/config"
 import "root:/utils"
 import "root:/components"
 
-Item {
+
+
+Loader {
     id: root
+    active: AppConfig.modules.borders
     required property WrapperItem topContent
     required property WrapperItem rightContent
     required property WrapperItem bottomContent
     required property WrapperItem leftContent
     property ShellScreen screen
     property int thickness: BorderConfig.thickness
-
     anchors.fill: parent
 
-    Rectangle {
-        id: borders
+    sourceComponent: Item {
+        id: content
         anchors.fill: parent
-        color: Colors.palette.m3surface
-        visible: false
-    }
-
-    Item {
-        id: mask
-
-        anchors.fill: parent
-        layer.enabled: true
-        visible: false
 
         Rectangle {
+            id: borders
             anchors.fill: parent
-            anchors.margins: root.thickness
-            anchors.topMargin: root.thickness + root.topContent.implicitHeight
-            anchors.rightMargin: root.thickness + root.rightContent.implicitWidth
-            anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight
-            anchors.leftMargin: root.thickness + root.leftContent.implicitWidth
-            radius: Appearance.radius.normal
+            color: Colors.palette.m3surface
+            visible: false
         }
-    }
 
-    MultiEffect {
-        source: borders
-        maskSource: mask
-        anchors.fill: parent
-        maskEnabled: true
-        maskInverted: true
-        maskThresholdMin: 0.5
-        maskSpreadAtMin: 1
+        Item {
+            id: mask
+
+            anchors.fill: parent
+            layer.enabled: true
+            visible: false
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: root.thickness
+                anchors.topMargin: root.thickness + root.topContent.implicitHeight
+                anchors.rightMargin: root.thickness + root.rightContent.implicitWidth
+                anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight
+                anchors.leftMargin: root.thickness + root.leftContent.implicitWidth
+                radius: Appearance.radius.normal
+            }
+        }
+
+        MultiEffect {
+            source: borders
+            maskSource: mask
+            anchors.fill: parent
+            maskEnabled: true
+            maskInverted: true
+            maskThresholdMin: 0.5
+            maskSpreadAtMin: 1
+        }
     }
 }

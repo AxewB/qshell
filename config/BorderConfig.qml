@@ -3,8 +3,9 @@ pragma Singleton
 import Quickshell
 import QtQuick
 import "root:/service"
+import "root:/config"
 
 Singleton {
-    property int thickness: Appearance.padding.normal
+    property int thickness: Appearance.padding.normal * AppConfig.modules.borders
     property int margin: Appearance.padding.huge
 }
