@@ -6,6 +6,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import "root:/service"
+import "root:/config"
 import "root:/utils"
 import "root:/components"
 
@@ -16,7 +17,7 @@ Item {
     required property WrapperItem bottomContent
     required property WrapperItem leftContent
     property ShellScreen screen
-    property int thickness: 10
+    property int thickness: BorderConfig.thickness
 
     anchors.fill: parent
 
@@ -37,10 +38,10 @@ Item {
         Rectangle {
             anchors.fill: parent
             anchors.margins: root.thickness
-            anchors.topMargin: root.thickness + root.topContent.implicitHeight - root.topContent.margin
-            anchors.rightMargin: root.thickness + root.rightContent.implicitWidth - root.rightContent.margin
-            anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight - root.bottomContent.margin
-            anchors.leftMargin: root.thickness + root.leftContent.implicitWidth - root.leftContent.margin
+            anchors.topMargin: root.thickness + root.topContent.implicitHeight
+            anchors.rightMargin: root.thickness + root.rightContent.implicitWidth
+            anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight
+            anchors.leftMargin: root.thickness + root.leftContent.implicitWidth
             radius: Appearance.radius.normal
         }
     }

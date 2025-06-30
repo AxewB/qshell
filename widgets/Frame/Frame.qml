@@ -10,6 +10,7 @@ import Quickshell.Widgets
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import "root:/service"
+import "root:/config"
 import "root:/utils"
 import "root:/components"
 import "root:/widgets/Bar"
@@ -25,9 +26,7 @@ Variants {
         PanelWindow {
             screen: modelData
             id: window
-
             color: "transparent"
-
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
             mask: Region {
@@ -54,6 +53,7 @@ Variants {
                 leftContent: frameLeft
             }
 
+
             MultiEffect {
                 source: borders
                 anchors.fill: borders
@@ -64,40 +64,84 @@ Variants {
 
             WrapperItem {
                 id: frameTop
-                margin: Appearance.padding.huge
+                topMargin: BorderConfig.thickness
+                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness
+                rightMargin: frameRight.implicitWidth + BorderConfig.thickness
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
                 }
-                Bar { id: bar }
+
+                Bar {}
+
+
             }
-            BorderDrawer {
+
+            WrapperItem {
                 id: frameBottom
-                side: "bottom"
+                bottomMargin: BorderConfig.thickness
+                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness
+                rightMargin: frameRight.implicitWidth + BorderConfig.thickness
                 anchors {
                     left: parent.left
                     right: parent.right
                     bottom: parent.bottom
                 }
+
+                // RowLayout {
+                //     Repeater {
+                //         model: 30
+                //         Rectangle {
+                //             implicitHeight: 20
+                //             implicitWidth: 20
+                //             color: "blue"
+                //         }
+                //     }
+                // }
             }
-            BorderDrawer {
+            WrapperItem {
                 id: frameRight
-                side: "right"
+                rightMargin: BorderConfig.thickness
+                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness
+                topMargin: frameTop.implicitHeight + BorderConfig.thickness
                 anchors {
                     right: parent.right
                     top: parent.top
                     bottom: parent.bottom
                 }
+                // ColumnLayout {
+                //     Repeater {
+                //         model: 5
+                //         Rectangle {
+                //             implicitHeight: 20
+                //             implicitWidth: 20
+                //             color: "grey"
+                //         }
+                //     }
+                // }
             }
-            BorderDrawer {
+            WrapperItem {
                 id: frameLeft
-                side: "left"
+                leftMargin: BorderConfig.thickness
+                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness
+                topMargin: frameTop.implicitHeight + BorderConfig.thickness
                 anchors {
                     left: parent.left
                     top: parent.top
                     bottom: parent.bottom
                 }
+
+                // ColumnLayout {
+                //     Repeater {
+                //         model: 50
+                //         Rectangle {
+                //             implicitHeight: 20
+                //             implicitWidth: 20
+                //             color: "grey"
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -107,7 +151,6 @@ Variants {
             rightContent: frameRight
             bottomContent: frameBottom
             leftContent: frameLeft
-            borders: borders
         }
     }
 }
