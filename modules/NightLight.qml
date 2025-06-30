@@ -10,42 +10,33 @@ import "root:/utils"
 import "root:/components"
 
 WrapperItem {
+    id: root
+    readonly property bool active: TogglesConfig.nightLight
+
+
     WrapperMouseArea {
-        implicitHeight: 30
-        implicitWidth: 50
+        anchors.fill: parent
+        onClicked: root.toggleNightLight()
 
-        onClicked: {
-            TogglesConfig.nightLight = !TogglesConfig.nightLight
-        }
-
-        Rectangle {
-            anchors.fill: parent
+        WrapperRectangle {
+            id: content
             radius: 1000
-            color: TogglesConfig.nightLight ? Colors.palette.m3primary : Colors.palette.m3surfaceContainer
+            margin: Appearance.padding.normal
+            color: root.active ? Colors.palette.m3primary : Colors.palette.m3surfaceContainer
 
-            Text {
-                text: "TOOL"
-                color: TogglesConfig.nightLight ? Colors.palette.m3onPrimary : Colors.palette.m3onSurface
-                anchors.centerIn: parent
+            Icon {
+                icon: "night_sight_max"
             }
         }
     }
+
+    function toggleNightLight() {
+        TogglesConfig.nightLight = !TogglesConfig.nightLight
+    }
+
     Process {
         id: proc
-        running: TogglesConfig.nightLight
+        running: root.active
         command: ["hyprsunset", "-t", "3000"]
-    }
-    Component.onCompleted: {
-        console.log("PROC START")
-        console.log(proc.running)
-        console.log(proc.running)
-        console.log(proc.running)
-        console.log(proc.running)
-        console.log("PROC END")
-    }
-
-
-    Component.onDestruction: {
-        proc.running = false
     }
 }
