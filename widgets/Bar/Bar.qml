@@ -13,7 +13,6 @@ import "./Tray"
 WrapperItem {
     id: root
     implicitHeight: contentWrapper.implicitHeight
-    anchors.fill: parent
 
     RowLayout {
         id: content

@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import "root:/service"
+import "root:/modules"
 import "root:/utils"
 import "root:/components"
 import "./Tray"
@@ -23,7 +24,9 @@ Item {
         height: parent.height
         layoutDirection: Qt.RightToLeft
 
+
         Time { }
         Tray { }
+        NightLight {}
     }
 }
