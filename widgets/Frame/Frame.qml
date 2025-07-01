@@ -31,7 +31,7 @@ Variants {
 
             mask: Region {
                 x: borders.thickness
-                y: bar.implicitHeight
+                y: frameTop.implicitHeight
                 width: window.width - borders.thickness * 2
                 height: window.height - borders.thickness
                 intersection: Intersection.Xor
@@ -65,83 +65,48 @@ Variants {
             WrapperItem {
                 id: frameTop
                 topMargin: BorderConfig.thickness
-                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness
-                rightMargin: frameRight.implicitWidth + BorderConfig.thickness
+                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+                rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
                 }
-
                 Bar {}
-
-
             }
 
             WrapperItem {
                 id: frameBottom
                 bottomMargin: BorderConfig.thickness
-                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness
-                rightMargin: frameRight.implicitWidth + BorderConfig.thickness
+                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+                rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
                 anchors {
                     left: parent.left
                     right: parent.right
                     bottom: parent.bottom
                 }
-
-                // RowLayout {
-                //     Repeater {
-                //         model: 30
-                //         Rectangle {
-                //             implicitHeight: 20
-                //             implicitWidth: 20
-                //             color: "blue"
-                //         }
-                //     }
-                // }
             }
             WrapperItem {
                 id: frameRight
                 rightMargin: BorderConfig.thickness
-                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness
-                topMargin: frameTop.implicitHeight + BorderConfig.thickness
+                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+                topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
                 anchors {
                     right: parent.right
                     top: parent.top
                     bottom: parent.bottom
                 }
-                // ColumnLayout {
-                //     Repeater {
-                //         model: 5
-                //         Rectangle {
-                //             implicitHeight: 20
-                //             implicitWidth: 20
-                //             color: "grey"
-                //         }
-                //     }
-                // }
             }
             WrapperItem {
                 id: frameLeft
                 leftMargin: BorderConfig.thickness
-                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness
-                topMargin: frameTop.implicitHeight + BorderConfig.thickness
+                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+                topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
                 anchors {
                     left: parent.left
                     top: parent.top
                     bottom: parent.bottom
                 }
-
-                // ColumnLayout {
-                //     Repeater {
-                //         model: 50
-                //         Rectangle {
-                //             implicitHeight: 20
-                //             implicitWidth: 20
-                //             color: "grey"
-                //         }
-                //     }
-                // }
             }
         }
 
