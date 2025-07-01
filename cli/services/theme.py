@@ -118,7 +118,7 @@ class Theme:
         self.palette = palette
 
 
-def get_parser(parser: ArgumentParser):
+def get_parser(parser: ArgumentParser | None):
     if parser is None:
         parser = ArgumentParser(
             "Theme module",
