@@ -7,8 +7,6 @@ import "root:/widgets/Frame"
 import "root:/service"
 
 Scope {
-	// Bar {}
 	Frame {}
-	// ColorsPreview {}
 	Background {}
 }
