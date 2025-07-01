@@ -8,7 +8,6 @@ import Quickshell.Widgets
 import "root:/service"
 import "root:/utils"
 import "root:/components"
-import "./Tray"
 
 Rectangle {
     id: root

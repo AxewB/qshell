@@ -8,7 +8,6 @@ import "root:/service"
 import "root:/config"
 import "root:/utils"
 import "root:/components"
-import "./Tray"
 
 Item {
     id: root

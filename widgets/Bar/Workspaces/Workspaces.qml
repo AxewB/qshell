@@ -34,16 +34,6 @@ Rectangle {
         y: activeItem ? activeItem.y : 0
         implicitWidth: activeItem ? activeItem.activeWidth * 1.2 : 0
         implicitHeight: activeItem ? activeItem.implicitHeight : 0
-
-        states: [
-            State {
-                name: "pressed"
-                PropertyChanges {
-                    target: backgroundSlider
-                    scale: 0.8
-                }
-            }
-        ]
     }
 
 

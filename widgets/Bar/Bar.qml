@@ -6,18 +6,17 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import "root:/service"
+import "root:/config"
 import "root:/utils"
 import "root:/components"
-import "./Tray"
 
 WrapperItem {
     id: root
-    implicitHeight: contentWrapper.implicitHeight
 
     RowLayout {
         id: content
         anchors.fill: parent
-        spacing: root.padding
+        spacing: BorderConfig.thickness
 
         BarLeftSection {}
         BarCenterSection {}
