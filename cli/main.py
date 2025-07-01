@@ -1,12 +1,9 @@
 import argparse
-import sys
-from argparse import ArgumentError, ArgumentParser
-from re import sub
 
-from services import theme, wallpaper
+from services import theme, wallpaper, weather
 from utils.paths import Paths
 
-SERVICES = {"theme": theme, "wallpaper": wallpaper}
+SERVICES = {"theme": theme, "wallpaper": wallpaper, "weather": weather}
 
 
 def main():

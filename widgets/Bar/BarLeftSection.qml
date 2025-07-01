@@ -7,6 +7,7 @@ import Quickshell.Widgets
 import "root:/service"
 import "root:/utils"
 import "root:/components"
+import "root:/modules"
 
 
 Item {
@@ -37,6 +38,8 @@ Item {
                 anchors.left: parent.left
                 layoutDirection: Qt.LeftToRight
                 spacing: 0
+
+                Weather {}
 
             }
         }
