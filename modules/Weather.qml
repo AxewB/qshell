@@ -26,7 +26,7 @@ WrapperItem {
         }
         WrapperItem {
             ColumnLayout {
-                spacing: -4
+                spacing: -Appearance.padding.normal
                 StyledText {
                     text: WeatherService.weathercodeToText(root.weatherCode)
                     color: Colors.palette.m3onSurface
