@@ -17,6 +17,7 @@ Rectangle {
     Behavior on implicitHeight { Anim {} }
     Behavior on implicitWidth { Anim {} }
     Behavior on scale {Anim {} }
+    Behavior on opacity {Anim {} }
     Behavior on x { Anim {} }
     Behavior on y { Anim {} }
 
