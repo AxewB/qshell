@@ -17,7 +17,7 @@ Singleton {
     readonly property real intensityMax: 0.1
     readonly property real intensityMin: 0.01
 
-    property bool auto: false
+    property bool auto: true
     property list<int> startTime: [20, 0] // [hours, minutes]
     property list<int> endTime: [8, 0]
 
@@ -63,23 +63,35 @@ Singleton {
         return Qt.rgba(red/255, green/255, blue/255, 1.0);
     }
 
+    function isTimeInRange(startHour, startMinute, endHour, endMinute) {
+        const now = new Date();
+        const currentTime = now.getHours() * 60 + now.getMinutes();  // В минутах
+
+        const startTime = startHour * 60 + startMinute;
+        const endTime = endHour * 60 + endMinute;
+
+        if (startTime <= endTime) {
+            return currentTime >= startTime && currentTime < endTime;
+        } else {
+            return currentTime >= startTime || currentTime < endTime;
+        }
+    }
+
+    function autoFunction() {
+        if (root.isTimeInRange(root.startTime[0], root.startTime[1], root.endTime[0], root.endTime[1])) {
+            console.log("FIRST")
+            root.enabled = true
+        } else {
+            console.log("LAST")
+            root.enabled = false
+        }
+    }
+
     Timer {
         interval: 60000 // 1 min
         running: root.auto
         repeat: true
-        onTriggered: {
-            const date = Date.now()
-            const hours = date.hours()
-            const minutes = date.minutes()
-
-            const moreThanStartTime = hours > root.startTime[0] && minutes > root.startTime[1]
-            const lessThanEndTime = hours < root.endTime[0] && minutes < root.endTime[1]
-
-            if (moreThanStartTime && lessThanEndTime) {
-                root.enabled = true
-            } else {
-                root.enabled = false
-            }
-        }
+        triggeredOnStart: true
+        onTriggered: root.autoFunction()
     }
 }
