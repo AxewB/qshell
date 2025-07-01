@@ -18,7 +18,7 @@ Scope {
             required property var modelData
             screen: modelData
             color: "transparent"
-            WlrLayershell.exclusionMode: ExclusionMode.ignore
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.layer: WlrLayer.Background
 
             anchors {
