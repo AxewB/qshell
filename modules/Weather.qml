@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -13,15 +15,19 @@ WrapperItem {
     property int time: WeatherService.current.time
     property int temp: WeatherService.current.temp
     property int weatherCode: WeatherService.current.weatherCode
+    property string icon: WeatherService.weathercodeToIcon(weatherCode)
 
-    opacity:  WeatherService.currentReady ? 1 : 0
+    onWeatherCodeChanged: {
+        icon = WeatherService.weathercodeToIcon(weatherCode);
+    }
+
+    opacity: WeatherService.currentReady ? 1 : 0
     visible: WeatherService.currentReady
-
 
     RowLayout {
         spacing: Appearance.padding.normal
         Icon {
-            icon: WeatherService.weathercodeToIcon(root.weatherCode)
+            icon: root.icon
             size: Appearance.icon.small
         }
         WrapperItem {
@@ -32,8 +38,9 @@ WrapperItem {
                     color: Colors.palette.m3onSurface
                     type: "subtext"
                 }
+
                 StyledText {
-                    text: root.temp
+                    text: root.getTempSymbol() + root.temp
                     color: Colors.palette.m3onSurfaceVariant
                     font.pixelSize: 10
                 }
@@ -41,9 +48,19 @@ WrapperItem {
         }
     }
 
-    Behavior on implicitHeight { Anim {} }
-    Behavior on implicitWidth { Anim {} }
-    Behavior on opacity {Anim {} }
+    function getTempSymbol() {
+        return temp > 0 ? "+" : ""
+    }
+
+    Behavior on implicitHeight {
+        Anim {}
+    }
+    Behavior on implicitWidth {
+        Anim {}
+    }
+    Behavior on opacity {
+        Anim {}
+    }
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.slow
         easing.type: Easing.BezierSpline
