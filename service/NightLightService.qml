@@ -79,10 +79,8 @@ Singleton {
 
     function autoFunction() {
         if (root.isTimeInRange(root.startTime[0], root.startTime[1], root.endTime[0], root.endTime[1])) {
-            console.log("FIRST")
             root.enabled = true
         } else {
-            console.log("LAST")
             root.enabled = false
         }
     }
