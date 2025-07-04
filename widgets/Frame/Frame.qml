@@ -13,7 +13,7 @@ import "root:/service"
 import "root:/config"
 import "root:/utils"
 import "root:/components"
-import "root:/widgets/Bar"
+import "root:/modules/Bar"
 import "./BorderDrawer"
 
 Variants {
