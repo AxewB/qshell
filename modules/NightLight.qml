@@ -26,6 +26,7 @@ WrapperItem {
 
             Icon {
                 icon: "night_sight_max"
+                size: Appearance.icon.small
             }
         }
     }
