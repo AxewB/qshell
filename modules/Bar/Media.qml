@@ -122,15 +122,6 @@ StyledRectangle {
                             centerIn: parent
                         }
                     }
-
-                    // Image {
-                    //     source: root.player.trackArtUrl
-                    //     anchors {
-                    //         fill: parent
-                    //         centerIn: parent
-                    //     }
-                    //     fillMode: Image.PreserveAspectCrop
-                    // }
                 }
 
                 Rectangle {
