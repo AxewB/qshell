@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
@@ -16,6 +17,7 @@ Item {
 
     property string icon: ""
     property string previous: ""
+    property string color: Colors.palette.m3onSurface
 
     property var currentContainer: one
     property string path: Paths.icons
@@ -67,5 +69,18 @@ Item {
         previous = icon
         one.iconName = icon
         two.iconName = icon
+    }
+
+    MultiEffect {
+        source: one
+        anchors.fill: one
+        colorization: 1
+        colorizationColor: root.color
+    }
+    MultiEffect {
+        source: two
+        anchors.fill: two
+        colorization: 1
+        colorizationColor: root.color
     }
 }
