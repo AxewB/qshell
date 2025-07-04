@@ -29,6 +29,9 @@ Item {
     IconContainer { id: one }
     IconContainer { id: two }
 
+    ColorizeEffect {source: one}
+    ColorizeEffect {source: two}
+
     onIconChanged: {
         const nextContainer = currentContainer === one ? two : one
         currentContainer.scale = 0.5
@@ -71,15 +74,8 @@ Item {
         two.iconName = icon
     }
 
-    MultiEffect {
-        source: one
-        anchors.fill: one
-        colorization: 1
-        colorizationColor: root.color
-    }
-    MultiEffect {
-        source: two
-        anchors.fill: two
+    component ColorizeEffect: MultiEffect {
+        anchors.fill: source
         colorization: 1
         colorizationColor: root.color
     }
