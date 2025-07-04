@@ -17,17 +17,11 @@ StyledRectangle {
     property var title: Mpris.players.values[0].trackTitle
     property var isPlaying: player.isPlaying
     property var trackArtist: Mpris.players.values[0].trackArtist
-    property int maxShortTitleLength: 16
-    property int maxTitleLength: 48
-    property string displayTitle
-    property string shortDisplayTitle
 
     color: Colors.palette.m3surfaceContainer
     clip: true
 
     radius: Appearance.radius.small
-    onTitleChanged: updateDisplayTitle()
-    onTrackArtistChanged: updateDisplayTitle()
 
     visible: Mpris.players.values.length > 0 ? true : false
     opacity: Mpris.players.values.length > 0 ? 1 : 0
@@ -57,8 +51,12 @@ StyledRectangle {
             when: mouseArea.containsMouse
 
             PropertyChanges {
-                target: titleText
-                text: root.displayTitle
+                target: trackArtistMetrics
+                elideWidth: 180
+            }
+            PropertyChanges {
+                target: trackTitleMetrics
+                elideWidth: 180
             }
             PropertyChanges {
                 target: root
@@ -67,29 +65,6 @@ StyledRectangle {
         }
 
         onClicked: root.player.togglePlaying()
-    }
-
-    function updateDisplayTitle() {
-        const trackArtist = root.player.trackArtist
-        const trackTitle = root.player.trackTitle
-        const titleAndArtistExtists = trackTitle.length > 0 && trackArtist.length > 0
-
-        let newTitle = ""
-        if (root.player == null || !titleAndArtistExtists) {
-            newTitle = "Nothing playing"
-        } else {
-            newTitle = `${root.player.trackTitle} ${titleAndArtistExtists ? "-" : ""} ${root.player.trackArtist}`
-        }
-
-        if (newTitle.length > maxShortTitleLength + 3)
-            root.shortDisplayTitle = newTitle.slice(0, maxShortTitleLength) + "..."
-        else
-            root.shortDisplayTitle = newTitle
-
-        if (newTitle.length > maxTitleLength + 3)
-            root.displayTitle = newTitle.slice(0, maxTitleLength) + "..."
-        else
-            root.displayTitle = newTitle
     }
 
     implicitWidth: content.implicitWidth
@@ -138,16 +113,43 @@ StyledRectangle {
                     }
                 }
 
-                Rectangle {
-                    implicitWidth: titleText.implicitWidth
-                    implicitHeight: titleText.implicitHeight
-                    color: "transparent"
+                WrapperItem {
+                    RowLayout {
+                        spacing: 0
+                        StyledText {
+                            text: trackTitleMetrics.elidedText
+                            color: Colors.palette.m3onSurface
+                        }
 
-                    StyledText {
-                        id: titleText
-                        color: Colors.palette.m3onSurface
-                        text: root.shortDisplayTitle
+                        StyledText {
+                            text: " — "
+                            visible: root.trackArtist.length > 0 && root.title.length > 0
+                            color: Colors.palette.m3onSurface
+                        }
+
+                        StyledText {
+                            text: trackArtistMetrics.elidedText
+                            color: Colors.palette.m3onSurface
+                        }
                     }
+                }
+
+                TextMetrics {
+                    id: trackTitleMetrics
+                    font.family: Appearance.font.family
+                    font.pixelSize: Appearance.font.size.normal
+                    elide: Text.ElideRight
+                    elideWidth: 100
+                    text: root.title
+                }
+
+                TextMetrics {
+                    id: trackArtistMetrics
+                    font.family: Appearance.font.family
+                    font.pixelSize: Appearance.font.size.normal
+                    elide: Text.ElideRight
+                    elideWidth: 100
+                    text: root.trackArtist
                 }
             }
         }
