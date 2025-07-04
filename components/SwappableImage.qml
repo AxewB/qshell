@@ -121,14 +121,6 @@ Rectangle {
         }
     }
 
-    // component Blur: MultiEffect {
-    //     autoPaddingEnabled: false
-    //     blur: 0.5
-    //     blurEnabled: true
-    //     blurMax: 32
-    //     z: 4
-    // }
-
     component Anim: NumberAnimation {
          duration: Appearance.animation.durations.slow
          easing.type: Easing.BezierSpline
