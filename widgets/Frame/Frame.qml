@@ -29,13 +29,48 @@ Variants {
             color: "transparent"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
-            mask: Region {
-                x: borders.thickness
-                y: frameTop.implicitHeight
-                width: window.width - borders.thickness * 2
-                height: window.height - borders.thickness
-                intersection: Intersection.Xor
+            QtObject {
+                id: clickThroughRegionBorders
+                property int x: borders.thickness + frameLeft.implicitWidth
+                property int y: borders.thickness + frameTop.implicitHeight
+                property int width: window.width - borders.thickness * 2 - frameLeft.implicitWidth - frameRight.implicitWidth
+                property int height: window.height - borders.thickness * 2 - frameBottom.implicitHeight - frameTop.implicitHeight
             }
+
+            mask: Region {
+                id: regionMask
+                x: clickThroughRegionBorders.x
+                y: clickThroughRegionBorders.y
+                width: clickThroughRegionBorders.width
+                height: clickThroughRegionBorders.height
+                intersection: Intersection.Xor
+
+                // regions: widgetBorders.instances
+                regions: maskRegions.instances
+
+
+            }
+
+            Variants {
+                id: maskRegions
+                model: moduleArea.regions
+
+                delegate: Region {
+                    required property Region modelData
+
+                    x: modelData.x
+                    y: modelData.y
+                    width: modelData.width
+                    height: modelData.height
+                    intersection: Intersection.Subtract
+                }
+            }
+
+            ModuleArea {
+                id: moduleArea
+                workingArea: clickThroughRegionBorders
+            }
+
 
             anchors {
                 left: true
@@ -45,14 +80,13 @@ Variants {
             }
 
             Borders {
-                id: borders;
+                id: borders
                 screen: modelData
                 topContent: frameTop
                 rightContent: frameRight
                 bottomContent: frameBottom
                 leftContent: frameLeft
             }
-
 
             MultiEffect {
                 source: borders
@@ -108,6 +142,7 @@ Variants {
                     bottom: parent.bottom
                 }
             }
+
         }
 
         Exclusions {

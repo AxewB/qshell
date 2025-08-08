@@ -1,12 +1,13 @@
 //@ pragma UseQApplication
 
 import Quickshell
-import "root:/widgets/Bar"
+import QtQuick
+import QtQuick.Layouts
 import "root:/widgets/Wallpaper"
 import "root:/widgets/Frame"
 import "root:/service"
 
 Scope {
-	Frame {}
-	Background {}
+    Frame {}
+    Background {}
 }

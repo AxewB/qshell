@@ -17,6 +17,7 @@ Singleton {
     readonly property Animation animation: Animation {}
 
     component Radius: QtObject {
+        readonly property real xsmall: 6 * root.scale
         readonly property real small: 10 * root.scale
         readonly property real normal: 20 * root.scale
         readonly property real large: 30 * root.scale
