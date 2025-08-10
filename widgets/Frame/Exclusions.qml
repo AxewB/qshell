@@ -27,25 +27,25 @@ Item {
     ExclusiveRegion {
         id: regionTop
         anchors.top: true
-        exclusiveZone: root.borderThickness + root.topContent.implicitHeight * root.topContentGrowExclusions
+        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.topContent.implicitHeight - BorderConfig.thickness) * root.topContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionBottom
         anchors.bottom: true
-        exclusiveZone: root.borderThickness + root.bottomContent.implicitHeight * root.bottomContentGrowExclusions
+        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.bottomContent.implicitHeight - BorderConfig.thickness) * root.bottomContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionRight
         anchors.right: true
-        exclusiveZone: root.borderThickness + root.rightContent.implicitWidth * root.rightContentGrowExclusions
+        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.rightContent.implicitWidth - BorderConfig.thickness) * root.rightContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionLeft
         anchors.left: true
-        exclusiveZone: root.borderThickness + root.leftContent.implicitWidth * root.leftContentGrowExclusions
+        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.leftContent.implicitWidth - BorderConfig.thickness) * root.leftContentGrowExclusions
     }
 
     component ExclusiveRegion: PanelWindow {

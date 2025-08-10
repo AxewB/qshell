@@ -99,22 +99,42 @@ Variants {
                 id: frameTop
                 position: "top"
                 opened: true
+                extraRightMargin: frameRight.implicitWidth
+                extraLeftMargin: frameLeft.implicitWidth
 
                 Bar {}
             }
             FrameDrawer {
                 id: frameBottom
                 position: "bottom"
+                opened: true
+                extraRightMargin: frameRight.implicitWidth
+                extraLeftMargin: frameLeft.implicitWidth
+
+                // TestRectangle {}
             }
             FrameDrawer {
                 id: frameRight
                 position: "right"
+                opened: true
+                extraTopMargin: frameTop.implicitHeight
+                extraBottomMargin: frameBottom.implicitHeight
+                // TestRectangle {}
             }
             FrameDrawer {
                 id: frameLeft
                 position: "left"
+                opened: true
+                extraTopMargin: frameTop.implicitHeight
+                extraBottomMargin: frameBottom.implicitHeight
+                // TestRectangle {}
             }
 
+            component TestRectangle: Rectangle {
+                implicitHeight: 40
+                implicitWidth: 40
+                opacity: 0
+            }
 
             // component FrameDrawer: WrapperItem {
             //     id: drawer
@@ -259,10 +279,10 @@ Variants {
             rightContent: frameRight
             bottomContent: frameBottom
             leftContent: frameLeft
+            topContentGrowExclusions: true
             leftContentGrowExclusions: false
             rightContentGrowExclusions: false
             bottomContentGrowExclusions: false
         }
     }
-    // }
 }

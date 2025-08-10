@@ -20,21 +20,29 @@ WrapperItem {
     property bool hoverEnabled: true
     property bool opened: hoverTemp.hovered
     default property alias child: content.child
+    property int extraLeftMargin: 0
+    property int extraRightMargin: 0
+    property int extraTopMargin: 0
+    property int extraBottomMargin: 0
+
 
     HoverHandler {
         id: hoverTemp
         onHoveredChanged: console.log(hovered)
     }
 
-    implicitHeight: content.implicitHeight
-    implicitWidth: content.implicitWidth
 
     WrapperItem {
         id: content
 
-        implicitHeight: (root.opened && child ? child.implicitHeight + margin : 0) + margin + extraMargin + 1 // adding 1 for the border
-        implicitWidth: (root.opened && child ? child.implicitWidth + margin : 0) + margin + extraMargin + 1
-        margin: BorderConfig.thickness
+        implicitHeight: (root.opened && child ? child.implicitHeight + topMargin : 0) + bottomMargin + 1 // adding 1 for the border
+        implicitWidth: (root.opened && child ? child.implicitWidth + leftMargin : 0) + rightMargin + 1
+
+        topMargin: BorderConfig.thickness + root.extraTopMargin
+        bottomMargin: BorderConfig.thickness + root.extraBottomMargin
+        rightMargin: BorderConfig.thickness + root.extraRightMargin
+        leftMargin: BorderConfig.thickness + root.extraLeftMargin
+
         // opacity: root.opened && child ? 1 : 0
 
         Behavior on implicitWidth { Anim {} }

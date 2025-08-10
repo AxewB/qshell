@@ -46,7 +46,7 @@ Loader {
                 anchors.bottomMargin: root.bottomContent.implicitHeight
                 anchors.leftMargin: root.leftContent.implicitWidth
                 anchors.rightMargin: root.rightContent.implicitWidth
-                radius: Appearance.radius.normal
+                radius: Appearance.radius.small
             }
         }
 
