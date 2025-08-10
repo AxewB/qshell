@@ -17,7 +17,7 @@ Singleton {
     readonly property real intensityMax: 0.1
     readonly property real intensityMin: 0.01
 
-    property bool auto: true
+    property bool auto: false
     property list<int> startTime: [20, 0] // [hours, minutes]
     property list<int> endTime: [8, 0]
 
