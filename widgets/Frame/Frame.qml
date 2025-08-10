@@ -9,12 +9,10 @@ import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Wayland
 import Quickshell.Hyprland
-import "root:/service"
-import "root:/config"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.config
+import qs.components
 import "root:/modules/Bar"
-import "./BorderDrawer"
 
 Variants {
     model: Quickshell.screens
@@ -26,6 +24,7 @@ Variants {
         PanelWindow {
             screen: modelData
             id: window
+            focusable: true
             color: "transparent"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
@@ -96,61 +95,174 @@ Variants {
                 shadowColor: Colors.palette.m3shadow
             }
 
-            WrapperItem {
+            FrameDrawer {
                 id: frameTop
-                topMargin: BorderConfig.thickness
-                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
-                rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
+                position: "top"
+                opened: true
+
                 Bar {}
             }
-
-            WrapperItem {
+            FrameDrawer {
                 id: frameBottom
-                bottomMargin: BorderConfig.thickness
-                leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
-                rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    bottom: parent.bottom
-                }
+                position: "bottom"
             }
-            WrapperItem {
+            FrameDrawer {
                 id: frameRight
-                rightMargin: BorderConfig.thickness
-                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
-                topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
-                anchors {
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                }
+                position: "right"
             }
-            WrapperItem {
+            FrameDrawer {
                 id: frameLeft
-                leftMargin: BorderConfig.thickness
-                bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
-                topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
+                position: "left"
             }
 
+
+            // component FrameDrawer: WrapperItem {
+            //     id: drawer
+            //     required property string position
+            //     property bool hoverEnabled: true
+            //     property bool opened: hoverEnabled ? drawerHoverHandler.hovered : false
+
+            //     BorderHoverHandler {
+            //         id: drawerHoverHandler
+            //         position: drawer.position
+            //         onPositionChanged: console.log(position)
+            //         onHoveredChanged: {
+            //             console.log(position, "hovered: ", hovered)
+            //         }
+            //     }
+
+            //     implicitHeight: opened ? child.implicitHeight : 0
+            //     implicitWidth: opened ? child.implicitWidth : 0
+
+            //     clip: true
+
+            //     Behavior on implicitWidth {
+            //         NumberAnimation {
+            //             duration: Appearance.animation.durations.normal
+            //             easing.type: Easing.BezierSpline
+            //             easing.bezierCurve: Appearance.animation.curves.ease
+            //         }
+            //     }
+
+            //     Behavior on implicitHeight {
+            //         NumberAnimation {
+            //             duration: Appearance.animation.durations.normal
+            //             easing.type: Easing.BezierSpline
+            //             easing.bezierCurve: Appearance.animation.curves.ease
+            //         }
+            //     }
+
+            //     Component.onCompleted: {
+            //         margin: BorderConfig.thickness
+
+            //         if (position == "right" || position == "left") {
+            //             bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+            //             topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+            //         } else if (position == "top" || position == "bottom") {
+            //             leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+            //             rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+            //         }
+
+            //         if (["left", "top", "bottom"].includes(position)) drawer.anchors.left = drawer.parent.left;
+            //         if (["right", "top", "bottom"].includes(position)) drawer.anchors.right = drawer.parent.right;
+            //         if (["top", "right", "left"].includes(position)) drawer.anchors.top = drawer.parent.top;
+            //         if (["bottom", "right", "left"].includes(position)) drawer.anchors.bottom = drawer.parent.bottom;
+            //     }
+            // }
+
+            // component FrameDrawer: WrapperItem {
+            //     id: drawer
+            //     required property string position
+            //     property bool hoverEnabled: true
+            //     property bool opened: hoverEnabled ? drawerHoverHandler.hovered : false
+
+            //     BorderHoverHandler {
+            //         id: drawerHoverHandler
+            //         position: drawer.position
+            //         onPositionChanged: console.log(position)
+            //         onHoveredChanged: {
+            //             console.log(position, "hovered: ", hovered)
+            //         }
+            //     }
+
+            //     implicitHeight: opened ? child.implicitHeight : 0
+            //     implicitWidth: opened ? child.implicitWidth : 0
+
+            //     clip: true
+
+            //     Behavior on implicitWidth {
+            //         NumberAnimation {
+            //             duration: Appearance.animation.durations.normal
+            //             easing.type: Easing.BezierSpline
+            //             easing.bezierCurve: Appearance.animation.curves.ease
+            //         }
+            //     }
+
+            //     Behavior on implicitHeight {
+            //         NumberAnimation {
+            //             duration: Appearance.animation.durations.normal
+            //             easing.type: Easing.BezierSpline
+            //             easing.bezierCurve: Appearance.animation.curves.ease
+            //         }
+            //     }
+
+            //     Component.onCompleted: {
+            //         topMargin: BorderConfig.thickness
+            //         rightMargin: BorderConfig.thickness
+            //         bottomMargin: BorderConfig.thickness
+            //         leftMargin: BorderConfig.thickness
+
+            //         if (position == "right" || position == "left") {
+            //             bottomMargin: frameBottom.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+            //             topMargin: frameTop.implicitHeight + BorderConfig.thickness + BorderConfig.panelsPadding
+            //         } else if (position == "top" || position == "bottom") {
+            //             leftMargin: frameLeft.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+            //             rightMargin: frameRight.implicitWidth + BorderConfig.thickness + BorderConfig.panelsPadding
+            //         }
+
+            //         if (["left", "top", "bottom"].includes(position)) drawer.anchors.left = drawer.parent.left;
+            //         if (["right", "top", "bottom"].includes(position)) drawer.anchors.right = drawer.parent.right;
+            //         if (["top", "right", "left"].includes(position)) drawer.anchors.top = drawer.parent.top;
+            //         if (["bottom", "right", "left"].includes(position)) drawer.anchors.bottom = drawer.parent.bottom;
+            //     }
+            // }
+
+            // BorderHoverHandler {
+            //     position: 'top'
+            //     onHoveredChanged: frameTop.implicitHeight = hovered ? frameTop.child.implicitHeight : 0
+            //     height: BorderConfig.thickness * 2 + frameTop.implicitHeight
+            // }
+
+            // BorderHoverHandler {
+            //     position: 'bottom'
+            //     onHoveredChanged: frameBottom.implicitHeight = hovered ? frameBottom.child.implicitHeight : 0
+            //     height: BorderConfig.thickness * 2 + frameTop.implicitHeight
+            // }
+
+            // BorderHoverHandler {
+            //     position: 'left'
+            //     onHoveredChanged: frameLeft.implicitWidth = hovered ? frameLeft.child.implicitWidth : 0
+            //     width: BorderConfig.thickness * 2 + frameLeft.implicitWidth
+            // }
+
+            // BorderHoverHandler {
+            //     position: 'right'
+            //     onHoveredChanged: frameRight.implicitWidth = hovered ? frameRight.child.implicitWidth : 0
+            //     width: BorderConfig.thickness * 2 + frameRight.implicitWidth
+            // }
         }
 
         Exclusions {
+            id: frameExclusions
             screen: modelData
             topContent: frameTop
             rightContent: frameRight
             bottomContent: frameBottom
             leftContent: frameLeft
+            leftContentGrowExclusions: false
+            rightContentGrowExclusions: false
+            bottomContentGrowExclusions: false
         }
     }
+    // }
 }

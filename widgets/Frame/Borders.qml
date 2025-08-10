@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -9,8 +10,6 @@ import "root:/service"
 import "root:/config"
 import "root:/utils"
 import "root:/components"
-
-
 
 Loader {
     id: root
@@ -43,14 +42,14 @@ Loader {
 
             Rectangle {
                 anchors.fill: parent
-                anchors.margins: root.thickness
-                anchors.topMargin: root.thickness + root.topContent.implicitHeight
-                anchors.rightMargin: root.thickness + root.rightContent.implicitWidth
-                anchors.bottomMargin: root.thickness + root.bottomContent.implicitHeight
-                anchors.leftMargin: root.thickness + root.leftContent.implicitWidth
+                anchors.topMargin: root.topContent.implicitHeight
+                anchors.bottomMargin: root.bottomContent.implicitHeight
+                anchors.leftMargin: root.leftContent.implicitWidth
+                anchors.rightMargin: root.rightContent.implicitWidth
                 radius: Appearance.radius.normal
             }
         }
+
 
         MultiEffect {
             source: borders
