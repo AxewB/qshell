@@ -1,11 +1,11 @@
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
-import "./modules/RightDrawer"
 import qs.components
 import qs.modules
 import qs.service
 import qs.config
+import "./modules"
 
 Item {
     id: root

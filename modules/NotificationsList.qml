@@ -1,9 +1,8 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "./modules/Notifs"
-import "./modules/RightDrawer"
 import qs.components
 import qs.service
 

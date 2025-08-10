@@ -1,13 +1,12 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Services.Notifications
-import "./modules/Notifs"
-import "./modules/RightDrawer"
 import qs.components
 import qs.service
 import qs.utils
