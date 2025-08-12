@@ -53,7 +53,7 @@ Singleton {
     component Icon: QtObject {
         readonly property real xsmall: 18 * root.scale
         readonly property real small: 24 * root.scale
-        readonly property real normal: 48 * root.scale
+        readonly property real normal: 30 * root.scale
         readonly property real large: 72 * root.scale
     }
 
