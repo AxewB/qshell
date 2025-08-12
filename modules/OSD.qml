@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import Quickshell.Widgets
+import Quickshell.Io
+import qs.service
+import qs.config
+import qs.components
 
 Scope {
 	id: root
@@ -29,63 +33,47 @@ Scope {
 		onTriggered: root.shouldShowOsd = false
 	}
 
-	// The OSD window will be created and destroyed based on shouldShowOsd.
-	// PanelWindow.visible could be set instead of using a loader, but using
-	// a loader will reduce the memory overhead when the window isn't open.
 	LazyLoader {
 		active: root.shouldShowOsd
 
 		PanelWindow {
-			// Since the panel's screen is unset, it will be picked by the compositor
-			// when the window is created. Most compositors pick the current active monitor.
-
-			anchors.top: true
+			anchors.right: true
 			exclusiveZone: 0
-
-			implicitWidth: 400
-			implicitHeight: 50
+			implicitWidth: control.implicitWidth
+			implicitHeight: control.implicitHeight
 			color: "transparent"
 
-			// An empty click mask prevents the window from blocking mouse events.
-
-			Rectangle {
-				anchors.fill: parent
-				radius: height / 2
-				color: "#80000000"
-
-				RowLayout {
-					anchors {
-						fill: parent
-						leftMargin: 10
-						rightMargin: 15
-					}
-
-					IconImage {
-						implicitSize: 30
-						source: Quickshell.iconPath("audio-volume-high-symbolic")
-					}
-
-					Rectangle {
-						// Stretches to fill all left-over space
-						Layout.fillWidth: true
-
-						implicitHeight: 10
-						radius: 20
-						color: "#50ffffff"
-
-						Rectangle {
-							anchors {
-								left: parent.left
-								top: parent.top
-								bottom: parent.bottom
-							}
-
-							implicitWidth: parent.width * (Pipewire.defaultAudioSink?.audio.volume ?? 0)
-							radius: parent.radius
-						}
-					}
-				}
+			SoundOSDBar {
+    			id: control
+    			icon: Pipewire.defaultAudioSink?.audio.muted ? "volume_off" : 'volume_up'
+    			progress: (Pipewire.defaultAudioSink?.audio.volume ?? 0)
+                active: Pipewire.defaultAudioSink?.audio.muted
+                onTopClicked: {
+                    if (!Pipewire.defaultAudioSink) {
+                        errorMuting.startDetached()
+                        return
+                    }
+                    Pipewire.defaultAudioSink.audio.muted = !Pipewire.defaultAudioSink?.audio.muted
+                }
+                onBottomClicked: soundSettingsLinkProc.startDetached()
+                onWheelUp: {
+                    Pipewire.defaultAudioSink.audio.volume += 0.02
+                }
+                onWheelDown: {
+                    Pipewire.defaultAudioSink.audio.volume -= 0.02
+                }
 			}
 		}
 	}
+
+	Process {
+        id: errorMuting
+        command: ['notify-send', "Error", "There is an error while trying to mute audio"]
+    }
+
+	// TODO: Когда сделаю виджет для настройки звука, надо отсюда сделать переход в него
+    Process {
+        id: soundSettingsLinkProc
+        command: ['notify-send', "Not implemented", "Here should be link to audio settings, which is not exists right now"]
+    }
 }
