@@ -11,13 +11,12 @@ Text {
     font {
         family: Appearance.font.family
         pixelSize: Appearance.font.size[root.type]
-        weight: Appearance.font.weight
     }
 
 
     Behavior on color {
         ColorAnimation {
-            duration: Appearance.animation.durations.turtle
+            duration: Appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.animation.curves.ease
         }

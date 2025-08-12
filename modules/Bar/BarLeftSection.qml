@@ -15,18 +15,13 @@ Item {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
-    // Цвет фона секции
-    // Можно сделать "парящие" секции или что-нибудь такое
     RowLayout {
         id: content
         anchors.fill: parent
         height: parent.height
         layoutDirection: Qt.LeftToRight
-        spacing: 0
+        spacing: Appearance.padding.huge
 
-        // Rectangle {
-        //     anchors.fill: parent
-        // }
 
         Item {
             id: leftContent
@@ -37,10 +32,18 @@ Item {
                 id: leftContentLeft
                 anchors.left: parent.left
                 layoutDirection: Qt.LeftToRight
-                spacing: 0
+                spacing: Appearance.padding.huge
 
-                Weather {}
-
+                BarModuleWrapper {
+                    color: "transparent"
+                    visible: WeatherService.currentReady
+                    StyledButton {
+                        implicitHeight: root.implicitHeight
+                        leftPadding: Appearance.padding.huge
+                        rightPadding: Appearance.padding.huge
+                        Weather { }
+                    }
+                }
             }
         }
         Item {
@@ -52,17 +55,13 @@ Item {
                 id: leftContentRight
                 anchors.right: parent.right
                 layoutDirection: Qt.RightToLeft
-                spacing: 0
+                spacing: Appearance.padding.huge
 
-                Media { }
+                BarModuleWrapper {
+                    clickable: false
+                    Media { }
+                }
             }
         }
-
-        // Text {
-        //     text: Colors.palette.m3surface
-        // }
-        // Text {
-        //     text: Colors.palette.m3background
-        // }
     }
 }

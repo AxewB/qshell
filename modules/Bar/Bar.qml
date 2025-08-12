@@ -16,10 +16,16 @@ WrapperItem {
     RowLayout {
         id: content
         anchors.fill: parent
-        spacing: BorderConfig.thickness
+        spacing: Appearance.padding.huge
 
-        BarLeftSection {}
-        BarCenterSection {}
-        BarRightSection {}
+        BarLeftSection {
+            Layout.minimumHeight: 32
+        }
+        BarCenterSection {
+            Layout.minimumHeight: 32
+        }
+        BarRightSection {
+            Layout.minimumHeight: 32
+        }
     }
 }

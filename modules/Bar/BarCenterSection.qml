@@ -22,6 +22,9 @@ Item {
         }
         height: parent.height
 
-        Workspaces {}
+        BarModuleWrapper {
+            implicitHeight: root.implicitHeight
+            Workspaces {}
+        }
     }
 }

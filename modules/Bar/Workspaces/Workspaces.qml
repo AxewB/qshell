@@ -3,12 +3,15 @@ pragma ComponentBehavior
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
+import QtQuick.Controls
 import Quickshell.Hyprland
+import Quickshell.Widgets
 import "root:/service"
 import "root:/components"
 import "root:/utils"
 
-Rectangle {
+// TODO: make LIST instead of repeater
+Item {
     id: root
 
     property var workspaces: Hyprland.workspaces
@@ -18,8 +21,6 @@ Rectangle {
 
     implicitWidth: rowlayout.implicitWidth
     implicitHeight: rowlayout.implicitHeight
-    color: Colors.palette.m3surfaceContainer
-    radius: Appearance.radius.small
 
     StyledRectangle {
         id: backgroundSlider
@@ -38,10 +39,8 @@ Rectangle {
 
     Flow {
         id: rowlayout
-        spacing: Appearance.padding.normal
         padding: Appearance.padding.normal
-        leftPadding: Appearance.padding.huge
-        rightPadding: Appearance.padding.huge
+        spacing: Appearance.padding.normal
 
         Repeater {
             id: workspaceRepeater
@@ -51,23 +50,8 @@ Rectangle {
         }
     }
 
-
-
-    Behavior on color {
-        ColorAnimation {
-            duration: Appearance.animation.durations.normal
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
-        }
-    }
-
-    Behavior on implicitHeight {
-        Anim {}
-    }
-
-    Behavior on implicitWidth {
-        Anim {}
-    }
+    Behavior on implicitHeight { Anim {} }
+    Behavior on implicitWidth { Anim {} }
 
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.normal

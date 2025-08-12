@@ -10,6 +10,7 @@ import Quickshell.Widgets
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.service
+import qs.modules
 import qs.config
 import qs.components
 import "root:/modules/Bar"
@@ -46,8 +47,6 @@ Variants {
 
                 // regions: widgetBorders.instances
                 regions: maskRegions.instances
-
-
             }
 
             Variants {
@@ -135,6 +134,7 @@ Variants {
                 implicitWidth: 40
                 opacity: 0
             }
+
         }
 
         Exclusions {

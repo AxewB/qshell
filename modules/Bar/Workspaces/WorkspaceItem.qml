@@ -1,99 +1,34 @@
-pragma ComponentBehavior
-
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Effects
+import QtQuick.Controls.Basic
+import Quickshell
 import Quickshell.Hyprland
-import "root:/service"
-import "root:/components"
-import "root:/utils"
+import Quickshell.Widgets
+import qs.components
+import qs.service
+import qs.config
 
-StyledRectangle {
-    id: workspace
+StyledButton {
+    id: root
+    required property HyprlandWorkspace modelData
 
-    property int workspaceId: modelData.id
-    property bool isActive: Hyprland.focusedWorkspace.id == workspaceId
+    idleColor: modelData.active ? Colors.palette.m3primaryContainer : "transparent"
+    active: modelData.id === Hyprland.focusedWorkspace.id
+    radius: Appearance.radius.xsmall
+    padding: 4
+    implicitWidth: Appearance.icon.small
+    implicitHeight: Appearance.icon.small
 
-    readonly property int inactiveWidth: wsText.implicitHeight * 1.2
-    readonly property int activeWidth: wsText.implicitHeight * 1.2
-
-    // implicitWidth: (wsText.implicitHeight + Appearance.padding.normal) * (isActive ? 2 : 1)
-    implicitWidth: isActive ? activeWidth : inactiveWidth
-    implicitHeight: wsText.implicitHeight + Appearance.padding.normal
-
-    color: "transparent"
-
-    onIsActiveChanged: {
-        if (isActive) {
-            backgroundSlider.activeItem = this
-        }
+    onLeftClicked: {
+        Hyprland.dispatch(`workspace ${modelData.id}`)
     }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+    StyledText {
+        id: wrapperItemText
+        text: modelData.id
 
-        onReleased: {
-            backgroundSlider.state = ""
-        }
-
-        states:  [
-            State {
-                name: "pressed"
-                when: mouseArea.containsPress
-
-                PropertyChanges {
-                    target: wsBackground
-                    state: "pressed"
-                    color: Colors.palette.m3primary
-                }
-
-                PropertyChanges {
-                    target: wsText
-                    color: Colors.palette.m3onPrimary
-                }
-
-                PropertyChanges {
-                    target: backgroundSlider
-                    state: if (workspace.isActive) return "pressed"
-                }
-            },
-
-            State {
-                name: "hovered"
-                when: mouseArea.containsMouse
-
-                PropertyChanges {
-                    target: wsBackground
-                    color: Colors.palette.m3primary
-                }
-
-                PropertyChanges {
-                    target: wsText
-                    color: Colors.palette.m3onPrimary
-                }
-            }
-        ]
-
-        onClicked: {
-            Hyprland.dispatch(`workspace ${modelData.id}`)
-        }
-    }
-
-
-    StyledRectangle {
-        id: wsBackground
-        radius: Appearance.radius.small
-        anchors.fill: parent
-
-        StyledText {
-            id: wsText
-            color: workspace.isActive ? Colors.palette.m3onPrimary : Colors.palette.m3onPrimaryContainer
-            text: `${modelData.id}`
-            anchors.centerIn: parent
-            font.weight: 800
-        }
+        font.bold: root.active
+        color: root.down ? Colors.palette.m3onPrimaryContainer
+            : root.active ? Colors.palette.m3onPrimary
+            : Colors.palette.m3onSurface
     }
 }

@@ -18,7 +18,7 @@ Item {
 
     Row {
         id: content
-        spacing: Appearance.padding.huge
+        spacing: Appearance.padding.normal
 
         add: Transition {
             NumberAnimation {

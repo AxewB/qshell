@@ -11,42 +11,39 @@ import "root:/service"
 import "root:/utils"
 import "root:/components"
 
-Item {
+MouseArea {
     id: root
 
     required property SystemTrayItem modelData
 
     anchors.verticalCenter: parent.verticalCenter
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     implicitHeight: icon.implicitHeight
     implicitWidth: icon.implicitWidth
 
-    StyledButton {
+    hoverEnabled:true
+
+    StyledRectangle {
         id: icon
-        padding: 4
-        StyledRectangle {
 
-            implicitHeight: Appearance.icon.xsmall
-            implicitWidth: Appearance.icon.xsmall
-            color: 'transparent'
+        implicitHeight: Appearance.icon.xsmall
+        implicitWidth: Appearance.icon.xsmall
+        color: 'transparent'
 
-            IconImage {
+        IconImage {
 
-                source: {
-                    let icon = root.modelData.icon;
-                    if (icon.includes("?path=")) {
-                        const [name, path] = icon.split("?path=");
-                        icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`;
-                    }
-                    return icon;
+            source: {
+                let icon = root.modelData.icon;
+                if (icon.includes("?path=")) {
+                    const [name, path] = icon.split("?path=");
+                    icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`;
                 }
-                asynchronous: true
-                anchors.fill: parent
+                return icon;
             }
+            asynchronous: true
+            anchors.fill: parent
         }
-
-        onRightClicked: menu.open()
-        onLeftClicked: modelData.onlyMenu ? null : modelData.activate()
     }
 
     // TrayItemMenu {
@@ -61,6 +58,28 @@ Item {
         menu: root.modelData.menu
         anchor.window: this.QsWindow.window
     }
+
+    onClicked: event => {
+        if (event.button == Qt.LeftButton){
+            modelData.activate()
+        }
+        else {
+            menu.open()
+        }
+
+    }
+
+
+    states: State {
+        name: "hovered"
+        when: root.containsMouse
+
+        PropertyChanges {
+            target: tooltip
+            visible: true
+        }
+    }
+
 
     // ToolTip {
     //     id: tooltip

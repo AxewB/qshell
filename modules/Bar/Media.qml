@@ -10,61 +10,38 @@ import "root:/utils"
 import "root:/service"
 import "root:/components"
 
+// TODO: сделать таймер на то, чтобы плеер не "прыгал" от смены трека, когда ничего в промежутке не играет
+
 StyledRectangle {
     id: root
-    property var player: Mpris.players.values[0]
+    property MprisPlayer player: MediaService.player
 
-    property var title: Mpris.players.values[0].trackTitle
+    property var title: player.trackTitle
     property var isPlaying: player.isPlaying
-    property var trackArtist: Mpris.players.values[0].trackArtist
-
-    color: Colors.palette.m3surfaceContainer
-    clip: true
+    property var trackArtist: player.trackArtist
 
     radius: Appearance.radius.small
 
     visible: Mpris.players.values.length > 0 ? true : false
     opacity: Mpris.players.values.length > 0 ? 1 : 0
+    clip: true
 
-    Behavior on opacity {
-        NumberAnimation {
-            duration: Appearance.animation.durations.normal
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
-        }
-    }
-    Behavior on visible {
-        NumberAnimation {
-            duration: Appearance.animation.durations.normal + 50
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
-        }
-    }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        states: State {
-            name: 'hovered'
-            when: mouseArea.containsMouse
-
-            PropertyChanges {
-                target: trackArtistMetrics
-                elideWidth: 180
-            }
-            PropertyChanges {
-                target: trackTitleMetrics
-                elideWidth: 180
-            }
-            PropertyChanges {
-                target: root
-                color: Colors.palette.m3surfaceBright
-            }
-        }
 
         onClicked: root.player.togglePlaying()
+
+        onWheel: (wheel) => {
+            if (wheel.angleDelta.y > 0) {
+                MediaService.switchPlayer("next")
+            } else if (wheel.angleDelta.y < 0) {
+                MediaService.switchPlayer("prev")
+            }
+        }
     }
 
     implicitWidth: content.implicitWidth
@@ -83,75 +60,114 @@ StyledRectangle {
                 id: layout
                 spacing: Appearance.padding.huge
 
-                ClippingWrapperRectangle {
-                    radius: Appearance.radius.small
-                    implicitWidth: Appearance.icon.normal
-                    implicitHeight: Appearance.icon.small
-                    Layout.alignment: Qt.AlignCenter
-                    color: "transparent"
 
-                    SwappableImage {
-                        image: root.player.trackArtUrl
-                        anchors {
-                            fill: parent
-                            centerIn: parent
+                CircularProgressBar {
+                    min: 0
+                    max: root.player.length
+                    progress: root.player.position
+                    looped: root.player.length > 100000
+                    radius: Appearance.icon.small / 2
+
+                    ClippingWrapperRectangle {
+                        radius: Appearance.radius.full
+                        implicitWidth: (parent.radius - parent.lineWidth) * 2
+                        implicitHeight: (parent.radius - parent.lineWidth) * 2
+                        x: parent.centerX / 2 - parent.lineWidth / 4
+                        y: parent.centerY / 2
+
+
+                        color: "transparent"
+                        z: -1
+
+                        SwappableImage {
+                            image: root.player.trackArtUrl
+                            anchors {
+                                fill: parent
+                                centerIn: parent
+                            }
                         }
                     }
-                }
 
-                Rectangle {
-                    implicitWidth: Appearance.padding.normal
-                    implicitHeight: Appearance.padding.normal
+                    Icon {
+                        visible: root.player.trackArtUrl.length < 1
+                        x: parent.centerX - size / 2
+                        y: parent.centerY - size / 2
 
-                    color: 'transparent'
-                    Rectangle {
-                        implicitHeight: 4
-                        implicitWidth: 4
-                        anchors.centerIn: parent
-                        radius: Appearance.radius.full
-                        color: Colors.palette.m3surfaceBright
+                        icon: root.player.trackArtUrl.length < 1 ? "music_note" : ""
+                        size: Appearance.icon.xsmall
                     }
                 }
+
+                // CircleDivider {
+                //     color: Colors.palette.m3surfaceBright
+                // }
 
                 WrapperItem {
                     RowLayout {
                         spacing: 0
-                        StyledText {
-                            text: trackTitleMetrics.elidedText
-                            color: Colors.palette.m3onSurface
-                        }
 
-                        StyledText {
-                            text: " — "
-                            visible: root.trackArtist.length > 0 && root.title.length > 0
-                            color: Colors.palette.m3onSurface
-                        }
+                        WrapperItem {
+                            Layout.alignment: Qt.AlignHCenter
 
-                        StyledText {
-                            text: trackArtistMetrics.elidedText
-                            color: Colors.palette.m3onSurface
+                            StyledText {
+                                text: trackTitleMetrics.elidedText
+                                color: Colors.palette.m3onSurface
+                            }
                         }
                     }
                 }
 
                 TextMetrics {
                     id: trackTitleMetrics
-                    font.family: Appearance.font.family
-                    font.pixelSize: Appearance.font.size.normal
+                    font.family: Appearance.font.family ?? ""
+                    font.pixelSize: Appearance?.font.size.normal ?? 0
                     elide: Text.ElideRight
-                    elideWidth: 100
+                    elideWidth: 160
                     text: root.title
                 }
 
                 TextMetrics {
                     id: trackArtistMetrics
-                    font.family: Appearance.font.family
-                    font.pixelSize: Appearance.font.size.normal
+                    font.family: Appearance?.font.family ?? ""
+                    font.pixelSize: Appearance?.font.size.normal ?? 0
                     elide: Text.ElideRight
                     elideWidth: 100
                     text: root.trackArtist
                 }
             }
+        }
+    }
+
+    Timer {
+        running: player.playbackState == MprisPlaybackState.Playing
+        interval: 1000
+        repeat: true
+        onTriggered: {
+            root.player.positionChanged()
+        }
+    }
+
+
+    Behavior on implicitWidth {
+        NumberAnimation {
+            duration: Appearance.animation.durations.normal
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: Appearance.animation.curves.easeOut
+        }
+    }
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: Appearance.animation.durations.normal
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: Appearance.animation.curves.ease
+        }
+    }
+    Behavior on visible {
+        NumberAnimation {
+            duration: Appearance.animation.durations.normal + 50
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: Appearance.animation.curves.ease
         }
     }
 }

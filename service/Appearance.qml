@@ -26,6 +26,7 @@ Singleton {
     }
 
     component Padding: QtObject {
+        readonly property real xsmall: 1 * root.scale
         readonly property real small: 2 * root.scale
         readonly property real normal: 4 * root.scale
         readonly property real large: 6 * root.scale
@@ -50,7 +51,7 @@ Singleton {
     }
 
     component Icon: QtObject {
-        readonly property real extraSmall: 18 * root.scale
+        readonly property real xsmall: 18 * root.scale
         readonly property real small: 24 * root.scale
         readonly property real normal: 48 * root.scale
         readonly property real large: 72 * root.scale
@@ -79,7 +80,7 @@ Singleton {
         readonly property list<real> bounce: [0.68, -0.55, 0.27, 1.55, 1.0, 1.0]
 
         // Popular ones
-        readonly property list<real> ease: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
+        readonly property list<real> xsmall: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
         readonly property list<real> easeIn: [0.42, 0.0, 1.0, 1.0, 1.0, 1.0]
         readonly property list<real> easeOut: [0.0, 0.0, 0.58, 1.0, 1.0, 1.0]
         readonly property list<real> easeInOut: [0.42, 0.0, 0.58, 1.0, 1.0, 1.0]

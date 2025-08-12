@@ -15,6 +15,7 @@ Singleton {
     readonly property url config: `${StandardPaths.standardLocations(StandardPaths.GenericConfigLocation)[0]}/axewbshell`
     readonly property url icons: `${StandardPaths.standardLocations(StandardPaths.GenericConfigLocation)[0]}/axewbshell/icons`
     readonly property url cache: `${StandardPaths.standardLocations(StandardPaths.GenericCacheLocation)[0]}/axewbshell`
+    readonly property url screenshots: `${StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]}/screenshots`
 
     // config files
     readonly property url theme: `${StandardPaths.standardLocations(StandardPaths.GenericConfigLocation)[0]}/axewbshell/theme.json`
@@ -36,4 +37,6 @@ Singleton {
 
         command: ["mkdir", "-p", path]
     }
+
+
 }

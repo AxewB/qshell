@@ -7,30 +7,28 @@ import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/config"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.config
+import qs.utils
+import qs.components
 
 Item {
     id: root
 
-    property string icon: ""
+    property string icon: "indeterminate_question_box"
     property string previous: ""
     property string color: Colors.palette.m3onSurface
+    property int margin: 0
 
     property var currentContainer: one
     property string path: Paths.icons
-    property int size: Appearance.icon.normal
+    property int size: Appearance.icon.small
 
     implicitHeight: size
     implicitWidth: size
 
     IconContainer { id: one }
     IconContainer { id: two }
-
-    ColorizeEffect {source: one}
-    ColorizeEffect {source: two}
 
     onIconChanged: {
         const nextContainer = currentContainer === one ? two : one
@@ -48,18 +46,28 @@ Item {
         previous = icon
     }
 
-    component IconContainer: IconImage {
+    component IconContainer: Item {
         property string iconName: ""
 
-        source: `${path}/${iconName}.svg`
         implicitHeight: root.size
         implicitWidth: root.size
-        asynchronous: true
+
+        IconImage {
+            id: iconImg
+            source: `${path}/${iconName}.svg`
+            asynchronous: true
+            anchors.fill: parent
+        }
+
+        MultiEffect {
+            anchors.fill: iconImg
+            source: iconImg
+            colorization: 1
+            colorizationColor: root.color
+        }
 
         Behavior on scale { Anim {} }
         Behavior on opacity { Anim {} }
-        Behavior on implicitHeight { Anim {} }
-        Behavior on implicitWidth { Anim {} }
     }
 
     component Anim: NumberAnimation {
@@ -72,11 +80,5 @@ Item {
         previous = icon
         one.iconName = icon
         two.iconName = icon
-    }
-
-    component ColorizeEffect: MultiEffect {
-        anchors.fill: source
-        colorization: 1
-        colorizationColor: root.color
     }
 }

@@ -41,7 +41,7 @@ WrapperRectangle {
     radius: Appearance.radius.normal
     color: Colors.palette.m3surface
     margin: Appearance.padding.enormous
-    width: parent.width
+    width: parent.width ?? 0
 
 
     ColumnLayout {
@@ -63,7 +63,7 @@ WrapperRectangle {
                         anchors.fill: parent
                         radius: Appearance.radius.small
                         Layout.alignment: Qt.AlignCenter
-                        color: model.image ? "transparent" : Colors.palette.m3surfaceBright
+                        color: model.image ? "transparent" : Colors.palette.m3surfaceContainer
 
                         Image {
                             id: notificationImage
@@ -156,6 +156,7 @@ WrapperRectangle {
         }
 
 
+
         RowLayout {
             visible: model.actions && model.actions.count > 0
             spacing: Appearance.padding.huge
@@ -165,26 +166,17 @@ WrapperRectangle {
                 Layout.fillWidth: true
                 model: model.actions
 
-                MouseArea {
+                StyledButton {
                     required property var modelData
-                    Layout.fillWidth: true
-                    height: 20
 
-                    Rectangle {
-                        anchors.fill: parent
-                        Layout.fillWidth: true
-                        color: Colors.palette.m3surface
-                        radius: Appearance.radius.full
+                    StyledText {
+                        text: modelData?.text ?? "Unknown"
+                        color: Colors.palette.m3surfaceVariant
+                        anchors.centerIn: parent
 
-
-                        StyledText {
-                            text: modelData?.text ?? "Unknown"
-                            color: Colors.palette.m3surfaceVariant
-                            anchors.centerIn: parent
-                        }
                     }
 
-                    onClicked: {
+                    onLeftClicked: {
                         console.log("Action clicked:", modelData?.identifier, modelData?.text)
                         if (modelData?.originalAction) {
                             modelData.originalAction.invoke()

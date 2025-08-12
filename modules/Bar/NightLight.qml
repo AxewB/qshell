@@ -10,25 +10,18 @@ import "root:/config"
 import "root:/utils"
 import "root:/components"
 
+// TODO: сделать увеличение/уменьшение температуры по скроллу
 WrapperItem {
     id: root
     readonly property bool enabled: NightLightService.enabled
 
-    WrapperMouseArea {
-        anchors.fill: parent
-        onClicked: root.toggleNightLight()
-
-        WrapperRectangle {
-            id: content
-            radius: 1000
-            margin: Appearance.padding.normal
-            color: root.enabled ? Colors.palette.m3primary : Colors.palette.m3surfaceContainer
-
-            Icon {
-                icon: "night_sight_max"
-                size: Appearance.icon.small
-            }
-        }
+    StyledIconButton {
+        id: control
+        active: root.enabled
+        icon: "symptoms"
+        size: Appearance.icon.xsmall
+        padding: 4
+        onLeftClicked: root.toggleNightLight()
     }
 
     function toggleNightLight() {

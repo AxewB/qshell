@@ -18,19 +18,17 @@ WrapperItem {
 
     required property string position
     property bool hoverEnabled: true
-    property bool opened: hoverTemp.hovered
+    property bool opened: hoverHandler.hovered
     default property alias child: content.child
     property int extraLeftMargin: 0
     property int extraRightMargin: 0
     property int extraTopMargin: 0
     property int extraBottomMargin: 0
+    readonly property bool vertical: ["top", "bottom"].includes(position)
 
 
-    HoverHandler {
-        id: hoverTemp
-        onHoveredChanged: console.log(hovered)
-    }
-
+    // TODO: make somehow delay (it's an issue because WrapperItem is parent)
+    HoverHandler { id: hoverHandler }
 
     WrapperItem {
         id: content
@@ -38,10 +36,10 @@ WrapperItem {
         implicitHeight: (root.opened && child ? child.implicitHeight + topMargin : 0) + bottomMargin + 1 // adding 1 for the border
         implicitWidth: (root.opened && child ? child.implicitWidth + leftMargin : 0) + rightMargin + 1
 
-        topMargin: BorderConfig.thickness + root.extraTopMargin
-        bottomMargin: BorderConfig.thickness + root.extraBottomMargin
-        rightMargin: BorderConfig.thickness + root.extraRightMargin
-        leftMargin: BorderConfig.thickness + root.extraLeftMargin
+        topMargin: BorderConfig.thickness + root.extraTopMargin + BorderConfig.margin * !root.vertical
+        bottomMargin: BorderConfig.thickness + root.extraBottomMargin + BorderConfig.margin * !root.vertical
+        rightMargin: BorderConfig.thickness + root.extraRightMargin + BorderConfig.margin * root.vertical
+        leftMargin: BorderConfig.thickness + root.extraLeftMargin + BorderConfig.margin * root.vertical
 
         // opacity: root.opened && child ? 1 : 0
 
