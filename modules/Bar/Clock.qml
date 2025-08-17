@@ -22,25 +22,28 @@ Item {
 
         RowLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            spacing: Appearance.padding.huge
 
 
+            WrapperItem {
+                ColumnLayout {
+                    spacing: -Appearance.padding.small
+                    StyledText {
+                        Layout.alignment: Qt.AlignHCenter
+                        color: Colors.palette.m3onSurface
+                        text: Qt.formatDateTime(clock.date, "hh:mm")
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignHCenter
+                        type: "subtext"
+                        color: Colors.palette.m3onSurface
+                        opacity: 0.6
+                        text: Qt.formatDateTime(clock.date, "MMM, dd")
+                    }
+                }
+            }
 
-            StyledText {
-                color: Colors.palette.m3onSurface
-                text: Qt.formatDateTime(clock.date, "hh:mm")
-            }
-            CircleDivider {
-                color: Colors.palette.m3surfaceBright
-            }
-            RoundClock { }
-
-            CircleDivider {
-                color: Colors.palette.m3surfaceBright
-            }
-            StyledText {
-                color: Colors.palette.m3onSurface
-                text: Qt.formatDateTime(clock.date, "ddd M")
-            }
+            RoundClock { radius: 12 }
         }
     }
 
