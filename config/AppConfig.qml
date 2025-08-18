@@ -9,5 +9,6 @@ Singleton {
 
     component Modules: QtObject {
         property bool borders: true
+        property bool fakeScreenRounding: true
     }
 }
