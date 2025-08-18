@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import Quickshell.Widgets
+import Quickshell.Wayland
 import Quickshell.Io
 import qs.service
 import qs.config
@@ -41,6 +42,8 @@ Scope {
 			exclusiveZone: 0
 			implicitWidth: control.implicitWidth
 			implicitHeight: control.implicitHeight
+			WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            WlrLayershell.layer: WlrLayer.Overlay
 			color: "transparent"
 
 			SoundOSDBar {
