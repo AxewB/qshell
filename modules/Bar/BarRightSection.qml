@@ -35,6 +35,13 @@ Item {
                 anchors.left: parent.left
                 layoutDirection: Qt.LeftToRight
                 spacing: Appearance.padding.huge
+
+                BarModuleWrapper {
+                    implicitHeight: root.implicitHeight
+                    NightLight { }
+
+                    ScreenCapture { }
+                }
             }
         }
 
@@ -63,14 +70,6 @@ Item {
                 BarModuleWrapper {
                     implicitHeight: root.implicitHeight
                     Tray { }
-                }
-                BarModuleWrapper {
-                    implicitHeight: root.implicitHeight
-                    NightLight { }
-
-                    ScreenCapture {
-                        screen: Quickshell.screens[0]
-                    }
                 }
             }
         }

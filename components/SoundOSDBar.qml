@@ -26,18 +26,9 @@ Item {
     implicitWidth: content.implicitWidth
 
 
-    MultiEffect {
-        id: shadowEffect
-        source: content
-        anchors.fill: content
-        shadowEnabled: true
-        blurMax: Appearance.padding.large
-        shadowColor: Colors.palette.m3shadow
-    }
 
     WrapperItem{
         id: content
-        margin: shadowEffect.blurMax * 2
         WrapperRectangle {
             margin: Appearance.padding.huge
             color: Colors.palette.m3surface
