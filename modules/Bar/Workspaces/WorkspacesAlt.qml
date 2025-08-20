@@ -7,9 +7,9 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Widgets
-import "root:/service"
-import "root:/components"
-import "root:/utils"
+import qs.config
+import qs.service
+import qs.components
 
 Item {
     id: root
@@ -34,6 +34,7 @@ Item {
 
         x: activeItem ? activeItem.x : 0
         y: activeItem ? activeItem.y : 0
+        Behavior on x { Anim {} }
 
         implicitWidth: (activeItem ? activeItem.implicitWidth : 0)
         implicitHeight: (activeItem ? activeItem.implicitHeight : 0)
@@ -83,12 +84,9 @@ Item {
         }
     }
 
-    Behavior on implicitHeight { Anim {} }
-    Behavior on implicitWidth { Anim {} }
-
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
     }
 }
