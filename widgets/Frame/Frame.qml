@@ -29,6 +29,13 @@ Variants {
             color: "transparent"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
+            anchors {
+                left: true
+                right: true
+                top: true
+                bottom: true
+            }
+
             QtObject {
                 id: clickThroughRegionBorders
                 property int x: borders.thickness + frameLeft.implicitWidth
@@ -45,7 +52,6 @@ Variants {
                 height: clickThroughRegionBorders.height
                 intersection: Intersection.Xor
 
-                // regions: widgetBorders.instances
                 regions: maskRegions.instances
             }
 
@@ -64,31 +70,27 @@ Variants {
                 }
             }
 
-            ModuleArea {
-                id: moduleArea
-                workingArea: clickThroughRegionBorders
-            }
+            Item {
+                id: shadowFiller
+                anchors.fill: parent
 
-
-            anchors {
-                left: true
-                right: true
-                top: true
-                bottom: true
-            }
-
-            Borders {
-                id: borders
-                screen: modelData
-                topContent: frameTop
-                rightContent: frameRight
-                bottomContent: frameBottom
-                leftContent: frameLeft
+                ModuleArea {
+                    id: moduleArea
+                    workingArea: clickThroughRegionBorders
+                }
+                Borders {
+                    id: borders
+                    screen: modelData
+                    topContent: frameTop
+                    rightContent: frameRight
+                    bottomContent: frameBottom
+                    leftContent: frameLeft
+                }
             }
 
             MultiEffect {
-                source: borders
-                anchors.fill: borders
+                source: shadowFiller
+                anchors.fill: shadowFiller
                 shadowEnabled: true
                 blurMax: 16
                 shadowColor: Colors.palette.m3shadow
