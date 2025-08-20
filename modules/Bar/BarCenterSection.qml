@@ -24,7 +24,7 @@ Item {
 
         BarModuleWrapper {
             implicitHeight: root.implicitHeight
-            Workspaces {}
+            WorkspacesAlt {}
         }
     }
 }
