@@ -73,7 +73,7 @@ Item {
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Appearance.animation.curves.ease ?? [0, 0, 1, 1]
     }
 
     Component.onCompleted: {
