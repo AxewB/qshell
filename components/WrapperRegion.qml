@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
+import qs.service
 
 Item {
     id: root
@@ -9,15 +10,23 @@ Item {
     property bool active: true
     property alias region: contentRegion
     property alias margin: contentItem.margin
+    property bool debug: false
 
     x: contentItem.x
     y: contentItem.y
     implicitHeight: contentItem.height
     implicitWidth: contentItem.width
 
-    // Rectangle {
-    //     anchors.fill: root
-    // }
+    LazyLoader {
+        active: root.debug
+        Rectangle {
+            anchors.fill: root
+            visible: root.debug
+            border.width: 2
+            border.color: "white"
+            color: "#22FFFFFF"
+        }
+    }
 
     WrapperItem {
         id: contentItem
