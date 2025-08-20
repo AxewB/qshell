@@ -1,5 +1,5 @@
 import QtQuick
-import "root:/service"
+import qs.service
 
 Rectangle {
     id: root
@@ -10,7 +10,7 @@ Rectangle {
         ColorAnimation {
             duration: Appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.standard
+            easing.bezierCurve: Appearance.animation.curves.easeOut
         }
     }
 
@@ -37,27 +37,9 @@ Rectangle {
         }
     ]
 
-    transitions: [
-        Transition {
-            from: "normal";
-            to: "hovered"
-            NumberAnimation { properties: "width,height"; duration: Appearance.animation.durations.normal }
-        },
-        Transition {
-            from: "hovered";
-            to: "normal"
-            NumberAnimation { properties: "width,height"; duration: Appearance.animation.durations.normal; easing.type: Easing.OutBounce }
-        },
-        Transition {
-            from: "pressed";
-            to: "released"
-            NumberAnimation { properties: "width,height"; duration:Appearance.animation.durations.normal ; easing.type: Easing.OutBounce }
-        }
-    ]
-
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.slow
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Appearance.animation.curves.easeOut
     }
 }
