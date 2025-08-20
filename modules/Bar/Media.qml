@@ -10,19 +10,19 @@ import "root:/utils"
 import "root:/service"
 import "root:/components"
 
-// TODO: сделать таймер на то, чтобы плеер не "прыгал" от смены трека, когда ничего в промежутке не играет
-
 Rectangle {
     id: root
+    property var areaModule: FrameWidgetAreaService.modules.mediaPlayer
     property MprisPlayer player: MediaService.currentPlayer
     property string trackArtUrl: player.trackArtUrl
     property string trackTitle: ""
     property int length: 0
     property bool isPlaying: player.isPlaying
+
     Connections {
         target: player
 
-        onTrackChanged: {
+        function onTrackChanged() {
             updateTrackData()
         }
     }
@@ -148,35 +148,39 @@ Rectangle {
     }
 
 
-    Behavior on implicitWidth {
-        NumberAnimation {
-            duration: Appearance.animation.durations.normal
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.easeOutQuad
-        }
+    // Behavior on implicitWidth {
+    //     NumberAnimation {
+    //         duration: Appearance.animation.durations.normal
+    //         easing.type: Easing.BezierSpline
+    //         easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+    //     }
+    // }
+
+    // Behavior on opacity {
+    //     NumberAnimation {
+    //         duration: Appearance.animation.durations.normal
+    //         easing.type: Easing.BezierSpline
+    //         easing.bezierCurve: Appearance.animation.curves.ease
+    //     }
+    // }
+    // Behavior on visible {
+    //     NumberAnimation {
+    //         duration: Appearance.animation.durations.normal + 50
+    //         easing.type: Easing.BezierSpline
+    //         easing.bezierCurve: Appearance.animation.curves.ease
+    //     }
+    // }
+
+
+    onPlayerChanged: updateTrackData()
+    // TODO: Better to create another wrapper that will trigger update of module on changing it's child size/coords
+    onImplicitWidthChanged: {
+        areaModule.updateDependentPos()
     }
 
-    Behavior on opacity {
-        NumberAnimation {
-            duration: Appearance.animation.durations.normal
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
-        }
-    }
-    Behavior on visible {
-        NumberAnimation {
-            duration: Appearance.animation.durations.normal + 50
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
-        }
-    }
 
-
-    onPlayerChanged: {
-        updateTrackData()
-    }
     Component.onCompleted: {
-        FrameWidgetAreaService.modules['mediaPlayer'].setItem(root)
+        areaModule.setItem(root)
         updateTrackData()
     }
 }
