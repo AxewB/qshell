@@ -12,19 +12,36 @@ import "root:/components"
 
 // TODO: сделать таймер на то, чтобы плеер не "прыгал" от смены трека, когда ничего в промежутке не играет
 
-StyledRectangle {
+Rectangle {
     id: root
-    property MprisPlayer player: MediaService.player
+    property MprisPlayer player: MediaService.currentPlayer
+    property string trackArtUrl: player.trackArtUrl
+    property string trackTitle: ""
+    property int length: 0
+    property bool isPlaying: player.isPlaying
+    Connections {
+        target: player
 
-    property var title: player.trackTitle
-    property var isPlaying: player.isPlaying
-    property var trackArtist: player.trackArtist
+        onTrackChanged: {
+            updateTrackData()
+        }
+    }
 
     radius: Appearance.radius.small
+    color: "transparent"
 
     visible: Mpris.players.values.length > 0 ? true : false
     opacity: Mpris.players.values.length > 0 ? 1 : 0
     clip: true
+
+    function updateTrackData() {
+        Qt.callLater(() => {
+            if (!player.trackTitle.length > 0) return
+
+            trackTitle = player.trackTitle
+            length = player.length
+        })
+    }
 
 
     MouseArea {
@@ -33,7 +50,10 @@ StyledRectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
 
-        onClicked: root.player.togglePlaying()
+        onClicked: {
+
+            FrameWidgetAreaService.modules.mediaPlayer.toggle()
+        }
 
         onWheel: (wheel) => {
             if (wheel.angleDelta.y > 0) {
@@ -63,9 +83,9 @@ StyledRectangle {
 
                 CircularProgressBar {
                     min: 0
-                    max: root.player.length
+                    max: root.length
                     progress: root.player.position
-                    looped: root.player.length > 100000
+                    looped: root.length > 100000
                     radius: Appearance.icon.small / 2
 
                     ClippingWrapperRectangle {
@@ -75,12 +95,11 @@ StyledRectangle {
                         x: parent.centerX / 2 - parent.lineWidth / 4
                         y: parent.centerY / 2
 
-
                         color: "transparent"
                         z: -1
 
                         SwappableImage {
-                            image: root.player.trackArtUrl
+                            image: root.trackArtUrl
                             anchors {
                                 fill: parent
                                 centerIn: parent
@@ -89,31 +108,21 @@ StyledRectangle {
                     }
 
                     Icon {
-                        visible: root.player.trackArtUrl.length < 1
+                        visible: root.trackArtUrl.length < 1
                         x: parent.centerX - size / 2
                         y: parent.centerY - size / 2
 
-                        icon: root.player.trackArtUrl.length < 1 ? "music_note" : ""
+                        icon: root.trackArtUrl.length < 1 ? "music_note" : ""
                         size: Appearance.icon.xsmall
                     }
                 }
 
-                // CircleDivider {
-                //     color: Colors.palette.m3surfaceBright
-                // }
-
                 WrapperItem {
-                    RowLayout {
-                        spacing: 0
+                    Layout.alignment: Qt.AlignHCenter
 
-                        WrapperItem {
-                            Layout.alignment: Qt.AlignHCenter
-
-                            StyledText {
-                                text: trackTitleMetrics.elidedText
-                                color: Colors.palette.m3onSurface
-                            }
-                        }
+                    StyledText {
+                        text: trackTitleMetrics.elidedText
+                        color: Colors.palette.m3onSurface
                     }
                 }
 
@@ -123,16 +132,7 @@ StyledRectangle {
                     font.pixelSize: Appearance?.font.size.normal ?? 0
                     elide: Text.ElideRight
                     elideWidth: 160
-                    text: root.title
-                }
-
-                TextMetrics {
-                    id: trackArtistMetrics
-                    font.family: Appearance?.font.family ?? ""
-                    font.pixelSize: Appearance?.font.size.normal ?? 0
-                    elide: Text.ElideRight
-                    elideWidth: 100
-                    text: root.trackArtist
+                    text: root.trackTitle
                 }
             }
         }
@@ -152,7 +152,7 @@ StyledRectangle {
         NumberAnimation {
             duration: Appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.easeOut
+            easing.bezierCurve: Appearance.animation.curves.easeOutQuad
         }
     }
 
@@ -169,5 +169,14 @@ StyledRectangle {
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.animation.curves.ease
         }
+    }
+
+
+    onPlayerChanged: {
+        updateTrackData()
+    }
+    Component.onCompleted: {
+        FrameWidgetAreaService.modules['mediaPlayer'].setItem(root)
+        updateTrackData()
     }
 }
