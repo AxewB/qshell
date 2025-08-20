@@ -16,14 +16,6 @@ Item {
     implicitWidth: list.implicitWidth
 
 
-    MultiEffect {
-        source: list
-        anchors.fill: list
-        shadowEnabled: true
-        blurMax: 16
-        shadowColor: Colors.palette.m3shadow
-    }
-
     ListView {
         id: list
         implicitHeight: contentHeight
