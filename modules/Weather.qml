@@ -64,6 +64,6 @@ WrapperItem {
     component Anim: NumberAnimation {
         duration: Appearance.animation.durations.slow
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Appearance.animation.curves.ease ?? [0, 0, 1, 1]
     }
 }

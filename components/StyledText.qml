@@ -1,5 +1,6 @@
 import QtQuick
 import "root:/service"
+import qs.service
 
 Text {
     id: root
@@ -18,7 +19,7 @@ Text {
         ColorAnimation {
             duration: Appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
+            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
         }
     }
 

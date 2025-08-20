@@ -5,9 +5,9 @@ import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.utils
+import qs.components
 
 Rectangle {
     id: root
@@ -82,7 +82,7 @@ Rectangle {
             to: 1.025;
             duration: Appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
+            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
         }
 
         ScaleAnimator {
@@ -91,7 +91,7 @@ Rectangle {
             to: 1;
             duration: Appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
+            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
         }
     }
 
@@ -107,7 +107,7 @@ Rectangle {
             to: 0.6
             duration: Appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
+            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
         }
 
         NumberAnimation {
@@ -117,14 +117,14 @@ Rectangle {
             to: 0
             duration: Appearance.animation.durations.turtle
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.easeOut
+            easing.bezierCurve: Appearance.animation.curves.easeOut ?? [0,0,1,1]
         }
     }
 
     component Anim: NumberAnimation {
          duration: Appearance.animation.durations.slow
          easing.type: Easing.BezierSpline
-         easing.bezierCurve: Appearance.animation.curves.ease
+         easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
     }
 
     onImageChanged: updateImage()
