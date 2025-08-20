@@ -27,8 +27,6 @@ StyledButton {
         text: modelData.id
 
         font.bold: root.active
-        color: root.down ? Colors.palette.m3onPrimaryContainer
-            : root.active ? Colors.palette.m3onPrimary
-            : Colors.palette.m3onSurface
+        color: root.contentColor
     }
 }
