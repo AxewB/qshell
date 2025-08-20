@@ -41,7 +41,7 @@ WrapperRectangle {
     radius: Appearance.radius.normal
     color: Colors.palette.m3surface
     margin: Appearance.padding.enormous
-    width: parent.width ?? 0
+    width: parent ? parent.width : 0
 
 
     ColumnLayout {
