@@ -52,11 +52,17 @@ Item {
         implicitHeight: root.size
         implicitWidth: root.size
 
+
         IconImage {
             id: iconImg
             source: `${path}/${iconName}.svg`
             asynchronous: true
             anchors.fill: parent
+            // removing visibility because MultiEffect draws color above icon
+            // and because of that if icon is visible there is border of non
+            // colored copy below colored one
+            // So putting `visible: false` is removes this uncolored copy, but leaves one by MultiEffect
+            visible: false
         }
 
         MultiEffect {
