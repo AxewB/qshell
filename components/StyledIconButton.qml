@@ -14,7 +14,7 @@ StyledButton {
     property alias icon: iconComponent.icon
     property alias size: iconComponent.size
     property string color: contentColor
-    padding: 2
+    padding: Appearance.padding.small
 
     Icon {
         id: iconComponent
