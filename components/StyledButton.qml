@@ -29,13 +29,16 @@ Item {
     property alias bottomRightRadius: background.bottomRightRadius
     property string tooltip: "test"
 
-    property string contentColor: root.down ? Colors.palette.m3onPrimaryContainer
+    property string contentColor: disabled ? Colors.palette.m3onSurface
         : root.active ? Colors.palette.m3onPrimary
+        : root.down ? Colors.palette.m3onPrimaryContainer
         : Colors.palette.m3onSurface
 
     signal leftClicked()
     signal rightClicked()
     signal activated()
+    signal scrolledUp()
+    signal scrolledDown()
 
     implicitWidth: childWrapper.implicitWidth
     implicitHeight: childWrapper.implicitHeight
@@ -49,8 +52,8 @@ Item {
             : (root.hovered || !root.active) && !root.down ? root.radius : root.maxRadius
 
         color: disabled ? idleColor
-            : root.down ? Colors.palette.m3surfaceVariant
             : root.active ? Colors.palette.m3primary
+            : root.down ? Colors.palette.m3surfaceVariant
             : root.hovered ? Colors.palette.m3surfaceVariant
             : idleColor;
 
@@ -92,6 +95,14 @@ Item {
                 root.rightClicked()
             else if (mouse.button === Qt.LeftButton)
                 root.leftClicked()
+        }
+
+        onWheel: (wheel) => {
+            if (root.disabled) return
+            if (wheel.angleDelta.y > 0)
+                root.scrolledUp()
+            else if (wheel.angleDelta.y < 0)
+                root.scrolledDown()
         }
     }
 
