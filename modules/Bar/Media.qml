@@ -14,16 +14,14 @@ Rectangle {
     id: root
     property var areaModule: FrameWidgetAreaService.modules.mediaPlayer
     property MprisPlayer player: MediaService.currentPlayer
-    property string trackArtUrl: player.trackArtUrl
-    property string trackTitle: MediaService.trackTitle
     property int length: MediaService.length
     property bool isPlaying: player.isPlaying
 
     radius: Appearance.radius.small
     color: "transparent"
 
-    visible: Mpris.players.values.length > 0 ? true : false
-    opacity: Mpris.players.values.length > 0 ? 1 : 0
+    visible: opacity > 0
+    opacity: MediaService.players?.length > 0 ? 1 : 0
     clip: true
 
     MouseArea {
@@ -47,73 +45,67 @@ Rectangle {
     implicitWidth: content.implicitWidth
     implicitHeight: content.implicitHeight
 
-    Flow {
-        padding: Appearance.padding.normal
+
+    WrapperRectangle {
         id: content
+        color: "transparent"
+        margin: Appearance.padding.normal
+        implicitWidth: 200 * Appearance.scale
 
-        Rectangle {
-            implicitHeight: layout.implicitHeight
-            implicitWidth: layout.implicitWidth
-            color: "transparent"
+        RowLayout {
+            id: layout
+            spacing: 0
 
-            RowLayout {
-                id: layout
-                spacing: Appearance.padding.huge
+            CircularProgressBar {
+                progress: MediaService.progress
+                looped: MediaService.length > 3600 || root.length === 0
+                radius: Appearance.icon.small / 2
 
+                ClippingWrapperRectangle {
+                    radius: Appearance.radius.full
+                    implicitWidth: (parent.radius - parent.lineWidth) * 2
+                    implicitHeight: (parent.radius - parent.lineWidth) * 2
+                    x: parent.centerX / 2 - parent.lineWidth / 4
+                    y: parent.centerY / 2
 
-                CircularProgressBar {
-                    min: 0
-                    max: root.length
-                    progress: root.player.position
-                    looped: root.length > 100000
-                    radius: Appearance.icon.small / 2
+                    color: "transparent"
+                    z: -1
 
-                    ClippingWrapperRectangle {
-                        radius: Appearance.radius.full
-                        implicitWidth: (parent.radius - parent.lineWidth) * 2
-                        implicitHeight: (parent.radius - parent.lineWidth) * 2
-                        x: parent.centerX / 2 - parent.lineWidth / 4
-                        y: parent.centerY / 2
-
-                        color: "transparent"
-                        z: -1
-
-                        SwappableImage {
-                            image: root.trackArtUrl
-                            anchors {
-                                fill: parent
-                                centerIn: parent
-                            }
+                    SwappableImage {
+                        image: MediaService.trackArtUrl
+                        anchors {
+                            fill: parent
+                            centerIn: parent
                         }
                     }
-
-                    Icon {
-                        visible: root.trackArtUrl.length < 1
-                        x: parent.centerX - size / 2
-                        y: parent.centerY - size / 2
-
-                        icon: root.trackArtUrl.length < 1 ? "music_note" : ""
-                        size: Appearance.icon.xsmall
-                    }
                 }
 
-                WrapperItem {
-                    Layout.alignment: Qt.AlignHCenter
+                Icon {
+                    visible: !MediaService.trackArtUrl
+                    x: parent.centerX - size / 2
+                    y: parent.centerY - size / 2
 
-                    StyledText {
-                        text: trackTitleMetrics.elidedText
-                        color: Colors.palette.m3onSurface
-                    }
+                    icon: !MediaService.trackArtUrl ? "music_note" : ""
+                    size: Appearance.icon.xsmall
                 }
+            }
 
-                TextMetrics {
-                    id: trackTitleMetrics
-                    font.family: Appearance.font.family ?? ""
-                    font.pixelSize: Appearance?.font.size.normal ?? 0
-                    elide: Text.ElideRight
-                    elideWidth: 160
-                    text: root.trackTitle
+            WrapperItem {
+                Layout.alignment: Qt.AlignHCenter
+
+                StyledText {
+                    text: trackTitleMetrics.elidedText
+                    color: Colors.palette.m3onSurface
                 }
+            }
+
+            TextMetrics {
+                id: trackTitleMetrics
+                font.family: Appearance.font.family ?? ""
+                font.pixelSize: Appearance?.font.size.normal ?? 0
+                elide: Text.ElideRight
+                elideWidth: 140 * Appearance.scale
+                text: (MediaService.trackArtist ? MediaService.trackArtist + " - " : "") + MediaService.trackTitle
             }
         }
     }
@@ -127,36 +119,18 @@ Rectangle {
         }
     }
 
-
-    // Behavior on implicitWidth {
-    //     NumberAnimation {
-    //         duration: Appearance.animation.durations.normal
-    //         easing.type: Easing.BezierSpline
-    //         easing.bezierCurve: Appearance.animation.curves.easeOutQuad
-    //     }
-    // }
-
-    // Behavior on opacity {
-    //     NumberAnimation {
-    //         duration: Appearance.animation.durations.normal
-    //         easing.type: Easing.BezierSpline
-    //         easing.bezierCurve: Appearance.animation.curves.ease
-    //     }
-    // }
-    // Behavior on visible {
-    //     NumberAnimation {
-    //         duration: Appearance.animation.durations.normal + 50
-    //         easing.type: Easing.BezierSpline
-    //         easing.bezierCurve: Appearance.animation.curves.ease
-    //     }
-    // }
-
-
     // TODO: Better to create another wrapper that will trigger update of module on changing it's child size/coords
     onImplicitWidthChanged: {
         areaModule.updateDependentPos()
     }
 
+    Behavior on opacity { Anim {} }
+
+    component Anim: NumberAnimation {
+        duration: Appearance.animation.durations.normal
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: Appearance.animation.curves.ease
+    }
 
     Component.onCompleted: {
         areaModule.setItem(root)
