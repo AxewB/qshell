@@ -4,10 +4,8 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/modules"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.components
 
 StyledButton {
     id: root
