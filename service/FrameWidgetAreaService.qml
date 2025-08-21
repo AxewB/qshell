@@ -27,6 +27,7 @@ Singleton {
 
         function open() {
             timer.stop()
+            updateDependentPos()
             enabled = true
         }
         function close() { enabled = false }
