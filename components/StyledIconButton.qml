@@ -13,9 +13,7 @@ StyledButton {
     id: root
     property alias icon: iconComponent.icon
     property alias size: iconComponent.size
-    property string color:  root.down ? Colors.palette.m3onPrimaryContainer
-        : root.active ? Colors.palette.m3onPrimary
-        : Colors.palette.m3onSurface
+    property string color: contentColor
     padding: 2
 
     Icon {
