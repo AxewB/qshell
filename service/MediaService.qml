@@ -68,9 +68,20 @@ Singleton {
     }
 
     function updateTrackData() {
+        if (players?.length === 0) {
+            trackArtist = "Playing"
+            trackTitle = "Nothing"
+            return
+        }
         Qt.callLater(() => {
-            trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : currentPlayer.identity
-            trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
+            if (!currentPlayer.trackArtist && !currentPlayer.trackTitle) {
+                trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : "-"
+                trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
+            }
+            else {
+                trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : ""
+                trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
+            }
             trackArtUrl =  currentPlayer.trackArtUrl ? currentPlayer.trackArtUrl : ""
         })
     }
