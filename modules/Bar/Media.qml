@@ -105,7 +105,7 @@ Rectangle {
                 font.pixelSize: Appearance?.font.size.normal ?? 0
                 elide: Text.ElideRight
                 elideWidth: 140 * Appearance.scale
-                text: (MediaService.trackArtist ? MediaService.trackArtist + " - " : "") + MediaService.trackTitle
+                text: MediaService.trackTitle + (MediaService.trackArtist ? " - " + MediaService.trackArtist : "")
             }
         }
     }
