@@ -13,6 +13,7 @@ Singleton {
     property real progress: (position / length).toFixed(2)
     property string trackArtist: ""
     property string trackTitle: ""
+    property string trackArtUrl: ""
     property real rate: currentPlayer.rate
     property real rateSupported: currentPlayer.minRate < 1 && currentPlayer.maxRate > 1
 
@@ -66,8 +67,9 @@ Singleton {
 
     function updateTrackData() {
         Qt.callLater(() => {
-            trackArtist = currentPlayer.trackArtist.length > 0 ? currentPlayer.trackArtist : currentPlayer.identity
-            trackTitle = currentPlayer.trackTitle.length > 0 ? currentPlayer.trackTitle : currentPlayer.identity
+            trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : currentPlayer.identity
+            trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
+            trackArtUrl =  currentPlayer.trackArtUrl ? currentPlayer.trackArtUrl : ""
         })
     }
 
