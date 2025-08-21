@@ -15,17 +15,9 @@ Rectangle {
     property var areaModule: FrameWidgetAreaService.modules.mediaPlayer
     property MprisPlayer player: MediaService.currentPlayer
     property string trackArtUrl: player.trackArtUrl
-    property string trackTitle: ""
-    property int length: 0
+    property string trackTitle: MediaService.trackTitle
+    property int length: MediaService.length
     property bool isPlaying: player.isPlaying
-
-    Connections {
-        target: player
-
-        function onTrackChanged() {
-            updateTrackData()
-        }
-    }
 
     radius: Appearance.radius.small
     color: "transparent"
@@ -34,26 +26,14 @@ Rectangle {
     opacity: Mpris.players.values.length > 0 ? 1 : 0
     clip: true
 
-    function updateTrackData() {
-        Qt.callLater(() => {
-            if (!player.trackTitle.length > 0) return
-
-            trackTitle = player.trackTitle
-            length = player.length
-        })
-    }
-
-
     MouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
 
-        onClicked: {
-
-            FrameWidgetAreaService.modules.mediaPlayer.toggle()
-        }
+        onEntered: FrameWidgetAreaService.modules.mediaPlayer.open()
+        onExited: FrameWidgetAreaService.modules.mediaPlayer.closeByTimer()
 
         onWheel: (wheel) => {
             if (wheel.angleDelta.y > 0) {
@@ -172,7 +152,6 @@ Rectangle {
     // }
 
 
-    onPlayerChanged: updateTrackData()
     // TODO: Better to create another wrapper that will trigger update of module on changing it's child size/coords
     onImplicitWidthChanged: {
         areaModule.updateDependentPos()
@@ -181,6 +160,5 @@ Rectangle {
 
     Component.onCompleted: {
         areaModule.setItem(root)
-        updateTrackData()
     }
 }

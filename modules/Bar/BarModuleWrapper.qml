@@ -26,7 +26,6 @@ WrapperMouseArea {
     }
 
     HoverHandler { id: hoverHandler }
-    onClicked: console.log("clicked bar module")
 
 
     Behavior on color {ColorAnimation {duration: 150}}

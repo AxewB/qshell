@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -22,34 +23,30 @@ Item {
     height: workingArea.height + padding
     width: workingArea.width + padding
 
-    // WrapperRegion {
-    //     margin: BorderConfig.margin
-    //     anchors.right: root.right
-    //     z: 20
-    //     NotificationsList { }
-    // }
-
-
-    // WrapperRegion {
-    //     margin: BorderConfig.margin
-    //     anchors.right: root.right
-    //     z: 20
-    //     OSD {}
-    // }
-
-
     WrapperRegion {
-        x: 0
+        id: mediaRegion
+        property QtObject module: FrameWidgetAreaService.modules.mediaPlayer
+        x: module.dependentPos.x - mediaDrawer.implicitWidth / 2 + module.item.implicitWidth / 2
         y: 0
+        active: mediaDrawer.active
         RoundedDrawer {
-            id: drawer
-            position { left: true; top: true }
+            id: mediaDrawer
+            active: mediaRegion.module.enabled
+            position { top: true }
+
+            Component.onCompleted: mediaRegion.module.setDependentItem(root)
+            onHide: mediaRegion.module.closeByTimer()
+            onShow: mediaRegion.module.open()
+
+            MediaPlayer {
+                onClose: mediaRegion.module.close()
+            }
         }
     }
 
     WrapperRegion {
         x: (root.width - implicitWidth) / 2
-
+        y: 0
         RoundedDrawer {
             position { top: true }
         }
@@ -57,6 +54,7 @@ Item {
 
     WrapperRegion {
         x: root.width - implicitWidth
+        y: 0
         z: 20
         RoundedDrawer {
             active: true
@@ -67,8 +65,10 @@ Item {
     WrapperRegion {
         x: root.width - implicitWidth
         y: (root.height - implicitHeight) / 2
+        active: osdDrawer.active
 
         RoundedDrawer {
+            id: osdDrawer
             position { right: true }
             active: osdModule.shouldShowOsd
 
@@ -81,10 +81,7 @@ Item {
         x: root.width - implicitWidth
         y: root.height - implicitHeight
         RoundedDrawer {
-            position {
-                right: true
-                bottom: true
-            }
+            position { right: true; bottom: true }
             active: osdModule.shouldShowOsd
         }
     }
@@ -94,7 +91,7 @@ Item {
         y: root.height - implicitHeight
 
         RoundedDrawer {
-            position.bottom: true
+            position { bottom: true }
         }
     }
     WrapperRegion {
@@ -102,10 +99,7 @@ Item {
         y: root.height - implicitHeight
 
         RoundedDrawer {
-            position {
-                left: true
-                bottom: true
-            }
+            position { left: true; bottom: true }
         }
     }
     WrapperRegion {
@@ -113,8 +107,7 @@ Item {
         y: (root.height - implicitHeight) / 2
 
         RoundedDrawer {
-            id: leftDrawer
-            position.left: true
+            position { left: true }
         }
     }
 
