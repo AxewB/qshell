@@ -83,6 +83,17 @@ Singleton {
         id: updateColorsProc
     }
 
+    function applyAlpha(hexColor, alpha = 1) {
+        if (!hexColor.startsWith("#")) throw new Error("Color must start with `#`");
+        if (hexColor.length !== 7) throw new Error("Color must be in alpha-less HEX format: #RRGGBB");
+        if (alpha < 0 || alpha > 1) throw new Error("Alpha must be in range from 0 to 1");
+
+        const alphaDecimal = Math.round(alpha * 255);
+        const alphaHex = alphaDecimal.toString(16).padStart(2, "0").toUpperCase();
+
+        return `#${alphaHex}${hexColor.slice(1)}`;
+    }
+
     component Colors: QtObject {
         // Ключевые цвета
         property color m3primary_paletteKeyColor: "#AD6353"
