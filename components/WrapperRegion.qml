@@ -7,7 +7,7 @@ import qs.service
 Item {
     id: root
     default property alias content: contentItem.data
-    property bool active: true
+    property bool active: false
     property alias region: contentRegion
     property alias margin: contentItem.margin
     property bool debug: false
@@ -16,6 +16,16 @@ Item {
     y: contentItem.y
     implicitHeight: contentItem.height
     implicitWidth: contentItem.width
+
+    Behavior on x { Anim {} }
+    Behavior on y { Anim {} }
+
+    component Anim: NumberAnimation {
+        duration: Appearance.animation.durations.fast
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+    }
+
 
     LazyLoader {
         active: root.debug
