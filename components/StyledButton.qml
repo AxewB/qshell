@@ -8,12 +8,12 @@ import qs.components
 import qs.service
 import qs.config
 
-
 Item {
     id: root
     property bool active: false
     property bool hovered: false
     property bool down: false
+    property bool disabled: false
     property alias padding: childWrapper.padding
     property alias leftPadding: childWrapper.leftPadding
     property alias rightPadding: childWrapper.rightPadding
@@ -23,12 +23,12 @@ Item {
     property string idleColor: "transparent"
     property int radius: Appearance.radius.small
     property int maxRadius: root.implicitHeight / 2
-    property int leftTopRadius
     property alias topLeftRadius: background.topLeftRadius
     property alias topRightRadius: background.topRightRadius
     property alias bottomLeftRadius: background.bottomLeftRadius
     property alias bottomRightRadius: background.bottomRightRadius
     property string tooltip: "test"
+
     property string contentColor: root.down ? Colors.palette.m3onPrimaryContainer
         : root.active ? Colors.palette.m3onPrimary
         : Colors.palette.m3onSurface
@@ -40,11 +40,16 @@ Item {
     implicitWidth: childWrapper.implicitWidth
     implicitHeight: childWrapper.implicitHeight
 
+    opacity: root.disabled ? 0.4 : 1
+
     Rectangle {
         id: background
         anchors.fill: parent
-        radius: (root.hovered || !root.active) && !root.down ? root.radius : root.maxRadius
-        color: root.down ? Colors.palette.m3surfaceVariant
+        radius: disabled ? root.radius
+            : (root.hovered || !root.active) && !root.down ? root.radius : root.maxRadius
+
+        color: disabled ? idleColor
+            : root.down ? Colors.palette.m3surfaceVariant
             : root.active ? Colors.palette.m3primary
             : root.hovered ? Colors.palette.m3surfaceVariant
             : idleColor;
@@ -65,23 +70,24 @@ Item {
     }
 
     MouseArea {
+        hoverEnabled: !root.disabled
+        enabled: !root.disabled
+
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: root.disabled ? Qt.ArrowCursor : Qt.PointingHandCursor
 
-        onEntered: root.hovered = true
-        onExited: root.hovered = false
+        onEntered: if (!root.disabled) root.hovered = true
+        onExited: if (!root.disabled) root.hovered = false
 
-        onPressed: {
-            root.down = true
-        }
-        onReleased: {
+        onPressed: if (!root.disabled) root.down = true
+        onReleased: if (!root.disabled) {
             root.down = false
             root.activated()
         }
 
         onClicked: (mouse) => {
+            if (root.disabled) return
             if (mouse.button === Qt.RightButton)
                 root.rightClicked()
             else if (mouse.button === Qt.LeftButton)
@@ -95,47 +101,12 @@ Item {
         easing.bezierCurve: Appearance.animation.curves.easeOut
     }
 
-    component ToolTipSettings: QtObject {
-        property int delay: 150
-        property string text: "test"
-        property bool visible: true
-    }
-
-    // Item {
-    //     id: tooltipWrapper
-    //     property bool active: root.hovered && (root.tooltip.visible || root.tooltip.text.length > 0)
-    //     anchors.fill: parent
-
-    //     ToolTip {
-    //         id: control
-    //         visible: opacity > 0   // тултип видим только пока не полностью исчез
-    //         text: root.tooltip.text
-    //         delay: root.tooltip.delay
-
-    //         // начальные значения
-    //         opacity: active ? 1 : 0
-    //         y: active ? 0 : 10
-
-    //         Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
-    //         Behavior on y { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
-
-    //         contentItem: StyledText { text: control.text }
-
-    //         background: Rectangle {
-    //             color: Colors.palette.m3surface
-    //             radius: Appearance.radius.normal
-    //         }
-    //     }
-    // }
-
     ToolTip {
         id: control
-        property bool active: root.hovered && root.tooltip.length > 0
-        // visible: opacity > 0
+        property bool active: root.hovered && root.tooltip.length > 0 && !root.disabled
         visible: false
         text: root.tooltip
 
-        // начальные значения
         opacity: active ? 1 : 0
         y: active ? 0 : root.height / 2
         Behavior on opacity { NumberAnimation { duration: 200} }
