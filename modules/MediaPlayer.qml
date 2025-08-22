@@ -378,7 +378,7 @@ Item {
 
             StyledIconButton {
                 icon: "arrow_left"
-                size: Appearance.icon.small
+                size: Appearance.icon.normal
                 radius: Appearance.radius.xsmall
                 topRightRadius: Appearance.radius.xsmall
                 bottomRightRadius: Appearance.radius.xsmall
@@ -407,7 +407,7 @@ Item {
             }
             StyledIconButton {
                 icon: "arrow_right"
-                size: Appearance.icon.small
+                size: Appearance.icon.normal
                 radius: Appearance.radius.xsmall
                 topLeftRadius: Appearance.radius.xsmall
                 bottomLeftRadius: Appearance.radius.xsmall
