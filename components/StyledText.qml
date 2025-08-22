@@ -8,12 +8,12 @@ Text {
     property string type: "text"
 
     color: Colors.palette.m3onSurface
-
-    font {
-        family: Appearance.font.family
-        pixelSize: Appearance.font.size[root.type]
-    }
-
+    
+    renderType: Text.NativeRendering
+    textFormat: Text.PlainText
+    
+    font.family: Appearance.font.family
+    font.pixelSize: Appearance.font.size[root.type]
 
     Behavior on color {
         ColorAnimation {
