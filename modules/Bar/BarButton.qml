@@ -14,7 +14,7 @@ Button {
     property bool active: false
     default property alias child: contentItemWrapper.child
 
-    padding: Appearance.padding.small
+    padding: Config.appearance.padding.small
     text: qsTr("Button")
 
     contentItem: RowLayout {
@@ -28,7 +28,7 @@ Button {
     background: Rectangle {
         implicitHeight: control.implicitWidth > control.implicitHeight ? control.implicitWidth : control.implicitHeight
         implicitWidth: implicitHeight
-        radius: (control.hovered || !control.active) && !control.down ? Appearance.radius.xsmall : 16
+        radius: (control.hovered || !control.active) && !control.down ? Config.appearance.radius.xsmall : 16
 
         color: control.down || control.active ? Colors.palette.m3primary
             : control.hovered ? Colors.palette.m3surfaceVariant
@@ -43,8 +43,8 @@ Button {
     signal nowActive()
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 }

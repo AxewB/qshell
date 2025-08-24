@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
-import qs.service
+import qs.config
 
 Item {
     id: root
@@ -21,16 +21,15 @@ Item {
     Behavior on y { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.fast
+        duration: Config.appearance.animation.durations.fast
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+        easing.bezierCurve: Config.appearance.animation.curves.easeOutQuad
     }
 
 
     LazyLoader {
         active: root.debug
         Rectangle {
-            anchors.fill: root
             visible: root.debug
             border.width: 2
             border.color: "white"

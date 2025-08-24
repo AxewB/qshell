@@ -6,9 +6,9 @@ import qs.service
 Canvas {
     id: root
 
-    property int radius: 11 * Appearance.scale
-    property int lineWidth: 2 * Appearance.scale
-    property int arrowsOffset: 0 * Appearance.scale
+    property int radius: 11 * Config.appearance.scale
+    property int lineWidth: 2 * Config.appearance.scale
+    property int arrowsOffset: 0 * Config.appearance.scale
 
     property bool fillBackground: false
     property bool hoursEnabled: true
@@ -98,9 +98,9 @@ Canvas {
 
     Connections {
         target: clock
-        onHoursChanged: requestPaint()
-        onMinutesChanged: requestPaint()
-        onSecondsChanged: requestPaint()
+        function onHoursChanged() {requestPaint()}
+        function onMinutesChanged() {requestPaint()}
+        function onSecondsChanged() {requestPaint()}
     }
 
     onPaint: drawClock()

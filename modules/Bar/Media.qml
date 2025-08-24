@@ -6,9 +6,10 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Services.Mpris
-import "root:/utils"
-import "root:/service"
-import "root:/components"
+import qs.config
+import qs.service
+import qs.components
+import qs.utils
 
 Rectangle {
     id: root
@@ -17,7 +18,7 @@ Rectangle {
     property int length: MediaService.length
     property bool isPlaying: player.isPlaying
 
-    radius: Appearance.radius.small
+    radius: Config.appearance.radius.small
     color: "transparent"
 
     visible: opacity > 0
@@ -45,12 +46,11 @@ Rectangle {
     implicitWidth: content.implicitWidth
     implicitHeight: content.implicitHeight
 
-
     WrapperRectangle {
         id: content
         color: "transparent"
-        margin: Appearance.padding.normal
-        implicitWidth: 200 * Appearance.scale
+        margin: Config.appearance.padding.normal
+        implicitWidth: 200 * Config.appearance.scale
 
         RowLayout {
             id: layout
@@ -59,10 +59,10 @@ Rectangle {
             CircularProgressBar {
                 progress: MediaService.progress
                 looped: MediaService.length > 3600 || root.length === 0
-                radius: Appearance.icon.small / 2
+                radius: Config.appearance.icon.small / 2
 
                 ClippingWrapperRectangle {
-                    radius: Appearance.radius.full
+                    radius: Config.appearance.radius.full
                     implicitWidth: (parent.radius - parent.lineWidth) * 2
                     implicitHeight: (parent.radius - parent.lineWidth) * 2
                     x: parent.centerX / 2 - parent.lineWidth / 4
@@ -72,7 +72,7 @@ Rectangle {
                     z: -1
 
                     SwappableImage {
-                        image: MediaService.trackArtUrl
+                        source: MediaService.trackArtUrl
                         anchors {
                             fill: parent
                             centerIn: parent
@@ -86,7 +86,7 @@ Rectangle {
                     y: parent.centerY - size / 2
 
                     icon: !MediaService.trackArtUrl ? "music_note" : ""
-                    size: Appearance.icon.xsmall
+                    size: Config.appearance.icon.xsmall
                 }
             }
 
@@ -101,10 +101,10 @@ Rectangle {
 
             TextMetrics {
                 id: trackTitleMetrics
-                font.family: Appearance.font.family ?? ""
-                font.pixelSize: Appearance?.font.size.normal ?? 0
+                font.family: Config.appearance.font.family.sans ?? ""
+                font.pixelSize: Config.appearance.font.size.normal ?? 0
                 elide: Text.ElideRight
-                elideWidth: 140 * Appearance.scale
+                elideWidth: 140 * Config.appearance.scale
                 text: MediaService.trackTitle + (MediaService.trackArtist ? " - " + MediaService.trackArtist : "")
             }
         }
@@ -119,17 +119,12 @@ Rectangle {
         }
     }
 
-    // TODO: Better to create another wrapper that will trigger update of module on changing it's child size/coords
-    onImplicitWidthChanged: {
-        areaModule.updateDependentPos()
-    }
-
     Behavior on opacity { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 
     Component.onCompleted: {

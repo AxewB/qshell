@@ -1,36 +1,26 @@
 import QtQuick
 import "root:/service"
-import qs.service
+import qs.config
 
 Text {
     id: root
 
     property string type: "text"
+    property int size: Config.appearance.font.size[root.type]
 
     color: Colors.palette.m3onSurface
-    
+
     renderType: Text.NativeRendering
     textFormat: Text.PlainText
-    
-    font.family: Appearance.font.family
-    font.pixelSize: Appearance.font.size[root.type]
+
+    font.family: Config.appearance.font.family.sans
+    font.pixelSize: root.size
 
     Behavior on color {
         ColorAnimation {
-            duration: Appearance.animation.durations.normal
+            duration: Config.appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
+            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
-    }
-
-    Behavior on scale { Anim {} }
-    Behavior on font { Anim {} }
-    Behavior on x { Anim {} }
-    Behavior on y { Anim {} }
-
-    component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
     }
 }

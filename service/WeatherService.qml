@@ -8,7 +8,7 @@ pragma Singleton
 Singleton {
     id: root
     // maybe config loads faster because of this
-    property real _weatherConfig: WeatherConfig.latitude
+    property real _weatherConfig: Config.weather.latitude
 
     property string unit
     property WeatherCurrent current: WeatherCurrent {}
@@ -77,35 +77,35 @@ Singleton {
 
     function weathercodeToIcon(weathercode) {
         switch (weathercode) {
-            case 0: return "weather_clear"
-            case 1: return "weather_cloud"
-            case 2: return "weather_cloud"
-            case 3: return "weather_cloud"
-            case 45: return "weather_foggy"
-            case 48: return "weather_foggy"
-            case 51: return "weather_rainy"
-            case 53: return "weather_rainy_light"
-            case 55: return "weather_rainy_heavy"
-            case 56: return "weather_rainy_light"
-            case 57: return "weather_rainy_heavy"
-            case 61: return "weather_rainy"
-            case 63: return "weather_rainy_light"
-            case 65: return "weather_rainy_heavy"
-            case 66: return "weather_rainy_light"
-            case 67: return "weather_rainy_heavy"
+            case 0: return "clear_day"
+            case 1: return "cloud"
+            case 2: return "cloud"
+            case 3: return "cloud"
+            case 45: return "foggy"
+            case 48: return "foggy"
+            case 51: return "rainy"
+            case 53: return "rainy_light"
+            case 55: return "rainy_heavy"
+            case 56: return "rainy_light"
+            case 57: return "rainy_heavy"
+            case 61: return "rainy"
+            case 63: return "rainy_light"
+            case 65: return "rainy_heavy"
+            case 66: return "rainy_light"
+            case 67: return "rainy_heavy"
             case 71: return "weather_snowy"
-            case 73: return "weather_snowing"
-            case 75: return "weather_snowing_heavy"
-            case 77: return "weather_snowing"
-            case 80: return "weather_rainy"
-            case 81: return "weather_rainy_light"
-            case 82: return "weather_rainy_light"
-            case 85: return "weather_rainy_heavys"
-            case 86: return "weather_rainy_heavy"
-            case 95: return "weather_thunder"
-            case 96: return "weather_thunder"
-            case 99: return "weather_thunder"
-            default: return "weather_alert"
+            case 73: return "weather_snowy"
+            case 75: return "weather_snowy"
+            case 77: return "weather_snowy"
+            case 80: return "rainy"
+            case 81: return "rainy_light"
+            case 82: return "rainy_light"
+            case 85: return "rainy_heavy"
+            case 86: return "rainy_heavy"
+            case 95: return "thunderstorm"
+            case 96: return "thunderstorm"
+            case 99: return "thunderstorm"
+            default: return "cloud_alert"
         }
     }
 
@@ -122,10 +122,10 @@ Singleton {
         command: [
             "axewbshell",
             "weather",
-            "-la", WeatherConfig.latitude,
-            "-lo", WeatherConfig.longtitude,
-            "-u", WeatherConfig.temperature_unit,
-            "-z", WeatherConfig.timezone,
+            "-la", Config.weather.latitude,
+            "-lo", Config.weather.longtitude,
+            "-u", Config.weather.temperature_unit,
+            "-z", Config.weather.timezone,
             "-t", "weekly"
         ]
     }
@@ -140,10 +140,10 @@ Singleton {
     }
 
     function updateCurrentWeather() {
-        const latitude = WeatherConfig.latitude;
-        const longtitude = WeatherConfig.longtitude;
-        const temperature_unit = WeatherConfig.temperature_unit;
-        const timezone = WeatherConfig.timezone;
+        const latitude = Config.weather.latitude;
+        const longtitude = Config.weather.longtitude;
+        const temperature_unit = Config.weather.temperature_unit;
+        const timezone = Config.weather.timezone;
 
         if (latitude == 0 || longtitude == 0) {
             return

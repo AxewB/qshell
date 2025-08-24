@@ -6,14 +6,14 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import qs.service
-import qs.utils
+import qs.config
 import qs.components
 
 Rectangle {
     id: root
 
     property string image: ""
-    property string current: ""
+    property string source: ""
     property string previous: ""
 
     property var currentImageContainer: one
@@ -34,7 +34,7 @@ Rectangle {
         opacity: root.currentImageContainer === this ? 1 : 0
         scale: root.currentImageContainer === this ? 1.0 : 1.05
         // scale: root.currentImageContainer === this ? 1.0 : 1.2
-        source: root.currentImageContainer == this ? root.current : root.previous
+        source: root.currentImageContainer == this ? root.source : root.previous
         fillMode: Image.PreserveAspectCrop
 
         Behavior on opacity {Anim{}}
@@ -43,8 +43,8 @@ Rectangle {
     }
 
     function updateImage() {
-        root.previous = root.current
-        root.current = root.image
+        root.previous = root.source
+        root.source = root.image
         if (wallpaperChangeAnimation.finished) {
             imageScaleAnimation.start()
             wallpaperChangeAnimation.start()
@@ -80,18 +80,18 @@ Rectangle {
             target: root;
             from: 1;
             to: 1.025;
-            duration: Appearance.animation.durations.slow
+            duration: Config.appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
+            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
 
         ScaleAnimator {
             target: root;
             from: 1.025;
             to: 1;
-            duration: Appearance.animation.durations.slow
+            duration: Config.appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
+            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
     }
 
@@ -105,9 +105,9 @@ Rectangle {
             properties: "blur"
             from: blurEffect.blur
             to: 0.6
-            duration: Appearance.animation.durations.normal
+            duration: Config.appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
+            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
 
         NumberAnimation {
@@ -115,16 +115,16 @@ Rectangle {
             properties: "blur"
             from: 0.6
             to: 0
-            duration: Appearance.animation.durations.turtle
+            duration: Config.appearance.animation.durations.turtle
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.easeOut ?? [0,0,1,1]
+            easing.bezierCurve: Config.appearance.animation.curves.easeOut ?? [0,0,1,1]
         }
     }
 
     component Anim: NumberAnimation {
-         duration: Appearance.animation.durations.slow
+         duration: Config.appearance.animation.durations.slow
          easing.type: Easing.BezierSpline
-         easing.bezierCurve: Appearance.animation.curves.ease ?? [0,0,1,1]
+         easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
     }
 
     onImageChanged: updateImage()

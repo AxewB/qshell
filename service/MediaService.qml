@@ -17,7 +17,7 @@ Singleton {
     property real rate: currentPlayer.rate
     property real rateSupported: currentPlayer.minRate < 1 && currentPlayer.maxRate > 1
 
-    onPlayersChanged: currentPlayer = players ? currentPlayer[0] : null
+    onPlayersChanged: currentPlayer = players ? players[0] : null
 
     onCurrentPlayerChanged: updateTrackData()
 

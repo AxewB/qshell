@@ -7,9 +7,9 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Io
 import Quickshell.Services.SystemTray
-import "root:/service"
-import "root:/utils"
-import "root:/components"
+import qs.config
+import qs.service
+import qs.components
 
 Item {
     id: root
@@ -26,8 +26,8 @@ Item {
         padding: 4
         StyledRectangle {
 
-            implicitHeight: Appearance.icon.xsmall
-            implicitWidth: Appearance.icon.xsmall
+            implicitHeight: Config.appearance.icon.xsmall
+            implicitWidth: Config.appearance.icon.xsmall
             color: 'transparent'
 
             IconImage {

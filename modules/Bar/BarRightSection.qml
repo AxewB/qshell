@@ -8,14 +8,14 @@ import Quickshell.Widgets
 import qs.service
 import qs.modules
 import qs.utils
+import qs.config
 import qs.components
 import "./Tray"
 
 Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
-    implicitHeight: left.implicitHeight
-
+    implicitHeight: leftContent.implicitHeight
 
     RowLayout {
         id: content
@@ -34,7 +34,7 @@ Item {
                 id: leftContentLeft
                 anchors.left: parent.left
                 layoutDirection: Qt.LeftToRight
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
 
                 BarModuleWrapper {
                     implicitHeight: root.implicitHeight
@@ -54,7 +54,7 @@ Item {
                 id: leftContentRight
                 anchors.right: parent.right
                 layoutDirection: Qt.RightToLeft
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
 
 
                 BarModuleWrapper {

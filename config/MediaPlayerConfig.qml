@@ -1,7 +1,8 @@
 pragma Singleton
 import QtQuick
 import Quickshell
+import Quickshell.Io
 
-Singleton {
+JsonObject {
     property int barHeight: 8
 }

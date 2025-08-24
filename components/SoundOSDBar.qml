@@ -30,26 +30,26 @@ Item {
     WrapperItem{
         id: content
         WrapperRectangle {
-            margin: Appearance.padding.huge
+            margin: Config.appearance.padding.huge
             color: Colors.palette.m3surface
-            radius: Appearance.radius.full
+            radius: Config.appearance.radius.full
 
             ColumnLayout {
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
                 StyledIconButton {
                     icon: root.icon
-                    padding: Appearance.padding.normal
+                    padding: Config.appearance.padding.normal
                     active: root.active
-                    size: Appearance.icon.normal
+                    size: Config.appearance.icon.normal
                     onLeftClicked: root.topClicked()
                 }
                 Item {
-                    height: barLength * Appearance.scale
+                    height: barLength * Config.appearance.scale
                     Layout.fillWidth: true
 
                     Rectangle {
                         id: progressTrack
-                        radius: Appearance.radius.full
+                        radius: Config.appearance.radius.full
                         height: parent.height - progressBar.width
                         width: 4
                         anchors.centerIn: parent
@@ -62,13 +62,13 @@ Item {
                         height: Math.max(parent.height * root.progress, width)
                         // anchors.bottom: parent.bottom
                         anchors.verticalCenter: parent.verticalCenter
-                        radius: Appearance.radius.full
+                        radius: Config.appearance.radius.full
                         color: Colors.palette.m3primary
                         Behavior on height {
                             NumberAnimation {
-                                duration: Appearance.animation.durations.normal
+                                duration: Config.appearance.animation.durations.normal
                                 easing.type: Easing.BezierSpline
-                                easing.bezierCurve: Appearance.animation.curves.easeOut
+                                easing.bezierCurve: Config.appearance.animation.curves.easeOut
                             }
                         }
 
@@ -95,8 +95,8 @@ Item {
                 }
                 StyledIconButton {
                     icon: "more_horiz"
-                    padding: Appearance.padding.normal
-                    size: Appearance.icon.normal
+                    padding: Config.appearance.padding.normal
+                    size: Config.appearance.icon.normal
                     onLeftClicked: root.bottomClicked()
                 }
             }

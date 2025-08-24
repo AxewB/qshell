@@ -4,10 +4,10 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/config"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.config
+import qs.utils
+import qs.components
 
 Item {
     id: root
@@ -21,31 +21,31 @@ Item {
     property bool leftContentGrowExclusions: true
     required property ShellScreen screen
 
-    readonly property int borderMargin: BorderConfig.margin
-    readonly property int borderThickness: BorderConfig.thickness
+    readonly property int borderMargin: Config.borders.margin
+    readonly property int borderThickness: Config.borders.thickness
 
     ExclusiveRegion {
         id: regionTop
         anchors.top: true
-        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.topContent.implicitHeight - BorderConfig.thickness) * root.topContentGrowExclusions
+        exclusiveZone: Config.borders.thickness + Config.borders.margin + (root.topContent.implicitHeight - Config.borders.thickness) * root.topContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionBottom
         anchors.bottom: true
-        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.bottomContent.implicitHeight - BorderConfig.thickness) * root.bottomContentGrowExclusions
+        exclusiveZone: Config.borders.thickness + Config.borders.margin + (root.bottomContent.implicitHeight - Config.borders.thickness) * root.bottomContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionRight
         anchors.right: true
-        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.rightContent.implicitWidth - BorderConfig.thickness) * root.rightContentGrowExclusions
+        exclusiveZone: Config.borders.thickness + Config.borders.margin + (root.rightContent.implicitWidth - Config.borders.thickness) * root.rightContentGrowExclusions
     }
 
     ExclusiveRegion {
         id: regionLeft
         anchors.left: true
-        exclusiveZone: BorderConfig.thickness + BorderConfig.margin + (root.leftContent.implicitWidth - BorderConfig.thickness) * root.leftContentGrowExclusions
+        exclusiveZone: Config.borders.thickness + Config.borders.margin + (root.leftContent.implicitWidth - Config.borders.thickness) * root.leftContentGrowExclusions
     }
 
     component ExclusiveRegion: PanelWindow {

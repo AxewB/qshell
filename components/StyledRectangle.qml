@@ -1,5 +1,5 @@
 import QtQuick
-import qs.service
+import qs.config
 
 Rectangle {
     id: root
@@ -8,9 +8,9 @@ Rectangle {
 
     Behavior on color {
         ColorAnimation {
-            duration: Appearance.animation.durations.normal
+            duration: Config.appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.easeOut
+            easing.bezierCurve: Config.appearance.animation.curves.easeOut
         }
     }
 
@@ -38,8 +38,8 @@ Rectangle {
     ]
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.slow
+        duration: Config.appearance.animation.durations.slow
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOut
+        easing.bezierCurve: Config.appearance.animation.curves.easeOut
     }
 }

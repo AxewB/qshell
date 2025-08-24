@@ -1,13 +1,11 @@
-pragma ComponentBehavior
-pragma Singleton
 import Quickshell
+import Quickshell.Io
 import QtQuick
-import "root:/service"
-import "root:/config"
 
-Singleton {
-    property int thickness: Appearance.padding.normal * AppConfig.modules.borders
-    property int radius: Appearance.radius.normal
-    property int panelsPadding: Appearance.padding.enormous * AppConfig.modules.borders
-    property int margin: Appearance.padding.huge
+JsonObject {
+    property bool enabled: true
+    property int thickness: Config.appearance.padding.normal * Config.borders.enabled
+    property int radius: Config.appearance.radius.normal
+    property int panelsPadding: Config.appearance.padding.enormous * Config.borders.enabled
+    property int margin: Config.appearance.padding.huge
 }

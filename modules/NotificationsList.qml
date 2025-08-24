@@ -5,6 +5,7 @@ import Quickshell.Io
 import Quickshell.Widgets
 import qs.components
 import qs.service
+import qs.config
 
 Item {
     id: root
@@ -22,67 +23,67 @@ Item {
         implicitWidth: 400
         model: root.notifications
 
-        spacing: Appearance?.padding.huge ?? 0
+        spacing: Config.appearance.padding.huge ?? 0
         clip: false
         interactive: false
         keyNavigationEnabled: false
         boundsBehavior: Flickable.StopAtBounds
 
-        add: Transition {
-            NumberAnimation {
-                property: "y"
-                from: ViewTransition.item.ViewTransition.destination.y - ViewTransition.item.height
-                to: ViewTransition.item.ViewTransition.destination.y
+        // add: Transition {
+        //     NumberAnimation {
+        //         property: "y"
+        //         from: ViewTransition.item.ViewTransition.destination.y - ViewTransition.item.height
+        //         to: ViewTransition.item.ViewTransition.destination.y
 
-                duration: Appearance.animation.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.curves.ease
-            }
-            NumberAnimation {
-                property: "opacity"
-                from: 0
-                to: 1.0
+        //         duration: Config.appearance.animation.durations.normal
+        //         easing.type: Easing.BezierSpline
+        //         easing.bezierCurve: Config.appearance.animation.curves.ease
+        //     }
+        //     NumberAnimation {
+        //         property: "opacity"
+        //         from: 0
+        //         to: 1.0
 
-                duration: Appearance.animation.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.curves.ease
-            }
-        }
+        //         duration: Config.appearance.animation.durations.normal
+        //         easing.type: Easing.BezierSpline
+        //         easing.bezierCurve: Config.appearance.animation.curves.ease
+        //     }
+        // }
 
 
-        remove: Transition {
-            // NumberAnimation {
-            //     property: "y"
-            //     from: ViewTransition.item.ViewTransition.destination.y
-            //     to: ViewTransition.item.ViewTransition.destination.y - ViewTransition.item.height
+        // remove: Transition {
+        //     // NumberAnimation {
+        //     //     property: "y"
+        //     //     from: ViewTransition.item.ViewTransition.destination.y
+        //     //     to: ViewTransition.item.ViewTransition.destination.y - ViewTransition.item.height
 
-            //     duration: Appearance.animation.durations.normal
-            //     easing.type: Easing.BezierSpline
-            //     easing.bezierCurve: Appearance.animation.curves.ease
-            // }
-            NumberAnimation {
-                property: "opacity"
-                from: 1.0
-                to: 0
+        //     //     duration: Config.appearance.animation.durations.normal
+        //     //     easing.type: Easing.BezierSpline
+        //     //     easing.bezierCurve: Config.appearance.animation.curves.ease
+        //     // }
+        //     NumberAnimation {
+        //         property: "opacity"
+        //         from: 1.0
+        //         to: 0
 
-                duration: Appearance.animation.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.curves.ease
-            }
-        }
+        //         duration: Config.appearance.animation.durations.normal
+        //         easing.type: Easing.BezierSpline
+        //         easing.bezierCurve: Config.appearance.animation.curves.ease
+        //     }
+        // }
 
 
 
         // Анимация для сдвига оставшихся элементов
-        displaced: Transition {
-            NumberAnimation {
-                properties: "x,y"
+        // displaced: Transition {
+        //     NumberAnimation {
+        //         properties: "x,y"
 
-                duration: Appearance.animation.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.curves.ease
-            }
-        }
+        //         duration: Config.appearance.animation.durations.normal
+        //         easing.type: Easing.BezierSpline
+        //         easing.bezierCurve: Config.appearance.animation.curves.ease
+        //     }
+        // }
 
 
         delegate: NotificationItem { }

@@ -5,8 +5,8 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Widgets
 import qs.components
-import qs.service
 import qs.config
+import qs.service
 
 Item {
     id: root
@@ -21,7 +21,7 @@ Item {
     property alias bottomPadding: childWrapper.bottomPadding
     default property alias content: childWrapper.children
     property string idleColor: "transparent"
-    property int radius: Appearance.radius.small
+    property int radius: Config.appearance.radius.small
     property int maxRadius: root.implicitHeight / 2
     property alias topLeftRadius: background.topLeftRadius
     property alias topRightRadius: background.topRightRadius
@@ -67,7 +67,7 @@ Item {
 
     Flow {
         id: childWrapper
-        padding: root.padding
+        padding: 0
         anchors.centerIn: parent
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     }
@@ -107,9 +107,9 @@ Item {
     }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.fast
+        duration: Config.appearance.animation.durations.fast
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOut
+        easing.bezierCurve: Config.appearance.animation.curves.easeOut
     }
 
     ToolTip {
@@ -131,7 +131,7 @@ Item {
 
         background: Rectangle {
             color: Colors.palette.m3surface
-            radius: Appearance.radius.normal
+            radius: Config.appearance.radius.normal
         }
     }
 }

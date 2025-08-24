@@ -16,7 +16,7 @@ Item {
     id: root
     property QtObject workingArea
     property list<Region> regions: []
-    property int padding: BorderConfig.margin
+    property int padding: Config.borders.margin
 
     x: workingArea.x - padding / 2
     y: workingArea.y - padding / 2
@@ -26,7 +26,7 @@ Item {
     WrapperRegion {
         id: mediaRegion
         property QtObject module: FrameWidgetAreaService.modules.mediaPlayer
-        x: module.dependentPos.x - mediaDrawer.implicitWidth / 2 + module.item.implicitWidth / 2
+        x: module.dependentPos.x
         y: 0
         active: mediaDrawer.active
         RoundedDrawer {
@@ -34,13 +34,11 @@ Item {
             active: mediaRegion.module.enabled
             position { top: true }
 
-            Component.onCompleted: mediaRegion.module.setDependentItem(root)
+            Component.onCompleted: mediaRegion.module.setDependentItem(mediaRegion)
             onHide: mediaRegion.module.closeByTimer()
             onShow: mediaRegion.module.open()
 
-            MediaPlayer {
-                onClose: mediaRegion.module.close()
-            }
+            MediaPlayer { }
         }
     }
 
@@ -126,18 +124,18 @@ Item {
 
 
     // WrapperRegion {
-    //     margin: BorderConfig.margin
+    //     margin: Config.borders.margin
     //     anchors.right: root.right
     //     active: WidgetFocusService.frameControlPanel
 
     //     FocusPanel {
     //         id: controlPanelModule
     //         active: WidgetFocusService.frameControlPanel
-    //         x: active ? 0 : width + BorderConfig.margin * 4
+    //         x: active ? 0 : width + Config.borders.margin * 4
 
     //         ControlPanel {
     //             // anchors.right: root.right
-    //             // implicitHeight: root.height - BorderConfig.margin * 2
+    //             // implicitHeight: root.height - Config.borders.margin * 2
     //             // implicitWidth: 200
     //         }
     //     }

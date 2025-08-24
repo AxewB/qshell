@@ -27,10 +27,10 @@ PanelWindow {
 
     WrapperItem {
         id: content
-        margin: Appearance.padding.huge
+        margin: Config.appearance.padding.huge
 
         ColumnLayout {
-            spacing: Appearance.padding.huge
+            spacing: Config.appearance.padding.huge
             Layout.fillWidth: true
             Button {}
             Button {}

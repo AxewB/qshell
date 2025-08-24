@@ -6,20 +6,20 @@ import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/config"
-import "root:/utils"
-import "root:/components"
+import qs.service
+import qs.config
+import qs.utils
+import qs.components
 
 Loader {
     id: root
-    active: AppConfig.modules.borders
+    active: Config.borders.enabled
     required property WrapperItem topContent
     required property WrapperItem rightContent
     required property WrapperItem bottomContent
     required property WrapperItem leftContent
     property ShellScreen screen
-    property int thickness: BorderConfig.thickness
+    property int thickness: Config.borders.thickness
     anchors.fill: parent
 
     sourceComponent: Item {
@@ -46,7 +46,7 @@ Loader {
                 anchors.bottomMargin: root.bottomContent.implicitHeight
                 anchors.leftMargin: root.leftContent.implicitWidth
                 anchors.rightMargin: root.rightContent.implicitWidth
-                radius: BorderConfig.radius
+                radius: Config.borders.radius
             }
         }
 

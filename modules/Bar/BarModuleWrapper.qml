@@ -10,18 +10,17 @@ WrapperMouseArea {
     default property alias child: childPlacer.data
     property alias hovered: hoverHandler.hovered
     property bool clickable: false
-    property int radius: Appearance.radius.small
+    property int radius: Config.appearance.radius.small
     property string color: hoverHandler.hovered && clickable ? Colors.palette.m3surfaceBright : Colors.palette.m3surfaceContainer
 
     WrapperRectangle {
         color: root.color
         radius: root.radius
-        leftMargin: Appearance.padding.normal
-        rightMargin: Appearance.padding.normal
+        leftMargin: Config.appearance.padding.normal
+        rightMargin: Config.appearance.padding.normal
         RowLayout {
             id: childPlacer
-            spacing: Appearance.padding.normal
-            anchors.centerIn: root
+            spacing: Config.appearance.padding.normal
         }
     }
 
@@ -39,8 +38,8 @@ WrapperMouseArea {
     Behavior on y { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.fast
+        duration: Config.appearance.animation.durations.fast
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 }

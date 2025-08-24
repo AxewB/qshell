@@ -1,8 +1,9 @@
+pragma Singleton
+
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import "root:/utils"
-pragma Singleton
+import qs.utils
 
 Singleton {
     id: root
@@ -73,11 +74,13 @@ Singleton {
 
     // Обновляем палитру, если файл темы изменился
     FileView {
-        path: `${Paths.theme}`
+        path: `${Paths.config}/theme.json`
         watchChanges: true
         onFileChanged: reload()
         onLoaded: root.apply(text())
     }
+
+
 
     Process {
         id: updateColorsProc

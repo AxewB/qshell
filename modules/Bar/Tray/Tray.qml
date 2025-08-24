@@ -5,9 +5,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.SystemTray
-import "root:/service"
-import "root:/utils"
-import "root:/components"
+import qs.config
 
 
 Item {
@@ -18,16 +16,16 @@ Item {
 
     Row {
         id: content
-        spacing: Appearance.padding.normal
+        spacing: Config.appearance.padding.normal
 
         add: Transition {
             NumberAnimation {
                 properties: "scale"
                 from: 0
                 to: 1
-                duration: Appearance.anim.durations.normal
+                duration: Config.appearance.anim.durations.normal
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.anim.curves.ease
+                easing.bezierCurve: Config.appearance.anim.curves.ease
             }
         }
 

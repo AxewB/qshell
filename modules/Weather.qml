@@ -25,14 +25,14 @@ WrapperItem {
     visible: WeatherService.currentReady
 
     RowLayout {
-        spacing: Appearance.padding.normal
+        spacing: Config.appearance.padding.normal
         Icon {
             icon: root.icon
-            size: Appearance.icon.small
+            size: Config.appearance.icon.small
         }
         WrapperItem {
             ColumnLayout {
-                spacing: -Appearance.padding.normal
+                spacing: -Config.appearance.padding.normal
                 StyledText {
                     text: WeatherService.weathercodeToText(root.weatherCode)
                     color: Colors.palette.m3onSurface
@@ -62,8 +62,8 @@ WrapperItem {
         Anim {}
     }
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.slow
+        duration: Config.appearance.animation.durations.slow
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease ?? [0, 0, 1, 1]
+        easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0, 0, 1, 1]
     }
 }

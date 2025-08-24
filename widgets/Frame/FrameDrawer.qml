@@ -36,10 +36,10 @@ WrapperItem {
         implicitHeight: (root.opened && child ? child.implicitHeight + topMargin : 0) + bottomMargin + 1 // adding 1 for the border
         implicitWidth: (root.opened && child ? child.implicitWidth + leftMargin : 0) + rightMargin + 1
 
-        topMargin: BorderConfig.thickness + root.extraTopMargin + BorderConfig.margin * !root.vertical
-        bottomMargin: BorderConfig.thickness + root.extraBottomMargin + BorderConfig.margin * !root.vertical
-        rightMargin: BorderConfig.thickness + root.extraRightMargin + BorderConfig.margin * root.vertical
-        leftMargin: BorderConfig.thickness + root.extraLeftMargin + BorderConfig.margin * root.vertical
+        topMargin: Config.borders.thickness + root.extraTopMargin + Config.borders.margin * !root.vertical
+        bottomMargin: Config.borders.thickness + root.extraBottomMargin + Config.borders.margin * !root.vertical
+        rightMargin: Config.borders.thickness + root.extraRightMargin + Config.borders.margin * root.vertical
+        leftMargin: Config.borders.thickness + root.extraLeftMargin + Config.borders.margin * root.vertical
 
         // opacity: root.opened && child ? 1 : 0
 
@@ -48,9 +48,9 @@ WrapperItem {
         Behavior on opacity { Anim {} }
 
         component Anim: NumberAnimation {
-            duration: Appearance.animation.durations.normal
+            duration: Config.appearance.animation.durations.normal
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.curves.ease
+            easing.bezierCurve: Config.appearance.animation.curves.ease
         }
     }
 

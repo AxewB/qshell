@@ -18,16 +18,16 @@ Item {
     WrapperItem {
         id: content
 
-        // margin: Appearance.padding.huge
+        // margin: Config.appearance.padding.huge
 
         RowLayout {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            spacing: Appearance.padding.huge
+            spacing: Config.appearance.padding.huge
 
 
             WrapperItem {
                 ColumnLayout {
-                    spacing: -Appearance.padding.small
+                    spacing: -Config.appearance.padding.small
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
                         color: Colors.palette.m3onSurface

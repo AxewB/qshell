@@ -14,7 +14,7 @@ Item {
     property Position position: Position {}
     property bool active: false
     property int arcSize: active ? 32 : 0
-    property int radius: Appearance.radius.normal
+    property int radius: Config.appearance.radius.normal
     property string color: Colors.palette.m3surface
     default property alias child: childWrapper.data
 
@@ -28,9 +28,9 @@ Item {
     Behavior on arcSize { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+        easing.bezierCurve: Config.appearance.animation.curves.easeOutQuad
     }
 
     component Position: QtObject {

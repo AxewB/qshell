@@ -17,8 +17,7 @@ Item {
         id: control
         active: root.enabled
         icon: "fit_screen"
-        size: Appearance.icon.xsmall
-        padding: 4
+        size: Config.appearance.icon.small
         onLeftClicked: root.enabled = !root.enabled
     }
 
@@ -36,20 +35,19 @@ Item {
 
         contentItem: WrapperRegion {
             id: popupContent
-            margin: BorderConfig.margin
-            anchors.right: root.right
+            margin: Config.borders.margin
             WrapperRectangle {
-                margin: Appearance.padding.enormous
+                margin: Config.appearance.padding.enormous
                 color: Colors.palette.m3surface
-                radius: Appearance.radius.normal
+                radius: Config.appearance.radius.normal
                 // сделать "стрелочку", которая будет показывать на кнопку, как у подсказок
                 ColumnLayout {
-                    spacing: Appearance.padding.huge
+                    spacing: Config.appearance.padding.huge
                     WrapperRectangle {
                         Layout.alignment: Qt.AlignHCenter
-                        margin: Appearance.padding.normal
-                        leftMargin: Appearance.padding.large
-                        rightMargin: Appearance.padding.large
+                        margin: Config.appearance.padding.normal
+                        leftMargin: Config.appearance.padding.large
+                        rightMargin: Config.appearance.padding.large
                         radius: height/2
                         color: Colors.palette.m3surfaceContainer
 
@@ -57,17 +55,17 @@ Item {
                             anchors.centerIn: parent
                             StyledIconButton {
                                 padding: 4
-                                size: Appearance.icon.xsmall
+                                size: Config.appearance.icon.xsmall
                                 icon: "fit_screen"
                             }
                             StyledIconButton {
                                 padding: 4
-                                size: Appearance.icon.xsmall
+                                size: Config.appearance.icon.xsmall
                                 icon: "fit_screen"
                             }
                             StyledIconButton {
                                 padding: 4
-                                size: Appearance.icon.xsmall
+                                size: Config.appearance.icon.xsmall
                                 icon: "fit_screen"
                             }
                         }
@@ -75,16 +73,16 @@ Item {
                     WrapperItem {
                         implicitWidth: Math.max(parent.implicitWidth, child.implicitWidth)
                         RowLayout {
-                            spacing: Appearance.padding.huge
+                            spacing: Config.appearance.padding.huge
                             StyledText { Layout.alignment: Qt.AlignLeft; Layout.fillWidth: true; text: "Clipboard only";  }
-                            StyledSwitch { Layout.alignment: Qt.AlignRight }
+                            Switch { Layout.alignment: Qt.AlignRight }
                         }
                     }
                     WrapperItem {
                         implicitWidth: Math.max(parent.implicitWidth, child.implicitWidth)
                         RowLayout {
                             StyledText { Layout.alignment: Qt.AlignLeft; Layout.fillWidth: true; text: "Freeze output"}
-                            StyledSwitch { Layout.alignment: Qt.AlignRight }
+                            Switch { Layout.alignment: Qt.AlignRight }
                         }
                     }
                 }
@@ -93,7 +91,7 @@ Item {
 
         background: Rectangle {
             color: Colors.palette.m3surface
-            radius: Appearance.radius.normal
+            radius: Config.appearance.radius.normal
         }
 
         onClosed: root.enabled = false

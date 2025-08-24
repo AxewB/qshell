@@ -4,10 +4,11 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/utils"
-import "root:/components"
-import "root:/widgets/Bar"
+
+import qs.service
+import qs.utils
+import qs.config
+import qs.components
 
 WrapperItem {
     id: root
@@ -18,7 +19,7 @@ WrapperItem {
         id: content
 
         RowLayout {
-            spacing: Appearance.padding.large
+            spacing: Config.appearance.padding.large
             layoutDirection: Qt.RightToLeft
 
             WrapperItem {
@@ -45,8 +46,8 @@ WrapperItem {
     Behavior on implicitHeight {Anim{}}
     Behavior on implicitWidth {Anim{}}
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 }

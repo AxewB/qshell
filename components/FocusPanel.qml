@@ -21,9 +21,9 @@ Item {
     Behavior on x { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 
     WrapperItem {
@@ -35,7 +35,7 @@ Item {
         anchors.fill: contentItem
         opacity: 1
         color: Colors.palette.m3surface
-        radius: Appearance.radius.small
+        radius: Config.appearance.radius.small
     }
 
     MultiEffect {
@@ -49,7 +49,6 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: root
-        onClicked: console.log("hello")
         hoverEnabled: true
 
         states: [
@@ -73,7 +72,6 @@ Item {
             }
         ]
 
-        onStateChanged: console.log(state)
     }
 
     Timer {
@@ -83,7 +81,6 @@ Item {
         running: false
 
         onTriggered: {
-            console.log("panel timed out")
 
             root.timedOut()
             root.closed()

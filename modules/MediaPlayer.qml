@@ -18,7 +18,7 @@ Item {
     property real progress: MediaService.progress
     property int position: MediaService.position
     property int length: MediaService.length
-    property int contentPadding: Appearance.padding.enormous
+    property int contentPadding: Config.appearance.padding.enormous
 
     signal close()
 
@@ -37,11 +37,14 @@ Item {
                 LeftColumn { }
             }
             WrapperRectangle {
+                Layout.fillHeight: true
                 margin: root.contentPadding / 2
                 color: Colors.palette.m3surfaceContainer
-                radius: Appearance.radius.normal
+                radius: Config.appearance.radius.normal
 
-                RightColumn { }
+                RightColumn {
+                    Layout.fillHeight: true
+                }
             }
         }
     }
@@ -127,18 +130,18 @@ Item {
 
                             TextMetrics {
                                 id: titleTM
-                                font.family: Appearance.font.family ?? ""
-                                font.pixelSize: Appearance?.font.size.h1 ?? 0
+                                font.family: Config.appearance.font.family.sans ?? ""
+                                font.pixelSize: Config.appearance.font.size.h1 ?? 0
                                 elide: Text.ElideRight
-                                elideWidth: 200 * Appearance.scale
+                                elideWidth: 200 * Config.appearance.scale
                                 text: MediaService.trackTitle
                             }
                             TextMetrics {
                                 id: artistTM
-                                font.family: Appearance.font.family ?? ""
-                                font.pixelSize: Appearance?.font.size.subtext ?? 0
+                                font.family: Config.appearance.font.family.sans ?? ""
+                                font.pixelSize: Config.appearance.font.size.subtext ?? 0
                                 elide: Text.ElideRight
-                                elideWidth: 200 * Appearance.scale
+                                elideWidth: 200 * Config.appearance.scale
                                 text: MediaService.trackArtist
                             }
                         }
@@ -149,7 +152,7 @@ Item {
                         RowLayout {
                             StyledText {
                                 Layout.alignment: Qt.AlignVCenter
-                                type: subtext
+                                type: "subtext"
                                 opacity: 0.6
                                 text: root.getTime(root.position)
                             }
@@ -161,7 +164,7 @@ Item {
                             StyledText {
                                 visible: root.length < 3600
                                 Layout.alignment: Qt.AlignVCenter
-                                type: subtext
+                                type: "subtext"
                                 opacity: 0.6
                                 text: root.getTime(root.length)
                             }
@@ -181,7 +184,7 @@ Item {
     component AdditionalControls: WrapperItem {
         WrapperItem {
             ColumnLayout {
-                spacing: root.contentPadding
+                spacing: Config.appearance.padding.large
                 ControlButton {
                     disabled: !root.player.shuffleSupported
                     active: root.player.shuffle
@@ -247,8 +250,8 @@ Item {
     }
 
     component ControlButton: StyledIconButton {
-        padding: Appearance.padding.normal
-        size: Appearance.icon.normal
+        padding: Config.appearance.padding.normal
+        size: Config.appearance.icon.normal
     }
 
     component Progress: WrapperRectangle {
@@ -290,7 +293,7 @@ Item {
                 color: !breathingAnimation.running ? Colors.palette.m3primary : 'transparent'
                 Behavior on color {
                     ColorAnimation {
-                        duration: Appearance.animation.durations.normal
+                        duration: Config.appearance.animation.durations.normal
                     }
                 }
                 radius: height / 2
@@ -324,7 +327,7 @@ Item {
 
 
     component TrackImage: ClippingWrapperRectangle {
-        radius: Appearance.radius.normal
+        radius: Config.appearance.radius.normal
         margin: 1
 
         color: "transparent"
@@ -351,7 +354,7 @@ Item {
                 opacity: 1
                 color: Colors.palette.m3surfaceVariant
                 Icon {
-                    size: Appearance.icon.large
+                    size: Config.appearance.icon.large
                     anchors.centerIn: parent
                     icon: "music_note"
                 }
@@ -360,7 +363,7 @@ Item {
             SwappableImage {
                 opacity: root.player.trackArtUrl.length > 0
                 Behavior on opacity { Anim {}}
-                image: root.player.trackArtUrl
+                source: root.player.trackArtUrl
                 implicitWidth: 160
                 implicitHeight: 160
             }
@@ -378,16 +381,16 @@ Item {
 
             StyledIconButton {
                 icon: "arrow_left"
-                size: Appearance.icon.normal
-                radius: Appearance.radius.xsmall
-                topRightRadius: Appearance.radius.xsmall
-                bottomRightRadius: Appearance.radius.xsmall
+                size: Config.appearance.icon.small
+                radius: Config.appearance.radius.xsmall
+                topRightRadius: Config.appearance.radius.xsmall
+                bottomRightRadius: Config.appearance.radius.xsmall
                 onLeftClicked: MediaService.switchPlayer("prev")
             }
             StyledButton {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                radius: Appearance.radius.xsmall
+                radius: Config.appearance.radius.xsmall
 
                 onScrolledUp: MediaService.switchPlayer("next")
                 onScrolledDown: MediaService.switchPlayer("prev")
@@ -399,27 +402,27 @@ Item {
             }
             TextMetrics {
                 id: playerIdentiryTM
-                font.family: Appearance.font.family ?? ""
-                font.pixelSize: Appearance?.font.size.subtext ?? 0
+                font.family: Config.appearance.font.family.sans ?? ""
+                font.pixelSize: Config.appearance.font.size.subtext ?? 0
                 elide: Text.ElideRight
-                elideWidth: 80 * Appearance.scale
+                elideWidth: 80 * Config.appearance.scale
                 text: root.player.identity
             }
             StyledIconButton {
                 icon: "arrow_right"
-                size: Appearance.icon.normal
-                radius: Appearance.radius.xsmall
-                topLeftRadius: Appearance.radius.xsmall
-                bottomLeftRadius: Appearance.radius.xsmall
+                size: Config.appearance.icon.small
+                radius: Config.appearance.radius.xsmall
+                topLeftRadius: Config.appearance.radius.xsmall
+                bottomLeftRadius: Config.appearance.radius.xsmall
                 onLeftClicked: MediaService.switchPlayer("next")
             }
         }
     }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+        easing.bezierCurve: Config.appearance.animation.curves.easeOutQuad
     }
 
 }

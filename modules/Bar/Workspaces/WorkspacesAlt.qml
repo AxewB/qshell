@@ -43,7 +43,7 @@ Item {
 
     Flow {
         id: rowlayout
-        padding: Appearance.padding.normal
+        padding: Config.appearance.padding.normal
         spacing: 0
 
         Repeater {
@@ -65,17 +65,16 @@ Item {
                 bottomLeftRadius:  root.activeWorkspacesId.includes(wsId - 1) ? 0 : 20
 
                 padding: 4
-                implicitWidth: Appearance.icon.small
-                implicitHeight: Appearance.icon.small
+                implicitWidth: Config.appearance.icon.small
+                implicitHeight: Config.appearance.icon.small
 
                 onLeftClicked: Hyprland.dispatch(`workspace ${wsId}`)
 
                 StyledText {
-                    anchors.centerIn: wsButton
                     id: wrapperItemText
                     text: wsId
 
-                    font.bold: parent.active
+                    font.bold: parent.active ?? false
                     color: contentColor
                     z: 20
                 }
@@ -85,8 +84,8 @@ Item {
     }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.easeOutQuad
+        easing.bezierCurve: Config.appearance.animation.curves.easeOutQuad
     }
 }

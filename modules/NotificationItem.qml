@@ -9,6 +9,7 @@ import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import qs.components
 import qs.service
+import qs.config
 import qs.utils
 
 // Что можно добавить:
@@ -38,36 +39,36 @@ WrapperRectangle {
         root.timeString = TimeUtils.formatRelativeTime(model.time)
     }
 
-    radius: Appearance.radius.normal
+    radius: Config.appearance.radius.normal
     color: Colors.palette.m3surface
-    margin: Appearance.padding.enormous
+    margin: Config.appearance.padding.enormous
     width: parent ? parent.width : 0
 
 
     ColumnLayout {
-        spacing: Appearance.padding.enormous
+        spacing: Config.appearance.padding.enormous
 
         WrapperItem {
             Layout.fillWidth: true
             RowLayout {
                 id: content
                 width: parent.width
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
 
                 Item {
-                    width: Appearance.icon.small * 2
-                    height: Appearance.icon.small * 2
+                    width: Config.appearance.icon.small * 2
+                    height: Config.appearance.icon.small * 2
 
                     ClippingWrapperRectangle {
                         id: notificationImageWrapper
                         anchors.fill: parent
-                        radius: Appearance.radius.small
+                        radius: Config.appearance.radius.small
                         Layout.alignment: Qt.AlignCenter
                         color: model.image ? "transparent" : Colors.palette.m3surfaceContainer
 
                         Image {
                             id: notificationImage
-                            anchors.fill: notificationImageWrapper
+                            // anchors.fill: notificationImageWrapper
                             source: model.image
                         }
 
@@ -105,16 +106,16 @@ WrapperRectangle {
 
                                 TextMetrics {
                                     id: notifSummaryMetrics
-                                    font.family: Appearance.font.family ?? ""
-                                    font.pixelSize: Appearance?.font.size.normal ?? 0
+                                    font.family: Config.appearance.font.family.sans ?? ""
+                                    font.pixelSize: Config.appearance.font.size.normal ?? 0
                                     elide: Text.ElideRight
                                     elideWidth: 140
                                     text: model.summary
                                 }
                                 TextMetrics {
                                     id: notifAppNameMetrics
-                                    font.family: Appearance.font.family ?? ""
-                                    font.pixelSize: Appearance?.font.size.normal ?? 0
+                                    font.family: Config.appearance.font.family.sans ?? ""
+                                    font.pixelSize: Config.appearance.font.size.normal ?? 0
                                     elide: Text.ElideRight
                                     elideWidth: 100
                                     text: model.appName
@@ -127,8 +128,8 @@ WrapperRectangle {
                         }
                         TextMetrics {
                             id: notifBodyMetrics
-                            font.family: Appearance.font.family ?? ""
-                            font.pixelSize: Appearance?.font.size.normal ?? 0
+                            font.family: Config.appearance.font.family.sans ?? ""
+                            font.pixelSize: Config.appearance.font.size.normal ?? 0
                             elide: Text.ElideRight
                             elideWidth: 260
                             text: model.body
@@ -157,40 +158,40 @@ WrapperRectangle {
 
 
 
-        RowLayout {
-            visible: model.actions && model.actions.count > 0
-            spacing: Appearance.padding.huge
-            Layout.fillWidth: true
+        // RowLayout {
+        //     visible: model.actions && model.actions.count > 0
+        //     spacing: Config.appearance.padding.huge
+        //     Layout.fillWidth: true
 
-            Repeater {
-                Layout.fillWidth: true
-                model: model.actions
+        //     Repeater {
+        //         Layout.fillWidth: true
+        //         model: model.actions
 
-                StyledButton {
-                    required property var modelData
+        //         StyledButton {
+        //             required property var modelData
 
-                    StyledText {
-                        text: modelData?.text ?? "Unknown"
-                        color: Colors.palette.m3surfaceVariant
-                        anchors.centerIn: parent
+        //             StyledText {
+        //                 text: modelData?.text ?? "Unknown"
+        //                 color: Colors.palette.m3surfaceVariant
+        //                 anchors.centerIn: parent
 
-                    }
+        //             }
 
-                    onLeftClicked: {
-                        console.log("Action clicked:", modelData?.identifier, modelData?.text)
-                        if (modelData?.originalAction) {
-                            modelData.originalAction.invoke()
-                        }
-                    }
-                }
-            }
-        }
+        //             onLeftClicked: {
+        //                 console.log("Action clicked:", modelData?.identifier, modelData?.text)
+        //                 if (modelData?.originalAction) {
+        //                     modelData.originalAction.invoke()
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
 
         // inline reply
         // RowLayout {
         //     visible: root.hasInlineReply
-        //     spacing: Appearance.padding.huge
+        //     spacing: Config.appearance.padding.huge
         //     Layout.fillWidth: true
 
         //     TextField {
@@ -199,7 +200,7 @@ WrapperRectangle {
         //         placeholderText: root.inlineReplyPlaceholder || "Reply..."
         //         background: Rectangle {
         //             color: Colors.palette.m3surfaceBright
-        //             radius: Appearance.radius.normal
+        //             radius: Config.appearance.radius.normal
         //             border.width: 1
         //             border.color: Colors.palette.m3surfaceVariant
         //         }
@@ -230,7 +231,7 @@ WrapperRectangle {
         //         Rectangle {
         //             anchors.fill: parent
         //             color: Colors.palette.m3primary
-        //             radius: Appearance.radius.normal
+        //             radius: Config.appearance.radius.normal
 
         //             StyledText {
         //                 text: "Send"

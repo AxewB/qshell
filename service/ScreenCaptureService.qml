@@ -1,80 +1,83 @@
 pragma Singleton
 import QtQuick
+import Quickshell.Io
 import Quickshell
-import Quickshell.Wayland
+import qs.utils
 
 Singleton {
     id: root
 
-    property bool isRecording: false
-    property string outputFile: ""
-    property var captureSource: null // будет установлен из UI
+    // --- настройки ---
+    property string savePath: Paths.screenshots
+    property string fileName: Qt.formatDateTime(clock.date, "dd-MM-yyyy_hh-mm-ss") + "_screenshot.png"
 
-    signal screenshotTaken(string path)
-    signal recordingStarted(string path)
-    signal recordingStopped()
+    property bool freeze: false
+    property bool clipboardOnly: false
+    property string currentMode: ""
 
-    ScreencopyView {
-        id: screenView
-        width: sourceSize.width || 1920
-        height: sourceSize.height || 1080
-        captureSource: root.captureSource
-    }
+    signal captureStarted(string mode)
+    signal captureFinished(string mode, bool success, string path)
 
-    // ScreencopyView {
-    //     id: screenView
-    //     captureSource: root.captureSource
-    //     paintCursor: true
-    //     live: false
-    // }
+    function captureAll()     { capture("all") }
+    function captureOutput()  { capture("output") }
+    function captureWindow()  { capture("window") }
+    function captureRegion()  { capture("region") }
 
-    function takeScreenshot(path) {
-        if (!root.captureSource) {
-            console.warn("Нет источника для скриншота!")
-            return
+    function capture(mode) {
+        var args = []
+        var path = ""
+
+        switch(mode) {
+        case "all":
+            args = ["-m", "output"] // hyprshot сам возьмёт все мониторы
+            break
+        case "output":
+            args = ["-m", "output"]
+            break
+        case "window":
+            args = ["-m", "window"]
+            break
+        case "region":
+            args = ["-m", "region"]
+            break
         }
 
-        if (!screenView.hasContent || screenView.sourceSize.width <= 0 || screenView.sourceSize.height <= 0) {
-            console.warn("Источник ещё не готов, откладываем скриншот...")
-            // Можно подождать через короткий таймер
-            Qt.callLater(() => takeScreenshot(path))
-            return
+        if (freeze)
+            args.push("-z")
+
+        if (clipboardOnly) {
+            args.push("--clipboard-only")
+        } else {
+            path = root.savePath.replace("file://", "")
+            args.push("-o", path)
+            args.push("-f", root.fileName)
         }
 
-        screenView.captureFrame()
-        screenView.grabToImage(function(result) {
-            result.saveToFile(path)
-            screenshotTaken(path)
-        })
+        currentMode = mode
+        console.log("[ScreenCaptureService] run:", ["hyprshot"].concat(args).join(" "))
+
+        hyprshotProc.command = ["hyprshot"].concat(args)
+        hyprshotProc.running = true
+        root.captureStarted(mode)
     }
 
-    Timer {
-        id: recordTimer
-        interval: 40 // ~25fps
-        repeat: true
-        onTriggered: {
-            screenView.grabToImage(function(result) {
-                console.log("Frame grabbed for video...")
-            })
+    Process {
+        id: hyprshotProc
+        running: false
+
+        onStarted: {
+            console.log("[ScreenCaptureService] started:", command)
+        }
+
+        onExited: (exitCode, exitStatus) => {
+            const ok = (exitCode === 0)
+            const fullPath = clipboardOnly ? "" : savePath + "/" + fileName
+            root.captureFinished(currentMode, ok, fullPath)
         }
     }
 
-    function startRecording(path) {
-        if (!root.captureSource) {
-            console.warn("Нет источника для записи!")
-            return
-        }
-        outputFile = path
-        screenView.live = true
-        recordTimer.start()
-        isRecording = true
-        recordingStarted(path)
-    }
-
-    function stopRecording() {
-        recordTimer.stop()
-        screenView.live = false
-        isRecording = false
-        recordingStopped()
+    SystemClock {
+        id: clock
+        precision: SystemClock.Seconds
     }
 }

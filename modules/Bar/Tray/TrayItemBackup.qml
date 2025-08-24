@@ -27,8 +27,8 @@ MouseArea {
     StyledRectangle {
         id: icon
 
-        implicitHeight: Appearance.icon.xsmall
-        implicitWidth: Appearance.icon.xsmall
+        implicitHeight: Config.appearance.icon.xsmall
+        implicitWidth: Config.appearance.icon.xsmall
         color: 'transparent'
 
         IconImage {

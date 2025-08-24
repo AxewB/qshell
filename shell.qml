@@ -3,10 +3,11 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
-import "root:/widgets/Wallpaper"
-import "root:/widgets/FakeScreenRounding"
-import "root:/widgets/Frame"
-import "root:/service"
+import qs.service
+import qs.utils
+import qs.widgets.Frame
+import qs.widgets.Background
+import qs.widgets.FakeScreenRounding
 
 Scope {
     Frame {}

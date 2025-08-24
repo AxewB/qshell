@@ -4,7 +4,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import qs.service
+import qs.config
 import qs.components
 
 StyledButton {
@@ -12,7 +12,8 @@ StyledButton {
     property alias icon: iconComponent.icon
     property alias size: iconComponent.size
     property string color: contentColor
-    padding: Appearance.padding.small
+
+    implicitWidth: implicitHeight
 
     Icon {
         id: iconComponent

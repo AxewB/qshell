@@ -16,7 +16,7 @@ WrapperItem {
     RowLayout {
         id: content
         anchors.fill: parent
-        spacing: Appearance.padding.huge
+        spacing: Config.appearance.padding.huge
 
         BarLeftSection {
             Layout.minimumHeight: 32

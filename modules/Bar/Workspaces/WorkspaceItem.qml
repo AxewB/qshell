@@ -13,10 +13,10 @@ StyledButton {
 
     idleColor: modelData.active ? Colors.palette.m3primaryContainer : "transparent"
     active: modelData.id === Hyprland.focusedWorkspace.id
-    radius: Appearance.radius.xsmall
+    radius: Config.appearance.radius.xsmall
     padding: 4
-    implicitWidth: Appearance.icon.small
-    implicitHeight: Appearance.icon.small
+    implicitWidth: Config.appearance.icon.small
+    implicitHeight: Config.appearance.icon.small
 
     onLeftClicked: {
         Hyprland.dispatch(`workspace ${modelData.id}`)

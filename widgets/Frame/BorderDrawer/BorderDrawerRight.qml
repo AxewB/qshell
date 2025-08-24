@@ -18,7 +18,7 @@ WrapperItem {
         id: content
 
         RowLayout {
-            spacing: Appearance.padding.large
+            spacing: Config.appearance.padding.large
             layoutDirection: Qt.LeftToRight
 
             WrapperItem {
@@ -45,8 +45,8 @@ WrapperItem {
     Behavior on implicitHeight {Anim{}}
     Behavior on implicitWidth {Anim{}}
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 }

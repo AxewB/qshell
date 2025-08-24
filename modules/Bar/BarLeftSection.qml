@@ -4,10 +4,11 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import "root:/service"
-import "root:/utils"
-import "root:/components"
-import "root:/modules"
+import qs.service
+import qs.config
+import qs.utils
+import qs.components
+import qs.modules
 
 
 Item {
@@ -20,7 +21,7 @@ Item {
         anchors.fill: parent
         height: parent.height
         layoutDirection: Qt.LeftToRight
-        spacing: Appearance.padding.huge
+        spacing: Config.appearance.padding.huge
 
 
         Item {
@@ -32,18 +33,24 @@ Item {
                 id: leftContentLeft
                 anchors.left: parent.left
                 layoutDirection: Qt.LeftToRight
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
 
-                BarModuleWrapper {
-                    color: "transparent"
-                    visible: WeatherService.currentReady
-                    StyledButton {
-                        implicitHeight: root.implicitHeight
-                        leftPadding: Appearance.padding.huge
-                        rightPadding: Appearance.padding.huge
-                        Weather { }
-                    }
+                StyledIconButton {
+                    icon: "save"
+                    size: Config.appearance.icon.small
+                    onLeftClicked: Config.save()
                 }
+
+                // BarModuleWrapper {
+                //     color: "transparent"
+                //     visible: WeatherService.currentReady
+                //     StyledButton {
+                //         implicitHeight: root.implicitHeight
+                //         leftPadding: Config.appearance.padding.huge
+                //         rightPadding: Config.appearance.padding.huge
+                //         Weather { }
+                //     }
+                // }
             }
         }
         Item {
@@ -55,7 +62,7 @@ Item {
                 id: leftContentRight
                 anchors.right: parent.right
                 layoutDirection: Qt.RightToLeft
-                spacing: Appearance.padding.huge
+                spacing: Config.appearance.padding.huge
 
                 BarModuleWrapper {
                     clickable: false

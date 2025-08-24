@@ -15,7 +15,11 @@ import qs.config
 import qs.components
 
 LazyLoader {
-    active: AppConfig.modules.fakeScreenRounding
+    id: root
+    active: Config.fakeRounding.enabled
+
+    property int radius: Config.borders.radius
+
     Variants {
         model: Quickshell.screens
 
@@ -59,7 +63,7 @@ LazyLoader {
 
                 Rectangle {
                     anchors.fill: parent
-                    radius: BorderConfig.radius
+                    radius: root.radius
                 }
             }
 

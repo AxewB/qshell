@@ -19,8 +19,7 @@ WrapperItem {
         id: control
         active: root.enabled
         icon: "symptoms"
-        size: Appearance.icon.xsmall
-        padding: 4
+        size: Config.appearance.icon.small
         onLeftClicked: root.toggleNightLight()
     }
 

@@ -25,7 +25,7 @@ Item {
     StyledRectangle {
         id: backgroundSlider
         color: Colors.palette.m3primary
-        radius: Appearance.radius.small
+        radius: Config.appearance.radius.small
         z: 0
 
         property var activeItem: null
@@ -39,8 +39,8 @@ Item {
 
     Flow {
         id: rowlayout
-        padding: Appearance.padding.normal
-        spacing: Appearance.padding.normal
+        padding: Config.appearance.padding.normal
+        spacing: Config.appearance.padding.normal
 
         Repeater {
             id: workspaceRepeater
@@ -54,8 +54,8 @@ Item {
     Behavior on implicitWidth { Anim {} }
 
     component Anim: NumberAnimation {
-        duration: Appearance.animation.durations.normal
+        duration: Config.appearance.animation.durations.normal
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.ease
+        easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 }
