@@ -337,18 +337,6 @@ Item {
         Item {
             anchors.fill: parent
 
-            MouseArea {
-
-                anchors.fill: parent
-                onClicked:  {
-
-                    const toplevels = Hyprland.toplevels.values
-                    for (const tl of toplevels) {
-                        console.log(tl.title)
-                    }
-                }
-
-            }
             Rectangle {
                 anchors.fill: parent
                 opacity: 1

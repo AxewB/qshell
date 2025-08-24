@@ -33,8 +33,4 @@ Rectangle{
         easing.bezierCurve: Config.appearance.animation.curves.ease
     }
 
-    Component.onCompleted: {
-        const path = "/path/to/image/im.g.png"
-        console.log(path.split('.').slice(0, -1).join('.').split("/").pop())
-    }
 }
