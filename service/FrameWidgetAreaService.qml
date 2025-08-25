@@ -26,10 +26,10 @@ Singleton {
             target: moduleObject.item
             enabled: target ? true : false
 
-            onXChanged: { moduleObject.updateByTimer() }
-            onYChanged: { moduleObject.updateByTimer() }
-            onWidthChanged: { moduleObject.updateByTimer() }
-            onHeightChanged: { moduleObject.updateByTimer() }
+            function onXChanged() { moduleObject.updateByTimer() }
+            function onYChanged() { moduleObject.updateByTimer() }
+            function onWidthChanged() { moduleObject.updateByTimer() }
+            function onHeightChanged() { moduleObject.updateByTimer() }
         }
 
         signal updated()

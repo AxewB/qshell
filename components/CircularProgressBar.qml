@@ -24,11 +24,48 @@ Canvas {
     property int radius: 12
     property int lineWidth: radius / 3
     readonly property real centerX: width / 2
-    readonly property real centerY: height / 2 + lineWidth / 2
+    readonly property real centerY: height / 2
+
+    // property real startAngle: 1/2 * Math.PI // 3/4 * Math.PI
+    property real startAngle: Math.PI// 3/4 * Math.PI
+    // property real endAngle: 5/2 * Math.PI // 9/4 * Math.PI
+    property real endAngle: 9/4 * Math.PI
 
     width: radius * 2 + lineWidth
-    height: radius * 2 + lineWidth / 2
+    height: (radius + lineWidth) * 2 - (radius - radius * Math.sin(startAngle))
 
+    Rectangle{
+        anchors.fill: root
+        opacity: 0.1
+        Rectangle {
+            anchors.left:parent.left
+            anchors.top: parent.top
+            width: parent.width / 2
+            height: parent.height/ 2
+            color: "red"
+        }
+        Rectangle {
+            anchors.right:parent.right
+            anchors.top: parent.top
+            width: parent.width / 2
+            height: parent.height/ 2
+            color: "blue"
+        }
+        Rectangle {
+            anchors.left:parent.left
+            anchors.bottom: parent.bottom
+            width: parent.width / 2
+            height: parent.height/ 2
+            color: "green"
+        }
+        Rectangle {
+            anchors.right:parent.right
+            anchors.bottom: parent.bottom
+            width: parent.width / 2
+            height: parent.height/ 2
+            color: "yellow"
+        }
+    }
 
     function drawCircle() {
         var ctx = getContext("2d");
@@ -36,8 +73,6 @@ Canvas {
 
         const normalized = Math.max(0, Math.min(1, (progress - min) / (max - min)));
 
-        const startAngle = 3/4 * Math.PI;
-        const endAngle = 9/4 * Math.PI;
         const currentAngle = startAngle + (endAngle - startAngle) * normalized;
         const gapDegree = lineWidth * 0.15;
 
@@ -69,8 +104,6 @@ Canvas {
 
         const normalized = Math.max(0, Math.min(1, (progress - min) / (max - min)));
 
-        const startAngle = 3/4 * Math.PI;
-        const endAngle = 9/4 * Math.PI;
         const currentAngle = startAngle + (endAngle - startAngle) * normalized;
         const gapDegree = lineWidth * 0.15;
 
