@@ -12,8 +12,8 @@ import qs.components
 Rectangle {
     id: root
 
-    property string image: ""
     property string source: ""
+    property string current: ""
     property string previous: ""
 
     property var currentImageContainer: one
@@ -127,5 +127,5 @@ Rectangle {
          easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
     }
 
-    onImageChanged: updateImage()
+    onSourceChanged: updateImage()
 }
