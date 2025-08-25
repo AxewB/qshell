@@ -23,9 +23,9 @@ Item {
                 properties: "scale"
                 from: 0
                 to: 1
-                duration: Config.appearance.anim.durations.normal
+                duration: Config.appearance.animation.durations.normal
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Config.appearance.anim.curves.ease
+                easing.bezierCurve: Config.appearance.animation.curves.ease
             }
         }
 
