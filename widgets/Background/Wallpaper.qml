@@ -1,12 +1,13 @@
 import QtQuick
 import qs.config
 import qs.components
+import qs.service
 
 Rectangle{
     id: root
     color: 'transparent'
 
-    property string current: Config.wallpaper.source
+    property string current: WallpaperService.path
 
     anchors.fill: parent
 
