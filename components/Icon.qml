@@ -16,9 +16,10 @@ StyledText {
     id: root
 
     property string icon: "indeterminate_question_box"
-    property string color: Colors.palette.m3onSurface
     property real fill: 0
     property int grade: Colors.isDark ? -25 : 0
+
+    color: Colors.palette.m3onSurface
 
     font.family: Config.appearance.font.family.icons
     font.variableAxes: ({
