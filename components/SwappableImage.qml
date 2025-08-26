@@ -9,92 +9,68 @@ import qs.service
 import qs.config
 import qs.components
 
+
 Rectangle {
     id: root
-
     property string source: ""
     property string current: ""
     property string previous: ""
-
     property var currentImageContainer: one
 
-    color: 'transparent'
+    color: "transparent"
 
-    ImageContainer {
-        id: one
-    }
-
-    ImageContainer {
-        id: two
-    }
+    ImageContainer { id: one }
+    ImageContainer { id: two }
 
     component ImageContainer: Image {
-        id: imageComponent
         anchors.fill: parent
         opacity: root.currentImageContainer === this ? 1 : 0
         scale: root.currentImageContainer === this ? 1.0 : 1.05
-        // scale: root.currentImageContainer === this ? 1.0 : 1.2
-        source: root.currentImageContainer == this ? root.source : root.previous
+        source: root.currentImageContainer === this ? root.current : root.previous
         fillMode: Image.PreserveAspectCrop
-
-        Behavior on opacity {Anim{}}
-        Behavior on scale {Anim{}}
-
+        Behavior on opacity { Anim{} }
+        Behavior on scale { Anim{} }
     }
 
     function updateImage() {
-        root.previous = root.source
-        root.source = root.image
-        if (wallpaperChangeAnimation.finished) {
-            imageScaleAnimation.start()
-            wallpaperChangeAnimation.start()
-        } else {
-            imageScaleAnimation.restart()
+        root.previous = root.current
+        root.current = root.source
+
+        if (wallpaperChangeAnimation.running) {
             wallpaperChangeAnimation.restart()
+            imageScaleAnimation.restart()
+        } else {
+            wallpaperChangeAnimation.start()
+            imageScaleAnimation.start()
         }
 
-        if (root.currentImageContainer == one)
-            root.currentImageContainer = two
-        else if (root.currentImageContainer == two)
-            root.currentImageContainer = one
+        root.currentImageContainer = (root.currentImageContainer === one) ? two : one
     }
 
-
-    MultiEffect {
-        id: blurEffect
-        source: root
-        anchors.fill: root
-        autoPaddingEnabled: true
-        blurEnabled: true
-        blur: 0
-        blurMax: 48
-        z: 3
-    }
-
+    onSourceChanged: updateImage()
 
     SequentialAnimation {
         id: imageScaleAnimation
         running: false
 
         ScaleAnimator {
-            target: root;
-            from: 1;
-            to: 1.025;
+            target: root
+            from: 1
+            to: 1.025
             duration: Config.appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
 
         ScaleAnimator {
-            target: root;
-            from: 1.025;
-            to: 1;
+            target: root
+            from: 1.025
+            to: 1
             duration: Config.appearance.animation.durations.slow
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
         }
     }
-
 
     SequentialAnimation {
         id: wallpaperChangeAnimation
@@ -121,11 +97,20 @@ Rectangle {
         }
     }
 
-    component Anim: NumberAnimation {
-         duration: Config.appearance.animation.durations.slow
-         easing.type: Easing.BezierSpline
-         easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
+    MultiEffect {
+        id: blurEffect
+        source: root
+        anchors.fill: root
+        autoPaddingEnabled: true
+        blurEnabled: true
+        blur: 0
+        blurMax: 48
+        z: 3
     }
 
-    onSourceChanged: updateImage()
+    component Anim: NumberAnimation {
+        duration: Config.appearance.animation.durations.slow
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
+    }
 }
