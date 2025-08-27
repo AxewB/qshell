@@ -19,37 +19,30 @@ Singleton {
     property string path: isPreview ? previewPath : basePath
 
 
-    onBasePathChanged: console.log("basePath: ", basePath)
-    onPreviewPathChanged: console.log("previewPath: ", previewPath)
-    onPathChanged: console.log("path: ", path)
     onIsPreviewChanged: if (isPreview) {
-        console.log('preview enabled')
         previewPath = basePath
     }
 
     Connections {
         target: Colors
-        function onSaving() { root.save() }
+        function onSaving() { root.applyPreview() }
     }
 
     function setWallpaper(newPath) {
-        // console.log("newPaht", newPath)
-        if (isPreview) {
-            previewPath = newPath
-        }
-        else {
+        previewPath = newPath
+        if (!isPreview) {
             basePath = newPath
+            save()
         }
-        // console.log("path after setting", path)
+    }
+
+    function applyPreview() {
+        basePath = previewPath
+        save()
     }
 
     function save() {
-        // console.log("---")
-        // console.log("previewPath: ",path)
-        // console.log("basePath: ",path)
-        // console.log("path: ",path)
-        basePath = previewPath
-        jsData.path = previewPath
+        jsData.path = basePath
         adapter.writeAdapter()
     }
 
