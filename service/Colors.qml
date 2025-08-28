@@ -27,14 +27,14 @@ Singleton {
     signal saving()
 
     onColorChanged: updateColors()
+    onSchemeChanged: updateColors()
+    onContrastChanged: updateColors()
     onIsDarkChanged: updateColors()
     onIsDynamicChanged: updateColors()
     onIsPreviewChanged: if (isPreview) {
         previewColor = baseColor
         previewPalette = basePalette
-        // Object.assign(previewPalette, basePalette)
     }
-
 
     function setColorManually(color) {
         isDynamic = false
@@ -95,6 +95,7 @@ Singleton {
     }
 
     function applyColors(data) {
+
         const { colors } = JSON.parse(data)
         const theme = isDark ? keysToCamel(colors.dark) : keysToCamel(colors.light)
 
@@ -124,7 +125,6 @@ Singleton {
         jsData.isDark = isDark
         jsData.isDynamic = isDynamic
         jsData.color = color
-        jsData.palette = palette
 
         adapter.writeAdapter()
     }
@@ -161,7 +161,11 @@ Singleton {
     FileView {
         id: adapter
         path: `${Paths.config}/colors.json`
-
+        watchChanges: true
+        onFileChanged: {
+            console.log("HHHH")
+            this.reload()
+        }
         onLoaded: {
             root.scheme = jsData.scheme
             root.contrast = jsData.contrast
@@ -182,7 +186,6 @@ Singleton {
             property bool isDark: true
             property bool isDynamic: true
             property color color: "black"
-            property Colors palette: Colors {}
         }
     }
 
