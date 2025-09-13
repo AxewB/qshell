@@ -23,11 +23,11 @@ Item {
 
     StyledButton {
         id: icon
-        padding: 4
+        padding: Config.appearance.padding.small
         StyledRectangle {
 
-            implicitHeight: Config.appearance.icon.xsmall
-            implicitWidth: Config.appearance.icon.xsmall
+            implicitHeight: 32
+            implicitWidth: 32
             color: 'transparent'
 
             IconImage {

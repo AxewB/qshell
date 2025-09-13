@@ -163,7 +163,6 @@ Singleton {
         path: `${Paths.config}/colors.json`
         watchChanges: true
         onFileChanged: {
-            console.log("HHHH")
             this.reload()
         }
         onLoaded: {
@@ -174,9 +173,6 @@ Singleton {
 
             root.baseColor = jsData.color
             root.previewColor = jsData.color
-
-            root.basePalette = jsData.palette
-            root.previewPalette = jsData.palette
         }
 
         JsonAdapter {

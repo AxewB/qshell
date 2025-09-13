@@ -7,8 +7,6 @@ import Quickshell.Wayland
 import "root:/service"
 import "root:/utils"
 
-
-
 Scope {
     id: root
     Variants {
@@ -20,18 +18,9 @@ Scope {
             color: "transparent"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.layer: WlrLayer.Background
+            anchors { left: true; top: true; right: true; bottom: true }
 
-            anchors {
-                left: true
-                top: true
-                right: true
-                bottom: true
-            }
-
-            Wallpaper {
-                anchors.fill: parent
-            }
-
+            Wallpaper { anchors.fill: parent }
         }
     }
 }

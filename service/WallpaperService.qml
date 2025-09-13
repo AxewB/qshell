@@ -15,7 +15,7 @@ Singleton {
     property string wallsDir: `${Paths.pictures}/wallpapers`
 
     property string previewPath: ""
-    property string basePath: Config.wallpaper.path
+    property string basePath: ""
     property string path: isPreview ? previewPath : basePath
 
 

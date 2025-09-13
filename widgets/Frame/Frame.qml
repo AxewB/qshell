@@ -1,155 +1,87 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-import QtQuick.Effects
-import QtQuick.Shapes
-import QtQuick.Particles
 import Quickshell
-import Quickshell.Io
+import QtQuick.Effects
+import QtQuick
 import Quickshell.Widgets
 import Quickshell.Wayland
-import Quickshell.Hyprland
-import qs.service
-import qs.modules
-import qs.config
 import qs.components
-import "root:/modules/Bar"
+import qs.service
+import qs.config
+import "./FakeScreenRounding"
+import "./FrameBorders"
+import "./FrameModules"
 
 Variants {
     model: Quickshell.screens
-
     Scope {
-        id: scope
-        property ShellScreen modelData
+        required property ShellScreen modelData
 
         PanelWindow {
-            screen: modelData
             id: window
+            screen: modelData
             focusable: true
             color: "transparent"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
-            anchors {
-                left: true
-                right: true
-                top: true
-                bottom: true
-            }
-
-            QtObject {
-                id: clickThroughRegionBorders
-                property int x: borders.thickness + frameLeft.implicitWidth
-                property int y: borders.thickness + frameTop.implicitHeight
-                property int width: window.width - borders.thickness * 2 - frameLeft.implicitWidth - frameRight.implicitWidth
-                property int height: window.height - borders.thickness * 2 - frameBottom.implicitHeight - frameTop.implicitHeight
-            }
+            anchors { left: true; right: true; top: true; bottom: true; }
 
             mask: Region {
                 id: regionMask
-                x: clickThroughRegionBorders.x
-                y: clickThroughRegionBorders.y
-                width: clickThroughRegionBorders.width
-                height: clickThroughRegionBorders.height
+                x: 1 + frameBorders.leftItem.implicitWidth
+                y: 1 + frameBorders.topItem.implicitHeight
+                width: window.screen.width - (1 + x + frameBorders.rightItem.implicitWidth)
+                height: window.screen.height - (1 + y + frameBorders.bottomItem.implicitHeight)
+
                 intersection: Intersection.Xor
 
-                regions: maskRegions.instances
+                regions: modulesRegions.instances
             }
 
             Variants {
-                id: maskRegions
-                model: moduleArea.regions
+                id: modulesRegions
+                model: frameModules.children
 
                 delegate: Region {
-                    required property Region modelData
+                    required property Item modelData
 
-                    x: modelData.x
-                    y: modelData.y
-                    width: modelData.width
-                    height: modelData.height
+                    x: modelData.itemX
+                    y: modelData.itemY
+                    width: modelData.itemWidth
+                    height: modelData.itemHeight
+
                     intersection: Intersection.Subtract
                 }
             }
 
-            Item {
-                id: shadowFiller
-                anchors.fill: parent
-
-                ModuleArea {
-                    id: moduleArea
-                    workingArea: clickThroughRegionBorders
-                }
-                Borders {
-                    id: borders
-                    screen: modelData
-                    topContent: frameTop
-                    rightContent: frameRight
-                    bottomContent: frameBottom
-                    leftContent: frameLeft
-                }
-            }
-
             MultiEffect {
-                source: shadowFiller
-                anchors.fill: shadowFiller
+                source: shadowSource
+                anchors.fill: shadowSource
                 shadowEnabled: true
-                blurMax: 16
+                blurMax: 32
                 shadowColor: Colors.palette.m3shadow
             }
 
-            FrameDrawer {
-                id: frameTop
-                position: "top"
-                opened: true
-                extraRightMargin: frameRight.implicitWidth
-                extraLeftMargin: frameLeft.implicitWidth
 
-                Bar {}
-            }
-            FrameDrawer {
-                id: frameBottom
-                position: "bottom"
-                opened: true
-                extraRightMargin: frameRight.implicitWidth
-                extraLeftMargin: frameLeft.implicitWidth
+            Item {
+                id: shadowSource
+                anchors.fill: parent
 
-                // TestRectangle {}
-            }
-            FrameDrawer {
-                id: frameRight
-                position: "right"
-                opened: true
-                extraTopMargin: frameTop.implicitHeight
-                extraBottomMargin: frameBottom.implicitHeight
-                // TestRectangle {}
-            }
-            FrameDrawer {
-                id: frameLeft
-                position: "left"
-                opened: true
-                extraTopMargin: frameTop.implicitHeight
-                extraBottomMargin: frameBottom.implicitHeight
-                // TestRectangle {}
+                FrameBorders {
+                    id: frameBorders
+                    screen: window.screen
+                }
+
+                FrameModules {
+                    id: frameModules
+                    z: -1
+                    workingArea: {
+                        "x": frameBorders.leftItem.width,
+                        "y": frameBorders.topItem.height,
+                        "height": window.screen.height - frameBorders.topItem.height - frameBorders.bottomItem.height,
+                        "width": window.screen.width - frameBorders.leftItem.width - frameBorders.rightItem.width
+                    }
+                }
             }
 
-            component TestRectangle: Rectangle {
-                implicitHeight: 40
-                implicitWidth: 40
-                opacity: 0
-            }
-
-        }
-
-        Exclusions {
-            id: frameExclusions
-            screen: modelData
-            topContent: frameTop
-            rightContent: frameRight
-            bottomContent: frameBottom
-            leftContent: frameLeft
-            topContentGrowExclusions: true
-            leftContentGrowExclusions: false
-            rightContentGrowExclusions: false
-            bottomContentGrowExclusions: false
         }
     }
 }

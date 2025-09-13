@@ -18,17 +18,6 @@ Item {
         id: content
         spacing: Config.appearance.padding.normal
 
-        add: Transition {
-            NumberAnimation {
-                properties: "scale"
-                from: 0
-                to: 1
-                duration: Config.appearance.animation.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Config.appearance.animation.curves.ease
-            }
-        }
-
         Repeater {
             id: items
             model: SystemTray.items
