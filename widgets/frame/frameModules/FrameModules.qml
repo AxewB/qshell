@@ -12,22 +12,22 @@ Item {
     id: root
     required property var workingArea
 
-    Drawer {
-        id: mediaRegion
-        // module: FrameWidgetAreaService.modules.mediaPlayer
-        // active: module.enabled
+    // Drawer {
+    //     id: mediaRegion
+    //     // module: FrameWidgetAreaService.modules.mediaPlayer
+    //     // active: module.enabled
 
-        itemX: 200
-        itemY: active ? workingArea.y : -itemHeight
-        itemXLimit: true
-        // WrapperRegion {
-        //     id: mediaModuleWrapper
-        //     margin: 10
-        //     ColumnLayout {
-        //         MediaPlayer {}
-        //     }
-        // }
-    }
+    //     itemX: 200
+    //     itemY: active ? workingArea.y : -itemHeight
+    //     itemXLimit: true
+    //     // WrapperRegion {
+    //     //     id: mediaModuleWrapper
+    //     //     margin: 10
+    //     //     ColumnLayout {
+    //     //         MediaPlayer {}
+    //     //     }
+    //     // }
+    // }
 
     component Drawer: Item {
         id: drawerWrapper

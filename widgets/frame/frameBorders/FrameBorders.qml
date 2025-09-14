@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -14,15 +15,16 @@ Item {
     id: root
     anchors.fill: parent
     required property ShellScreen screen
-    property alias topItem: topArea
-    property alias bottomItem: bottomArea
-    property alias leftItem: leftArea
-    property alias rightItem: rightArea
 
-    property int padding: Config.appearance.padding.normal
+    readonly property WorkingArea workingArea: WorkingArea {
+        x: leftArea.width
+        y: topArea.height
+        height: root.screen.height - topArea.height - bottomArea.height
+        width: root.screen.width - leftArea.width - rightArea.width
+    }
 
-    readonly property int possibleWidth: screen.width - (leftArea.implicitWidth + rightArea.implicitWidth)
-    readonly property int possibleHeight: screen.height - (topArea.implicitHeight + bottomArea.implicitHeight)
+    readonly property int maxDrawerWidth: screen.width - (leftArea.implicitWidth + rightArea.implicitWidth)
+    readonly property int maxDrawerHeight: screen.height - (topArea.implicitHeight + bottomArea.implicitHeight)
 
 
     BorderDrawer{
@@ -47,7 +49,7 @@ Item {
         screen: root.screen
         leftMargin: leftArea.implicitWidth / 2
         externalItem: Bar {
-            implicitWidth: root.possibleWidth
+            implicitWidth: root.maxDrawerWidth
         }
         isVertical: true
     }
@@ -60,10 +62,14 @@ Item {
     }
 
 
-    BorderFilling {
-        topItem: topArea
-        bottomItem: bottomArea
-        leftItem: leftArea
-        rightItem: rightArea
+    Filling {
+        workingArea: root.workingArea
+    }
+
+    component WorkingArea: QtObject {
+        property int x: 0
+        property int y: 0
+        property int height: 0
+        property int width: 0
     }
 }

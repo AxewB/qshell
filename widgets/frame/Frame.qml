@@ -6,9 +6,10 @@ import Quickshell.Wayland
 import qs.components
 import qs.service
 import qs.config
-import "./FakeScreenRounding"
-import "./FrameBorders"
-import "./FrameModules"
+// import qs.widgets.frame.frameBorders as Borders
+// import qs.widgets.frame.frameModules as Modules
+import "frameBorders" as Borders
+import "frameModules" as Modules
 
 Variants {
     model: Quickshell.screens
@@ -26,10 +27,10 @@ Variants {
 
             mask: Region {
                 id: regionMask
-                x: 1 + frameBorders.leftItem.implicitWidth
-                y: 1 + frameBorders.topItem.implicitHeight
-                width: window.screen.width - (1 + x + frameBorders.rightItem.implicitWidth)
-                height: window.screen.height - (1 + y + frameBorders.bottomItem.implicitHeight)
+                x: 1 + frameBorders.workingArea.x
+                y: 1 + frameBorders.workingArea.y
+                width: 1 + frameBorders.workingArea.width
+                height: 1 + frameBorders.workingArea.height
 
                 intersection: Intersection.Xor
 
@@ -60,25 +61,19 @@ Variants {
                 shadowColor: Colors.palette.m3shadow
             }
 
-
             Item {
                 id: shadowSource
                 anchors.fill: parent
 
-                FrameBorders {
+                Borders.FrameBorders {
                     id: frameBorders
                     screen: window.screen
                 }
 
-                FrameModules {
+                Modules.FrameModules {
                     id: frameModules
                     z: -1
-                    workingArea: {
-                        "x": frameBorders.leftItem.width,
-                        "y": frameBorders.topItem.height,
-                        "height": window.screen.height - frameBorders.topItem.height - frameBorders.bottomItem.height,
-                        "width": window.screen.width - frameBorders.leftItem.width - frameBorders.rightItem.width
-                    }
+                    workingArea: frameBorders.workingArea
                 }
             }
 

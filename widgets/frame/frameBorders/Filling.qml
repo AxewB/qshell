@@ -2,15 +2,13 @@ import QtQuick
 import QtQuick.Effects
 import qs.config
 import qs.service
+import "."
 
 Item {
     id: root
-    property Item topItem
-    property Item bottomItem
-    property Item leftItem
-    property Item rightItem
 
-    // readonly property alias
+    required property var workingArea
+
     anchors.fill: parent
     z: -1 // otherwise content is under filling
 
@@ -29,11 +27,10 @@ Item {
         visible: false
 
         Rectangle {
-            anchors.fill: parent
-            anchors.topMargin: root.topItem.implicitHeight
-            anchors.bottomMargin: root.bottomItem.implicitHeight
-            anchors.leftMargin: root.leftItem.implicitWidth
-            anchors.rightMargin: root.rightItem.implicitWidth
+            x: root.workingArea.x
+            y: root.workingArea.y
+            height: root.workingArea.height
+            width: root.workingArea.width
             radius: Config.borders.radius
         }
     }

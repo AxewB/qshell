@@ -9,11 +9,12 @@ import qs.service
 
 Item {
     id: root
+
     required property ShellScreen screen
     required property string position // "top" | "bottom" | "right" | "left"
     property bool isOpened: false
-    property alias externalItem: externalWrapper.child
-    property alias internalItem: internalWrapper.child
+    property alias externalItem: externalWrapper.data
+    property alias internalItem: internalWrapper.data
     property bool isVertical: false
 
     property int topMargin: 0
@@ -176,9 +177,5 @@ Item {
         onTriggered: root.closed()
     }
 
-    component Anim: NumberAnimation {
-        duration: Config.appearance.animation.durations.normal
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Config.appearance.animation.curves.easeOut
-    }
+    component Anim: NumberAnimation { duration: 250 }
 }
