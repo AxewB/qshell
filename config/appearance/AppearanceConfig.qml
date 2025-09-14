@@ -1,6 +1,5 @@
 pragma ComponentBehavior: Bound
 import Quickshell.Io
-import "appearance"
 
 JsonObject {
     id: root
