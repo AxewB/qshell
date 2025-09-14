@@ -1,53 +1,138 @@
+import QtQuick
+import qs.config
+import qs.service
 
-Canvas {
-    id: circularWaveBar
-    width: parent.width
-    height: parent.height
+Rectangle {
+    id: root
+    width: radius * 2 + lineWidth
+    height: radius * 2 + lineWidth
+    color: "transparent"
 
-    property real progress: 0.5
-    property color barColor: "blue"
-    property real waveAmplitude: 5
-    property real waveFrequency: 0.2
-    property real waveSpeed: 0.05
+    property real minimum: 0
+    property real maximum: 100
+    property real value: 100
 
-    onPaint: {
-        var ctx = getContext("2d");
-        var radius = Math.min(width, height) / 2 - 10;
-        var centerX = width / 2;
-        var centerY = height / 2;
-        var startAngle = -Math.PI / 2;
-        var endAngle = startAngle + 2 * Math.PI * progress;
+    property bool wave: value / maximum > 0.05 && value / maximum < 0.95
+    property real radius: 16
+    property real frequency: 8
+    property real amplitude: frequency > 0 && wave ? frequency / 4 : 0
 
-        ctx.clearRect(0, 0, width, height);
+    property string trackColor: Colors.palette.m3secondaryContainer
+    property string indicatorColor: Colors.palette.m3primary
 
-        // Фоновая окружность
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = "#e0e0e0";
-        ctx.stroke();
+    property int lineWidth: 4
+    property real phase: 0  // сдвиг синусоиды
 
-        // Волна
-        ctx.beginPath();
-        for (var i = 0; i <= 100; i++) {
-            var angle = startAngle + (endAngle - startAngle) * (i / 100);
-            var x = centerX + radius * Math.cos(angle);
-            var y = centerY + radius * Math.sin(angle) + waveAmplitude * Math.sin(waveFrequency * angle + waveSpeed * Date.now());
-            if (i === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
+    property real startAngle: -Math.PI/2
+    property real endAngle: 3*Math.PI/2
+
+    property real trackSpacingPx: lineWidth
+    property real endDotSize: lineWidth
+
+    Behavior on trackColor { CAnim {} }
+    Behavior on indicatorColor { CAnim {} }
+    Behavior on lineWidth { ExprAnim {} }
+    Behavior on endDotSize { ExprAnim {} }
+    Behavior on frequency { ExprAnim {} }
+    Behavior on amplitude { ExprAnim {} }
+    Behavior on value { ExprAnim { speed: "slow" } }
+
+    onTrackColorChanged: canvas.requestPaint()
+    onIndicatorColorChanged: canvas.requestPaint()
+    onRadiusChanged: canvas.requestPaint()
+    onAmplitudeChanged: canvas.requestPaint()
+    onFrequencyChanged: canvas.requestPaint()
+    onPhaseChanged: canvas.requestPaint()
+    onTrackSpacingPxChanged: canvas.requestPaint()
+    onValueChanged: canvas.requestPaint()
+
+    Canvas {
+        id: canvas
+        anchors.fill: parent
+
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.clearRect(0, 0, width, height)
+
+            var cx = width / 2
+            var cy = height / 2
+
+            var minWaveLengthPx= 1  // минимальная видимая длина синусоиды в пикселях
+
+            var spacingAngle = root.trackSpacingPx / root.radius
+            var totalAngle = root.endAngle - root.startAngle
+            var progressFraction = Math.min(Math.max((root.value - root.minimum) / (root.maximum - root.minimum), 0), 1)
+            var progressAngle = root.startAngle + spacingAngle + (totalAngle - spacingAngle) * progressFraction
+
+            // минимальная длина синусоиды
+            var minAngle = root.minWaveLengthPx / root.radius
+            if (progressAngle - (root.startAngle + spacingAngle) < minAngle)
+                progressAngle = root.startAngle + spacingAngle + minAngle
+
+            // компенсируем толщину линии, чтобы синусоида дотянулась до точки начала
+            var extraAngle = root.lineWidth / (2 * root.radius)
+            progressAngle += extraAngle
+
+            // Средний радиус для синусоиды
+            var waveRadius = root.radius - root.lineWidth / 4 - root.amplitude
+
+            // DRAWING TRACK
+            if (progressFraction < 1) {
+                var trackStart = progressAngle + spacingAngle * 2
+                var trackEnd = root.endAngle - spacingAngle
+
+                // Если трек корректный, рисуем его
+                if (trackStart < trackEnd) {
+                    ctx.beginPath()
+                    ctx.arc(cx, cy, root.radius, trackStart, trackEnd, false)
+                    ctx.strokeStyle = root.trackColor
+                    ctx.lineWidth = root.endDotSize
+                    ctx.stroke()
+                    root.endDotSize = root.lineWidth
+                }
+                else {
+                    root.endDotSize = 0
+                }
+
+                // --- Кружок в конце трека ---
+                var endX = cx + root.radius * Math.cos(trackEnd)
+                var endY = cy + root.radius * Math.sin(trackEnd)
+                ctx.beginPath()
+                ctx.arc(endX, endY, root.endDotSize / 2, 0, 2 * Math.PI)
+                ctx.fillStyle = root.trackColor
+                ctx.fill()
             }
+
+            // --- Синусоида ---
+            ctx.beginPath()
+            ctx.lineCap = "round"
+            for (var angle = root.startAngle + spacingAngle; angle <= progressAngle; angle += 0.01) {
+                var r = waveRadius + root.amplitude * Math.sin(root.frequency * angle + root.phase)
+                var x = cx + r * Math.cos(angle)
+                var y = cy + r * Math.sin(angle)
+                if (angle === root.startAngle + spacingAngle)
+                    ctx.moveTo(x, y)
+                else
+                    ctx.lineTo(x, y)
+            }
+            ctx.strokeStyle = root.indicatorColor
+            ctx.lineWidth = root.lineWidth
+            ctx.stroke()
+
         }
-        ctx.strokeStyle = barColor;
-        ctx.lineWidth = 10;
-        ctx.stroke();
     }
 
     Timer {
-        interval: 16
-        running: true
+        interval: 16  // ~60 FPS
+        running: root.amplitude > 0
         repeat: true
-        onTriggered: circularWaveBar.requestPaint()
+        onTriggered: root.phase += 0.05
     }
+
+
+    component ExprAnim: M3SpringAnimation {
+        speed: "fast"
+        category: "effects"
+    }
+    component CAnim: M3ColorAnimation { speed: "short" }
 }
