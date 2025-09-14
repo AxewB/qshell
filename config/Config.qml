@@ -4,6 +4,9 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import qs.utils
+import qs.config.appearance as App
+import qs.config.modules as Modules
+import qs.config.service as Service
 
 Singleton {
     property alias appearance: adapter.appearance
@@ -21,10 +24,10 @@ Singleton {
         JsonAdapter {
             id: adapter
 
-            property AppearanceConfig appearance: AppearanceConfig {}
-            property BorderConfig borders: BorderConfig {}
-            property FakeRoundingConfig fakeRounding: FakeRoundingConfig {}
-            property WeatherConfig weather: WeatherConfig {}
+            property App.AppearanceConfig appearance: App.AppearanceConfig {}
+            property Modules.Borders borders: Modules.Borders {}
+            property Modules.FakeRounding fakeRounding: Modules.FakeRounding {}
+            property Service.Weather weather: Service.Weather {}
         }
     }
 
