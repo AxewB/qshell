@@ -7,7 +7,7 @@ import qs.modules
 import qs.utils
 import qs.components
 import qs.modules.bar.modules.tray
-import qs.modules.bar.modules.workspaces
+import "./workspaces" as WS
 
 
 WrapperItem {
@@ -16,19 +16,21 @@ WrapperItem {
         id: layoutRoot
         implicitHeight: Math.max(leftSection.implicitHeight, centerSection.implicitHeight, rightSection.implicitHeight)
 
-        CenterSection {
-            id: centerSection
-            anchors.centerIn: parent
-
-            // Workspaces {}
-        }
 
         LeftSection {
             id: leftSection
             anchors.left: parent.left
             anchors.right: centerSection.left
             anchors.verticalCenter: parent.verticalCenter
+        }
 
+        CenterSection {
+            id: centerSection
+            anchors.centerIn: parent
+
+
+            // Workspaces {}
+            WS.Workspaces {}
         }
 
         RightSection {
@@ -51,7 +53,7 @@ WrapperItem {
             id: leftLayout
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            spacing: Config.appearance.padding.normal
+            spacing: Config.appearance.padding.medium
             layoutDirection: Qt.LeftToRight
         }
     }
@@ -63,9 +65,10 @@ WrapperItem {
         RowLayout {
             id: centerLayout
             anchors.centerIn: parent
-            spacing: Config.appearance.padding.normal
+            spacing: Config.appearance.padding.medium
         }
     }
+
     component RightSection: Item {
         default property alias children: rightLayout.children
         implicitHeight: rightLayout.implicitHeight
@@ -75,7 +78,7 @@ WrapperItem {
             id: rightLayout
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            spacing: Config.appearance.padding.normal
+            spacing: Config.appearance.padding.medium
             layoutDirection: Qt.RightToLeft
         }
     }

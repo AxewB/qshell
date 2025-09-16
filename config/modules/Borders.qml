@@ -5,10 +5,10 @@ import qs.config
 
 JsonObject {
     property bool enabled: true
-    property int thickness: Config.appearance.padding.normal * enabled
+    property int thickness: Config.appearance.padding.medium
     property int radius: Config.appearance.radius.medium
-    property int panelsPadding: Config.appearance.padding.large * enabled
-    property int margin: Config.appearance.padding.normal
+    property int panelsPadding: Config.appearance.padding.large
+    property int margin: Config.appearance.padding.medium
 
     property int activationAreaWidth: 1
     property int borderItemPadding: 4
