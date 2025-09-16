@@ -14,9 +14,11 @@ Rectangle {
     required property var modelData // ws id
     required property int index     // repeater index
 
-    property var ws: Hypr.getWorkspaceById(modelData)
+    property var ws: Hypr.hyprWorkspaces?.find(ws => ws.id === modelData)
+    property var wsInfo: Hypr.workspacesInfo?.find(ws => ws.wsId === modelData)
     property bool wsFocused: ws?.focused ?? false
-    property var icons: Hypr.getAppIconsByWorkspace(ws)
+    property var icons: wsInfo?.icons ?? []
+    // onIconsChanged: console.log(icons)
 
     signal focused(component: Item)
 
@@ -30,7 +32,7 @@ Rectangle {
     Behavior on opacity {ExprAnim {}}
     Behavior on scale {ExprAnim {}}
     color: "#00FFFFFF"
-    readonly property string mainCategory: root.icons[0] ?? ""
+    readonly property string lastObjectIcon: wsInfo?.lastObjectIcon ?? ""
     readonly property int targetWidth: stack.implicitWidth
     readonly property int targetHeight: stack.implicitHeight
 
@@ -78,9 +80,9 @@ Rectangle {
             }
         }
         else {
-            if (stack.currentItem != mainCategoryIcon) {
+            if (stack.currentItem != lastObjectIcon) {
                 stack.clear(transition)
-                stack.push(mainCategoryIcon);
+                stack.push(lastObjectIcon);
             }
         }
     }
@@ -106,7 +108,7 @@ Rectangle {
     }
 
     Component {
-        id: mainCategoryIcon
+        id: lastObjectIcon
         Item {
             implicitHeight: 32
             implicitWidth: 32
@@ -115,7 +117,7 @@ Rectangle {
                 size: Config.appearance.icon.size.medium
                 color: Colors.palette.m3onSurface
                 anchors.centerIn: parent
-                icon: root.mainCategory
+                icon: root.lastObjectIcon
                 animate: true
             }
         }

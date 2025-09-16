@@ -78,7 +78,7 @@ Rectangle {
 
                 MD.Icon {
                     anchors.centerIn: parent
-                    icon: "circle"
+                    icon: IconMatcher.placeholder
                     size: Config.appearance.icon.size.medium
                     color: Colors.palette.m3onPrimary
                 }
