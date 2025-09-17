@@ -14,44 +14,64 @@ Rectangle {
     required property var modelData // ws id
     required property int index     // repeater index
 
-    property var ws: Hypr.hyprWorkspaces?.find(ws => ws.id === modelData)
-    property var wsInfo: Hypr.workspacesInfo?.find(ws => ws.wsId === modelData)
-    property bool wsFocused: ws?.focused ?? false
-    property var icons: wsInfo?.icons ?? []
-    // onIconsChanged: console.log(icons)
+    readonly property var ws: Hypr.hyprWorkspaces?.find(ws => ws.id === modelData)
+    readonly property var wsInfo: Hypr.workspacesInfo?.find(ws => ws.wsId === modelData)
+    readonly property var toplevels: wsInfo?.toplevels ?? []
+    readonly property bool wsFocused: ws?.focused ?? false
+    readonly property var icons: wsInfo?.icons ?? []
+
+    readonly property string lastObjectIcon: wsInfo?.lastObjectIcon ?? ""
+    readonly property int targetWidth: stack.implicitWidth
+    readonly property int targetHeight: stack.implicitHeight
+
+    onWsChanged: updateActiveComponent()
+    onToplevelsChanged: updateActiveComponent()
+    onWsInfoChanged: updateActiveComponent()
+
 
     signal focused(component: Item)
+
+    opacity: !wsFocused
+    scale: !wsFocused ? 1 : 0.6
+    color: "#00FFFFFF"
+    implicitHeight: stack.implicitHeight
+    implicitWidth: stack.implicitWidth
+    clip: true
 
     onWsFocusedChanged: {
         if (wsFocused) focused(root);
         updateActiveComponent()
     }
 
-    // opacity: !wsFocused
-    // scale: !wsFocused ? 1 : 0.6
     Behavior on opacity {ExprAnim {}}
     Behavior on scale {ExprAnim {}}
-    color: "#00FFFFFF"
-    readonly property string lastObjectIcon: wsInfo?.lastObjectIcon ?? ""
-    readonly property int targetWidth: stack.implicitWidth
-    readonly property int targetHeight: stack.implicitHeight
+    // onImplicitWidthChanged: console.log(implicitWidth)
 
-    implicitHeight: stack.implicitHeight
-    implicitWidth: stack.implicitWidth
-    Behavior on implicitWidth {ExprAnim {}}
-    clip: true
+    // content
 
+    Behavior on implicitWidth {
+        id: widthBehavior
+        ExprAnim {}
+    }
     StackView {
         id: stack
-        initialItem: emptyWorkspace
+        initialItem: initComponent
         implicitWidth: currentItem?.implicitWidth ?? 0
         implicitHeight: currentItem?.implicitHeight ?? 0
 
+        pushEnter: Transition {
+            ExprAnim {
+                properties: "opacity"
+                from: 0.4
+                to: 1
+            }
+        }
+
         pushExit: Transition {
-            NumberAnimation {
-                properties: "scale,opacity"
-                from: 1
-                to: 0.4
+            ExprAnim {
+                properties: "opacity"
+                from: 0.4
+                to: 1
             }
         }
     }
@@ -63,37 +83,42 @@ Rectangle {
         }
     }
 
-
-
     function updateActiveComponent() {
-        const transition = StackView.PushTransition //StackView.Immediate
-        if (!ws || root.ws?.toplevels?.values.length === 0) {
-            if (stack.currentItem != emptyWorkspace) {
+        const transition = stack?.currentItem?.objectName === initComponent.objectName ? StackView.Immediate : StackView.PushTransition
+        if (!ws || root.icons?.length === 0) {
+            if (stack?.currentItem?.objectName !== emptyWorkspace?.objectName) {
                 stack.clear(transition)
                 stack.push(emptyWorkspace);
             }
         }
-        else if (ws.focused) {
-            if (stack.currentItem != allCategoryIcons) {
+        else if (wsFocused) {
+            if (stack?.currentItem?.objectName !== allCategoryIcons?.objectName) {
                 stack.clear(transition)
                 stack.push(allCategoryIcons);
             }
         }
         else {
-            if (stack.currentItem != lastObjectIcon) {
+            if (stack?.currentItem?.objectName !== lastObjectIconComponent?.objectName) {
                 stack.clear(transition)
-                stack.push(lastObjectIcon);
+                stack.push(lastObjectIconComponent);
             }
         }
     }
 
-    Component.onCompleted: {
-        updateActiveComponent()
+
+    Component {
+        id: initComponent
+        Item {
+            objectName: "initComponent"
+            implicitHeight: 32
+            implicitWidth: 32
+        }
     }
 
     Component {
         id: emptyWorkspace
         Item {
+            objectName: "emptyWorkspace"
             implicitHeight: 32
             implicitWidth: 32
 
@@ -108,8 +133,9 @@ Rectangle {
     }
 
     Component {
-        id: lastObjectIcon
+        id: lastObjectIconComponent
         Item {
+            objectName: "lastObjectIconComponent"
             implicitHeight: 32
             implicitWidth: 32
 
@@ -126,22 +152,27 @@ Rectangle {
     Component {
         id: allCategoryIcons
         WrapperItem {
-            leftMargin: Config.appearance.padding.medium * root.icons.length > 0
-            rightMargin: Config.appearance.padding.medium * root.icons.length > 0
+            objectName: "allCategoryIcons"
+            leftMargin: Config.appearance.padding.medium * root.icons.length > 1
+            rightMargin: Config.appearance.padding.medium * root.icons.length > 1
+
             RowLayout {
                 id: layout
                 spacing: 0
                 Repeater {
-                    model: root.icons
-                    Rectangle {
-                        required property string modelData
+                    model: root.icons.length
+                    Item {
                         Layout.preferredWidth: 32
                         Layout.preferredHeight: 32
-                        opacity: 0
                     }
                 }
             }
         }
     }
+
+    Component.onCompleted: {
+        updateActiveComponent()
+    }
+
     component ExprAnim: MD.M3SpringAnimation { speed: "fast"; category: "effects" }
 }

@@ -78,11 +78,11 @@ Singleton {
         readonly property var categories: toplevels.map(tl => {
             return getToplevelCategories(tl)
         })
-        property var wsLastIpcObject: workspace.lastIpcObject
+        property var wsLastIpcObject: workspace?.lastIpcObject ?? {}
 
 
         readonly property var lastObjectIcon: {
-            const toplevel = Hyprland.toplevels.values.find(tl => tl.title === wsLastIpcObject.lastwindowtitle)
+            const toplevel = Hyprland.toplevels?.values?.find(tl => tl?.title === wsLastIpcObject?.lastwindowtitle)
             if (!toplevel) return ""
 
             const categories = getToplevelCategories(toplevel)
@@ -107,17 +107,21 @@ Singleton {
             }
         }
 
-        readonly property var icons: toplevels.map(tl => {
-            const categories = getToplevelCategories(tl)
-            const filteredCategories = IconMatcher.filterCategories(categories)
-            const icon = IconMatcher.firstIconForCategories(filteredCategories)
-            return icon
-        })
-
+        readonly property var icons: [...new Set(toplevels.map(tl => {
+                const categories = getToplevelCategories(tl)
+                const filteredCategories = IconMatcher.filterCategories(categories)
+                const icon = IconMatcher.firstIconForCategories(filteredCategories)
+                return icon
+            })
+        )]
         function getToplevelCategories(toplevel) {
             const appId = toplevel.wayland.appId
             const entry = DesktopEntries.byId(appId)
             return entry.categories
+        }
+
+        Component.onCompleted: {
+            Hyprland.refreshWorkspaces()
         }
     }
 }
