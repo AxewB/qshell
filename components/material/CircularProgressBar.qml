@@ -8,14 +8,17 @@ Rectangle {
     height: radius * 2 + lineWidth
     color: "transparent"
 
-    property real minimum: 0
-    property real maximum: 100
+    property real min: 0
+    property real max: 100
     property real value: 100
 
-    property bool wave: value / maximum > 0.05 && value / maximum < 0.95
+    property bool wave: false
     property real radius: 16
     property real frequency: 8
-    property real amplitude: frequency > 0 && wave ? frequency / 4 : 0
+    property real amplitude: wave
+
+    property bool rotate: true
+    property bool rotateDirection: false // false for Clockwise, true for Counterclockwise
 
     property string trackColor: Colors.palette.m3secondaryContainer
     property string indicatorColor: Colors.palette.m3primary
@@ -61,7 +64,7 @@ Rectangle {
 
             var spacingAngle = root.trackSpacingPx / root.radius
             var totalAngle = root.endAngle - root.startAngle
-            var progressFraction = Math.min(Math.max((root.value - root.minimum) / (root.maximum - root.minimum), 0), 1)
+            var progressFraction = Math.min(Math.max((root.value - root.min) / (root.max - root.min), 0), 1)
             var progressAngle = root.startAngle + spacingAngle + (totalAngle - spacingAngle) * progressFraction
 
             // минимальная длина синусоиды
@@ -124,9 +127,9 @@ Rectangle {
 
     Timer {
         interval: 16  // ~60 FPS
-        running: root.amplitude > 0
+        running: root.amplitude > 0 && root.rotate
         repeat: true
-        onTriggered: root.phase += 0.05
+        onTriggered: root.phase += 0.05 * (root.rotateDirection ? 1 : -1)
     }
 
 
