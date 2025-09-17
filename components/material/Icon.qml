@@ -11,7 +11,7 @@ Text {
     property real fill: 0
     property int grade: Colors.isDark ? -25 : 0
     property real truncatedFill: Math.round(fill * 100) / 100
-    property int size
+    property int size: Config.appearance.icon.size.small
 
     color: Colors.palette.m3onSurface
 
