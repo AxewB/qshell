@@ -8,6 +8,7 @@ import qs.utils
 import qs.components
 import qs.modules.bar.modules.tray
 import "./workspaces" as WS
+import "./clock" as ClockModule
 
 
 WrapperItem {
@@ -22,6 +23,7 @@ WrapperItem {
             anchors.left: parent.left
             anchors.right: centerSection.left
             anchors.verticalCenter: parent.verticalCenter
+
         }
 
         CenterSection {
@@ -31,6 +33,7 @@ WrapperItem {
 
             // Workspaces {}
             WS.Workspaces {}
+            ClockModule.Clock {}
         }
 
         RightSection {
@@ -38,7 +41,6 @@ WrapperItem {
             anchors.left: centerSection.right
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            Clock { }
             Tray { }
         }
     }
@@ -53,7 +55,7 @@ WrapperItem {
             id: leftLayout
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            spacing: Config.appearance.padding.medium
+            spacing: Config.appearance.padding.enormous
             layoutDirection: Qt.LeftToRight
         }
     }
@@ -65,7 +67,7 @@ WrapperItem {
         RowLayout {
             id: centerLayout
             anchors.centerIn: parent
-            spacing: Config.appearance.padding.medium
+            spacing: Config.appearance.padding.enormous
         }
     }
 
@@ -78,7 +80,7 @@ WrapperItem {
             id: rightLayout
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            spacing: Config.appearance.padding.medium
+            spacing: Config.appearance.padding.enormous
             layoutDirection: Qt.RightToLeft
         }
     }

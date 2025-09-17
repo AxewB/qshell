@@ -16,7 +16,7 @@ Item {
 
     Row {
         id: content
-        spacing: Config.appearance.padding.normal
+        spacing: Config.appearance.padding.medium
 
         Repeater {
             id: items

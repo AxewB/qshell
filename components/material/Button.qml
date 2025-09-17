@@ -2,6 +2,7 @@ import QtQuick.Controls as Controls
 import QtQuick.Layouts as Layouts
 import QtQuick as QQ
 import QtQuick.Effects as Effects
+import qs.components.common
 import qs.service
 
 
@@ -184,7 +185,7 @@ Controls.Button {
                 text: root.text
                 color: root.labelColor
                 centered: true
-                visible: !root.showOnlyIcon
+                visible: !root.showOnlyIcon && root.text.length > 0
                 type: {
                     if (root.size === "xsmall") return "body";
                     if (root.size === "medium") return "title";

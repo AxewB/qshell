@@ -1,6 +1,7 @@
 import QtQuick as QQ
 import qs.service
 import qs.config
+import qs.components.material as MD
 
 QQ.Text {
     id: root
@@ -38,5 +39,5 @@ QQ.Text {
         enabled: root.animate
         CAnim {}
     }
-    component CAnim: M3ColorAnimation { speed: "short" }
+    component CAnim: MD.M3ColorAnimation { speed: "short" }
 }

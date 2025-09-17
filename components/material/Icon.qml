@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 import QtQuick as QQ
 import qs.service
 import qs.config
+import qs.components.common
 
 Text {
     id: root

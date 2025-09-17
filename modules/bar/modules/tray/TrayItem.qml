@@ -7,6 +7,8 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Io
 import Quickshell.Services.SystemTray
+import qs.components.material as MD
+import qs.components.common as Common
 import qs.config
 import qs.service
 import qs.components
@@ -21,13 +23,17 @@ Item {
     implicitHeight: icon.implicitHeight
     implicitWidth: icon.implicitWidth
 
-    StyledButton {
+    MD.Button {
         id: icon
-        padding: Config.appearance.padding.small
-        StyledRectangle {
+        padding: 0
+        size: "xsmall"
+        text: ""
+        type: "outlined"
 
-            implicitHeight: 32
-            implicitWidth: 32
+        Common.Rectangle {
+
+            implicitHeight: 16
+            implicitWidth: 16
             color: 'transparent'
 
             IconImage {
@@ -45,15 +51,21 @@ Item {
             }
         }
 
-        onRightClicked: menu.open()
-        onLeftClicked: modelData.onlyMenu ? null : modelData.activate()
+        onClicked:  {
+            doubleClickTimer.start()
+        }
+        onDoubleClicked: {
+            root.modelData.activate()
+            doubleClickTimer.stop()
+        }
     }
 
-    // TrayItemMenu {
-    //     menu: root.modelData.menu
-    //     x: root.x
-    //     y: root.y
-    // }
+
+    Timer {
+        id: doubleClickTimer
+        interval: 150
+        onTriggered: menu.open()
+    }
 
     QsMenuAnchor {
         id: menu
@@ -61,15 +73,4 @@ Item {
         menu: root.modelData.menu
         anchor.window: this.QsWindow.window
     }
-
-    // ToolTip {
-    //     id: tooltip
-    //     delay: 1000
-    //     popupType: Qt.Window
-
-    //     background: Rectangle {
-    //         anchors.fill: parent
-    //         color: 'red'
-    //     }
-    // }
 }
