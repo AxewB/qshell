@@ -28,89 +28,13 @@ Rectangle {
         scale: root.currentImageContainer === this ? 1.0 : 1.05
         source: root.currentImageContainer === this ? root.current : root.previous
         fillMode: Image.PreserveAspectCrop
-        Behavior on opacity { Anim{} }
-        Behavior on scale { Anim{} }
     }
 
     function updateImage() {
         root.previous = root.current
         root.current = root.source
-
-        if (wallpaperChangeAnimation.running) {
-            wallpaperChangeAnimation.restart()
-            imageScaleAnimation.restart()
-        } else {
-            wallpaperChangeAnimation.start()
-            imageScaleAnimation.start()
-        }
-
         root.currentImageContainer = (root.currentImageContainer === one) ? two : one
     }
 
     onSourceChanged: updateImage()
-
-    SequentialAnimation {
-        id: imageScaleAnimation
-        running: false
-
-        ScaleAnimator {
-            target: root
-            from: 1
-            to: 1.025
-            duration: Config.appearance.animation.durations.slow
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
-        }
-
-        ScaleAnimator {
-            target: root
-            from: 1.025
-            to: 1
-            duration: Config.appearance.animation.durations.slow
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
-        }
-    }
-
-    SequentialAnimation {
-        id: wallpaperChangeAnimation
-        running: false
-
-        NumberAnimation {
-            target: blurEffect
-            properties: "blur"
-            from: blurEffect.blur
-            to: 0.6
-            duration: Config.appearance.animation.durations.normal
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
-        }
-
-        NumberAnimation {
-            target: blurEffect
-            properties: "blur"
-            from: 0.6
-            to: 0
-            duration: Config.appearance.animation.durations.turtle
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Config.appearance.animation.curves.easeOut ?? [0,0,1,1]
-        }
-    }
-
-    MultiEffect {
-        id: blurEffect
-        source: root
-        anchors.fill: root
-        autoPaddingEnabled: true
-        blurEnabled: true
-        blur: 0
-        blurMax: 48
-        z: 3
-    }
-
-    component Anim: NumberAnimation {
-        duration: Config.appearance.animation.durations.slow
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Config.appearance.animation.curves.ease ?? [0,0,1,1]
-    }
 }
