@@ -79,15 +79,16 @@ Item {
             // часовая стрелка
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
-            ctx.lineTo(centerX + (root.circleRadius * 0.5) * Math.sin(angleH),
-                        centerY - (root.circleRadius * 0.5) * Math.cos(angleH));
+            ctx.lineTo(centerX + (root.circleRadius * 0.35) * Math.sin(angleH),
+                        centerY - (root.circleRadius * 0.35) * Math.cos(angleH));
             ctx.stroke();
 
             // минутная стрелка
             ctx.beginPath();
+            ctx.lineWidth = 3;
             ctx.moveTo(centerX, centerY);
-            ctx.lineTo(centerX + (root.circleRadius * 0.7) * Math.sin(angleM),
-                        centerY - (root.circleRadius * 0.7) * Math.cos(angleM));
+            ctx.lineTo(centerX + (root.circleRadius * 0.6) * Math.sin(angleM),
+                        centerY - (root.circleRadius * 0.6) * Math.cos(angleM));
             ctx.stroke();
         }
         Component.onCompleted: requestPaint()
