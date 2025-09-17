@@ -6,7 +6,7 @@ JsonObject {
     property real scale: 1
     readonly property JsonObject fontFamilies: JsonObject {
         readonly property string sans: "Rubik" // "Roboto"
-        readonly property string mono: "IosevkaTermSlab Nerd Font"
+        readonly property string mono: "CaskaydiaCove Nerd Font Mono"
     }
 
     readonly property JsonObject display: JsonObject {
