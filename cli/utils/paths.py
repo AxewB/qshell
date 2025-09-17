@@ -5,10 +5,11 @@ import platformdirs
 
 class Paths:
     base_dir: Path = platformdirs.user_config_path("axewbshell")
+    pictures_dir: Path = platformdirs.user_pictures_path()
 
     # services
     theme: Path = base_dir / "theme.json"
-    wallpaper_dir: Path = base_dir / "wallpapers"
+    wallpaper_dir: Path = pictures_dir / "wallpapers"
     wallpaper: Path = base_dir / "wallpaper.json"
 
     # cache

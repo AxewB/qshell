@@ -7,7 +7,6 @@ from typing import Literal
 from materialyoucolor.dynamiccolor.material_dynamic_colors import MaterialDynamicColors
 from materialyoucolor.hct import Hct
 from materialyoucolor.quantize import ImageQuantizeCelebi
-from materialyoucolor.scheme.scheme_android import SchemeAndroid
 from materialyoucolor.scheme.scheme_content import SchemeContent
 from materialyoucolor.scheme.scheme_expressive import SchemeExpressive
 from materialyoucolor.scheme.scheme_fidelity import SchemeFidelity
@@ -28,18 +27,25 @@ def rgba_to_hex(rgba):
     return "#{:02X}{:02X}{:02X}{:02X}".format(*map(round, rgba))
 
 
-SCHEMES = {
-    "scheme_vibrant": SchemeVibrant,
-    "scheme_tonal_spot": SchemeTonalSpot,
-    "scheme_rainbow": SchemeRainbow,
-    "scheme_neutral": SchemeNeutral,
-    "scheme_monochrome": SchemeMonochrome,
-    "scheme_fruit_salad": SchemeFruitSalad,
-    "scheme_fidelity": SchemeFidelity,
-    "scheme_expressive": SchemeExpressive,
-    "scheme_content": SchemeContent,
-    "scheme_android": SchemeAndroid,
-}
+def get_scheme(scheme):
+    if scheme == "content":
+        return SchemeContent
+    if scheme == "expressive":
+        return SchemeExpressive
+    if scheme == "fidelity":
+        return SchemeFidelity
+    if scheme == "fruitsalad":
+        return SchemeFruitSalad
+    if scheme == "monochrome":
+        return SchemeMonochrome
+    if scheme == "neutral":
+        return SchemeNeutral
+    if scheme == "rainbow":
+        return SchemeRainbow
+    if scheme == "tonalspot":
+        return SchemeTonalSpot
+
+    return SchemeVibrant
 
 
 class ThemeSourceType(Enum):
@@ -102,7 +108,7 @@ class Theme:
 
         selected = self._get_colors()
         color = rgba_to_hex(rgba_from_argb(selected))[:-2]
-        scheme_class = SCHEMES[self.scheme]
+        scheme_class = get_scheme(self.scheme)
 
         dynamic_palette = scheme_class(
             Hct.from_int(selected), self.is_dark, self.contrast
@@ -130,16 +136,14 @@ def get_parser(parser: ArgumentParser | None):
         default="scheme_tonal_spot",
         type=str,
         choices=[
-            "scheme_vibrant",
-            "scheme_tonal_spot",
-            "scheme_rainbow",
-            "scheme_neutral",
-            "scheme_monochrome",
-            "scheme_fruit_salad",
-            "scheme_fidelity",
-            "scheme_expressive",
-            "scheme_content",
-            "scheme_android",
+            "content",
+            "expressive",
+            "fidelity",
+            "fruitsalad",
+            "monochrome",
+            "neutral",
+            "rainbow",
+            "tonalspot",
         ],
         help="Scheme of the palette.",
     )
