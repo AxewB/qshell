@@ -2,11 +2,11 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.service
+import qs.config
 Item {
     id: root
     clip: false
     property SystemClock systemClock: systemClockDefault
-    property bool rotating: true
     property real circleRadius: 16
     // wave
     property real waveAmplitude: 1.2
@@ -19,6 +19,10 @@ Item {
     readonly property int hours: systemClock.hours
     readonly property int minutes: systemClock.minutes
     readonly property int seconds: systemClock.seconds
+
+    // arrows
+    property bool showMinuteArrow: Config.bar.clock.showMinutesArrow
+    property bool showSecondArrow: Config.bar.clock.showSecondsArrow
 
     onFillColorChanged: canvas.requestPaint()
     onArrowColorChanged: canvas.requestPaint()
@@ -68,28 +72,37 @@ Item {
             ctx.stroke();
 
             // Clock arrows
-            // === стрелки ===
-            // вычисляем углы
-            const angleH = ((root.hours % 12) + root.minutes / 60.0) * (Math.PI / 6);
-            const angleM = (root.minutes + root.seconds / 60.0) * (Math.PI / 30);
             ctx.lineCap = "round"
-            ctx.lineWidth = 4;
             ctx.strokeStyle = root.arrowColor
 
-            // часовая стрелка
+            // hour arrow
+            const angleH = ((root.hours % 12) + root.minutes / 60.0) * (Math.PI / 6);
             ctx.beginPath();
+            ctx.lineWidth = 4;
             ctx.moveTo(centerX, centerY);
             ctx.lineTo(centerX + (root.circleRadius * 0.35) * Math.sin(angleH),
                         centerY - (root.circleRadius * 0.35) * Math.cos(angleH));
             ctx.stroke();
 
-            // минутная стрелка
-            ctx.beginPath();
-            ctx.lineWidth = 3;
-            ctx.moveTo(centerX, centerY);
-            ctx.lineTo(centerX + (root.circleRadius * 0.6) * Math.sin(angleM),
-                        centerY - (root.circleRadius * 0.6) * Math.cos(angleM));
-            ctx.stroke();
+            if (root.showMinuteArrow) {
+                const angleM = (root.minutes + root.seconds / 60.0) * (Math.PI / 30);
+                ctx.beginPath();
+                ctx.lineWidth = 3;
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + (root.circleRadius * 0.6) * Math.sin(angleM),
+                            centerY - (root.circleRadius * 0.6) * Math.cos(angleM));
+                ctx.stroke();
+            }
+
+            if (root.showSecondArrow) {
+                const angleS = root.seconds * (Math.PI / 60);
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + (root.circleRadius * 0.7) * Math.sin(angleS),
+                            centerY - (root.circleRadius * 0.7) * Math.cos(angleS));
+                ctx.stroke();
+            }
         }
         Component.onCompleted: requestPaint()
     }
