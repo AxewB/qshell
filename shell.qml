@@ -5,12 +5,10 @@ import QtQuick
 import QtQuick.Layouts
 import qs.service
 import qs.utils
-import qs.widgets.Frame
-import qs.widgets.Background
-import qs.widgets.FakeScreenRounding
+import qs.widgets.frame
+import qs.widgets.background
 
 Scope {
     Frame {}
     Background {}
-    FakeScreenRounding {}
 }
