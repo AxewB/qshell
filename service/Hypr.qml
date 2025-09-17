@@ -115,7 +115,8 @@ Singleton {
             })
         )]
         function getToplevelCategories(toplevel) {
-            const appId = toplevel.wayland.appId
+            const appId = toplevel?.wayland?.appId ?? ""
+            if (!appId) return []
             const entry = DesktopEntries.byId(appId)
             return entry.categories
         }
