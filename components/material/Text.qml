@@ -9,7 +9,7 @@ QQ.Text {
     property string size: "medium" // large | medium | small
     property bool emphasized: false
     property bool centered: true // used for buttons and similar controls to place text in the center
-    property bool animate: false // if behavior controlled
+    property bool animate: false // used when color changing isn't controlled by other component
 
     readonly property var style: {
         const typography = Config.appearance.typography
