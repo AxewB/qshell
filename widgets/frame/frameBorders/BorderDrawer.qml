@@ -13,8 +13,8 @@ Item {
     required property ShellScreen screen
     required property string position // "top" | "bottom" | "right" | "left"
     property bool isOpened: false
-    property alias externalItem: externalWrapper.data
-    property alias internalItem: internalWrapper.data
+    property alias externalItem: externalWrapper.child // TODO: make something with alias cycle
+    property alias internalItem: internalWrapper.child
     property bool isVertical: false
 
     property int topMargin: 0
