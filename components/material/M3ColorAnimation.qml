@@ -2,8 +2,8 @@ import QtQuick as QQ
 import qs.config
 
 QQ.ColorAnimation {
-    property string speed: "medium"
-    property string curve: "standard"
+    property string speed: "medium"   // short | medium | long | xlong
+    property string curve: "standard" // standard | emphasized | legacy | linear
 
     duration: Config.appearance.motion.durations[speed] ? Config.appearance.motion.durations[speed][1] ?? 300 : 300
     easing.type: QQ.Easing.BezierSpline
