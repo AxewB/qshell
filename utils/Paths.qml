@@ -12,5 +12,6 @@ Singleton {
     property url home:      `${StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]}`
     property url config:    `${StandardPaths.standardLocations(StandardPaths.GenericConfigLocation)[0]}/${shellName}`
     property url pictures:  `${StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]}`
-    property url data:      `${StandardPaths.standardLocations(StandardPaths.GenericDataLocation)[0]}/${shellName}`
+    property url data:      `${StandardPaths.standardLocations(StandardPaths.GenericDataLocation)[0]}`
+    property url cache:      `${StandardPaths.standardLocations(StandardPaths.GenericCacheLocation)[0]}`
 }
