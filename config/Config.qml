@@ -13,6 +13,7 @@ Singleton {
     property alias borders: adapter.borders
     property alias fakeRounding: adapter.fakeRounding
     property alias weather: adapter.weather
+    property alias bar: adapter.bar
 
     FileView {
         id: fileView
@@ -28,6 +29,7 @@ Singleton {
             property Modules.Borders borders: Modules.Borders {}
             property Modules.FakeRounding fakeRounding: Modules.FakeRounding {}
             property Service.Weather weather: Service.Weather {}
+            property Modules.Bar bar: Modules.Bar {}
         }
     }
 

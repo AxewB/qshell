@@ -3,15 +3,16 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
-import qs.components.material as MD
+import qs.components.common as Common
 import qs.service
+import qs.config
 
 Item {
     id: root
 
     property SystemClock systemClock: systemClockDefault
-    property string time: Qt.formatDateTime(systemClock.date, "hh:mm")
-    property string date: Qt.formatDateTime(systemClock.date, "ddd M/dd")
+    property string time: Qt.formatDateTime(systemClock.date, Config.bar.clock.timeFormat)
+    property string date: Qt.formatDateTime(systemClock.date, Config.bar.clock.dateFormat)
 
     implicitHeight: content.implicitHeight
     implicitWidth: content.implicitWidth
@@ -23,7 +24,7 @@ Item {
         WrapperRectangle {
             Layout.alignment: Qt.AlignHCenter
             color:"transparent"
-            MD.Text {
+            Common.Text {
                 text: root.time
                 type: "body"
                 font.weight: Font.Bold
@@ -33,7 +34,7 @@ Item {
 
             color:"transparent"
             Layout.alignment: Qt.AlignHCenter
-            MD.Text {
+            Common.Text {
                 text: root.date
                 type: "label"
                 color: Colors.palette.m3onSurfaceVariant
