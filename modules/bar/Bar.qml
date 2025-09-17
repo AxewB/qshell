@@ -6,9 +6,11 @@ import qs.config
 import qs.modules
 import qs.utils
 import qs.components
+import qs.components.material as MD
 import qs.modules.bar.modules.tray
 import "./workspaces" as WS
 import "./clock" as ClockModule
+import "./media" as Media
 
 
 WrapperItem {
@@ -26,14 +28,29 @@ WrapperItem {
 
         }
 
+
         CenterSection {
             id: centerSection
             anchors.centerIn: parent
 
+            MD.Button {
+                id: button
+                text: ""
+                size:"xsmall"
+                type:"text"
+                smallPadding: true
+                Media.Media {}
+            }
 
-            // Workspaces {}
             WS.Workspaces {}
-            ClockModule.Clock {}
+
+            MD.Button {
+                text: ""
+                size:"xsmall"
+                type:"text"
+                smallPadding: true
+                ClockModule.Clock {}
+            }
         }
 
         RightSection {
@@ -44,7 +61,6 @@ WrapperItem {
             Tray { }
         }
     }
-
 
     component LeftSection: Item {
         default property alias children: leftLayout.children
@@ -67,7 +83,7 @@ WrapperItem {
         RowLayout {
             id: centerLayout
             anchors.centerIn: parent
-            spacing: Config.appearance.padding.enormous
+            spacing: Config.appearance.padding.medium
         }
     }
 

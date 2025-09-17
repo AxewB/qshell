@@ -7,17 +7,17 @@ Singleton {
     id: root
 
     property list<MprisPlayer> players: Mpris.players.values
-    property MprisPlayer currentPlayer: players[0]
-    property int position: currentPlayer.position
-    property int length: currentPlayer.length
+    property MprisPlayer currentPlayer: players ? players[0] : null
+    property int position: currentPlayer?.position ?? 0
+    property int length: currentPlayer?.length ?? 0
     property real progress: (position / length).toFixed(2)
     property string trackArtist: ""
     property string trackTitle: ""
     property string trackArtUrl: ""
-    property real rate: currentPlayer.rate
-    property real rateSupported: currentPlayer.minRate < 1 && currentPlayer.maxRate > 1
+    property real rate: currentPlayer?.rate ?? 1
+    property real rateSupported: currentPlayer?.minRate < 1 && currentPlayer?.maxRate > 1
 
-    onPlayersChanged: currentPlayer = players ? players[0] : null
+    onPlayersChanged: currentPlayer = players?.length > 0 ? players[0] : null
 
     onCurrentPlayerChanged: updateTrackData()
 
@@ -67,18 +67,23 @@ Singleton {
         root.currentPlayer.volume = newVolume
     }
 
-    function updateTrackData() {
+    function updateTrackData(isTimered = false) {
         if (players?.length === 0) {
-            trackArtist = "Playing"
-            trackTitle = "Nothing"
+            trackTitle = "Nothing playing"
+            trackArtist = ""
             return
         }
         Qt.callLater(() => {
             if (!currentPlayer.trackArtist && !currentPlayer.trackTitle) {
+                if (!isTimered) {
+                    trackUpdateTimer.restart()
+                    return
+                }
                 trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : "-"
                 trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
             }
             else {
+                trackUpdateTimer.stop()
                 trackArtist = currentPlayer.trackArtist ? currentPlayer.trackArtist : ""
                 trackTitle = currentPlayer.trackTitle ? currentPlayer.trackTitle : currentPlayer.identity
             }
@@ -107,14 +112,6 @@ Singleton {
         root.currentPlayer = players[currentIndex];
     }
 
-    function prevPlayer() {
-        if (Mpris.players.length <= 1)
-            return;
-        var currentIndex = Mpris.players.indexOf(currentPlayer);
-        currentIndex = (currentIndex - 1 + Mpris.players.length) % Mpris.players.length;
-        currentPlayer = Mpris.players[currentIndex];
-    }
-
     function setPosition(fraction) {
         const newPos = fraction * root.length
         currentPlayer.position = newPos
@@ -122,5 +119,19 @@ Singleton {
 
     Component.onCompleted: {
         updateTrackData()
+    }
+
+    FrameAnimation {
+      running: root.currentPlayer?.playbackState == MprisPlaybackState.Playing ?? false
+      onTriggered: root.currentPlayer.positionChanged()
+    }
+
+    Timer {
+        id: trackUpdateTimer
+        interval: 500
+        onTriggered: {
+            root.updateTrackData(true)
+
+        }
     }
 }
