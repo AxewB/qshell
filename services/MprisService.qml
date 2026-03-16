@@ -9,28 +9,35 @@ Singleton {
   id: root
 
   readonly property list<MprisPlayer> players: Mpris.players.values
-  readonly property int activePlayerIndex: 0
-  readonly property MprisPlayer activePlayer: players[0]
+  property int activePlayerIndex: 0
+  readonly property MprisPlayer activePlayer: players[activePlayerIndex]
+  
+  onActivePlayerChanged: {
+    console.log(activePlayer)
+  }
 
+  onActivePlayerIndexChanged: {
+    console.log(activePlayerIndex)
+  }
+
+
+  readonly property bool isPlaying: activePlayer?.isPlaying ?? false
   readonly property string trackArtist: activePlayer?.trackArtist ?? ""
   readonly property string trackTitle: activePlayer?.trackTitle ?? ""
   readonly property string trackArtUrl: activePlayer?.trackArtUrl
 
   function nextPlayer() {
-    let maxPlayerIndex = root.players.length
     let nextIndex = root.activePlayerIndex + 1
-
     root.setPlayerIndex(nextIndex)
   }
 
   function previousPlayer() {
-    let maxPlayerIndex = root.players.length
     let prevIndex = root.activePlayerIndex - 1
-
     root.setPlayerIndex(prevIndex)
   }
 
   function setPlayerIndex(newIndex) {
+    let maxPlayerIndex = root.players.length - 1
     root.activePlayerIndex = Math.max(0, Math.min(newIndex, maxPlayerIndex))
   }
 
@@ -47,12 +54,16 @@ Singleton {
     root.activePlayer.previous()
   }
 
-  function pause() {
-    root.activePlayer.pause()
-  }
-
   function seek(offset) {
     root.activePlayer.seek(offset)
+  }
+
+  function play() {
+    root.activePlayer.play()
+  }
+
+  function pause() {
+    root.activePlayer.pause()
   }
 
   function stop() {
