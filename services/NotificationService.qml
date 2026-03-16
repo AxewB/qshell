@@ -64,6 +64,13 @@ Singleton {
   component MinshNotification: QtObject {
     id: minshNotification
     property Notification notification
+    property Connections notificationConnection: Connections {
+      target: minshNotification.notification
+      function onClosed() {
+        minshNotification.expire()
+      }
+    }
+
     property int notifId
     property string appName
     property string summary

@@ -42,7 +42,7 @@ Scope {
       anchors.top: parent.top;
       anchors.right: parent.right;
       implicitHeight: notificationList.implicitHeight;
-      width: 360;
+      width: 280;
 
       MinshWrapperRectangle {
         anchors.fill: parent
