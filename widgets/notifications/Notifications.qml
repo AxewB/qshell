@@ -123,7 +123,7 @@ Scope {
     // Component.onCompleted: {
     //   Quickshell.execDetached(["sh", "-c", "notify-send -u critical -t 5000 -a \"MyApp\" -i \"dialog-information\" -c \"device.dvd\" -A \"yes=Да\" -A \"no=Нет\" -A \"cancel=Отмена\" \"Заголовок уведомления (summary)\" \"<b>Текст уведомления (body)</b><br><a href='https://example.com'>Ссылка</a><br><img src='file:///usr/share/icons/hicolor/48x48/apps/firefox.png'>\""
     // ])
-  }
+    // }
 
     MultiEffect {
       source: content
