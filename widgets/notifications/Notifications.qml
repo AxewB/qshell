@@ -27,8 +27,8 @@ Scope {
     anchors.left: true
     focusable: true
 
-    margins.right: 8
-    margins.top: 8
+    margins.right: 16
+    margins.top: 16
 
     // exclusionMode: ExclusionMode.Ignore
     // exclusiveZone: 0
@@ -41,7 +41,6 @@ Scope {
       id: content
       anchors.top: parent.top;
       anchors.right: parent.right;
-
       implicitHeight: notificationList.implicitHeight;
       width: 360;
 
@@ -51,6 +50,7 @@ Scope {
 
         ColumnLayout {
           width: parent.width
+          spacing: 8
           Repeater {
             model: NotificationService.notifList
 
@@ -120,17 +120,17 @@ Scope {
       }
     }
 
-    Component.onCompleted: {
-      Quickshell.execDetached(["sh", "-c", "notify-send -u critical -t 5000 -a \"MyApp\" -i \"dialog-information\" -c \"device.dvd\" -A \"yes=Да\" -A \"no=Нет\" -A \"cancel=Отмена\" \"Заголовок уведомления (summary)\" \"<b>Текст уведомления (body)</b><br><a href='https://example.com'>Ссылка</a><br><img src='file:///usr/share/icons/hicolor/48x48/apps/firefox.png'>\""
-    ])
+    // Component.onCompleted: {
+    //   Quickshell.execDetached(["sh", "-c", "notify-send -u critical -t 5000 -a \"MyApp\" -i \"dialog-information\" -c \"device.dvd\" -A \"yes=Да\" -A \"no=Нет\" -A \"cancel=Отмена\" \"Заголовок уведомления (summary)\" \"<b>Текст уведомления (body)</b><br><a href='https://example.com'>Ссылка</a><br><img src='file:///usr/share/icons/hicolor/48x48/apps/firefox.png'>\""
+    // ])
   }
 
-    // MultiEffect {
-    //   source: content
-    //   anchors.fill: content
-    //   shadowEnabled: true
-    //   blurMax: 16
-    //   shadowColor: "black"
-    // }
+    MultiEffect {
+      source: content
+      anchors.fill: content
+      shadowEnabled: true
+      blurMax: 16
+      shadowColor: "black"
+    }
   }
 }
