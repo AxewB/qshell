@@ -100,6 +100,7 @@ Scope {
   component CenterRightGroup: RowLayout {
     spacing: 8
     Media {}
+    Vpn {}
   }
   component RightGroup: RowLayout {
     spacing: 8
