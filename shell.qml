@@ -18,7 +18,7 @@ Scope {
   Launcher {}
   Wallpaper {}
   OSD {}
-  RightPanel { bar: bar_component }
+  RightPanel {}
 
   Notifications {}
 

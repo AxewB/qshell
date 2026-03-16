@@ -99,6 +99,7 @@ Scope {
   }
   component CenterRightGroup: RowLayout {
     spacing: 8
+    Media {}
   }
   component RightGroup: RowLayout {
     spacing: 8
