@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick.Layouts
 import qs.components
@@ -21,6 +22,8 @@ Scope {
 
       screen: modelData
       implicitHeight: !floating ? 32 : (active ? 32 : 1)
+
+      exclusiveZone: floating ? 1 : 32
 
       MouseArea {
         id: mouseArea
