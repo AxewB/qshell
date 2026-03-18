@@ -2,10 +2,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
-import Quickshell.Io
 import QtQuick.Layouts
 import qs.components
 import qs.services
+import qs.config
 
 Scope {
   id: root
@@ -14,11 +14,34 @@ Scope {
     model: Quickshell.screens
 
     MinshPanelWindow {
-      id: window
+      id: panelWindow
       required property var modelData
+      readonly property bool floating: Config.bar.floating
+      property bool active: false
 
       screen: modelData
-      implicitHeight: 32
+      implicitHeight: !floating ? 32 : (active ? 32 : 1)
+
+      MouseArea {
+        id: mouseArea
+        anchors.fill: windowRect
+        hoverEnabled: true
+
+        property bool hovered: containsMouse
+
+        onHoveredChanged: {
+          if (!panelWindow.floating) {
+            return;
+          }
+          panelWindow.active = true
+          if (hovered) {
+            hideTimer.stop()
+          } else {
+            hideTimer.restart()
+          }
+        }
+      }
+
 
       anchors {
         top: true
@@ -28,8 +51,8 @@ Scope {
 
       Rectangle {
         id: windowRect
-        width: window.width
-        height: window.height
+        width: panelWindow.width
+        height: panelWindow.height
         color: Colorscheme.base00
       }
 
@@ -37,7 +60,7 @@ Scope {
         id: sectionsAnchor
         property int margin: 16
         anchors.centerIn: windowRect
-        width: window.width - this.margin * 2
+        width: panelWindow.width - this.margin * 2
 
         MinshWrapperRectangle {
           anchors.left: sectionsAnchor.left
@@ -73,16 +96,33 @@ Scope {
           RightGroup {}
         }
       }
+
+      Timer {
+        id: hideTimer
+        interval: 500
+        onTriggered: {
+          panelWindow.active = false
+        }
+      }
     }
   }
 
+
+
+
   component LeftGroup: RowLayout {
     spacing: 8
-    MinshIcon {
-      icon: "crown"
-      size: 20
-      color: Colorscheme.base07
+    WrapperMouseArea {
+      onClicked: Config.bar.floating = !Config.bar.floating
+
+      MinshIcon {
+        icon: !panelWindow.floating ? "toggle_on" : "toggle_off"
+
+        size: 20
+        color: Colorscheme.base07
+      }
     }
+
     Workspaces {}
     CurrentApp {}
   }
