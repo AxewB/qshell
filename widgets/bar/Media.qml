@@ -14,9 +14,8 @@ MinshWrapperRectangle {
   readonly property string trackArtUrl: MprisService.trackArtUrl
 
   RowLayout {
-    MediaImage {}
-    MediaButtons {}
     MediaInfo {}
+    MediaButtons {}
   }
 
   // // // // // components
@@ -26,7 +25,7 @@ MinshWrapperRectangle {
 
     MinshIcon {
       id: mediaButtonIcon
-      size: 24
+      size: 20
     }
   }
 
@@ -48,8 +47,8 @@ MinshWrapperRectangle {
   }
 
   component MediaImage: ClippingWrapperRectangle {
-    Layout.preferredHeight: 16
-    Layout.preferredWidth: 16
+    Layout.preferredHeight: 20
+    Layout.preferredWidth: 20
     color: "transparent"
     radius: 4
 
@@ -63,6 +62,8 @@ MinshWrapperRectangle {
   }
   component MediaInfo: WrapperMouseArea {
     RowLayout {
+      MediaImage {}
+
       MinshText {
         Layout.maximumWidth: 80
         text: root.trackArtist

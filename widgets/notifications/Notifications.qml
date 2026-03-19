@@ -30,9 +30,8 @@ Scope {
     margins.right: 16
     margins.top: 16
 
-    // exclusionMode: ExclusionMode.Ignore
-    // exclusiveZone: 0
-    WlrLayershell.layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Overlay
+
     mask: Region {
       item: content
     }
@@ -54,67 +53,7 @@ Scope {
           Repeater {
             model: NotificationService.notifList
 
-            delegate: WrapperMouseArea {
-              id: notificationRoot
-              required property var modelData
-              Layout.fillWidth: true
-              acceptedButtons: Qt.RightButton
-              onClicked: {
-                modelData.dismiss()
-              }
-              MinshWrapperRectangle {
-                color: Colorscheme.base00
-                radius: 8
-                margin: 8
-                border.width: 2
-                border.color: Colorscheme.base07
-                ColumnLayout {
-                  implicitHeight: notificationRoot.implicitHeight
-                  implicitWidth: notificationRoot.implicitWidth
-                  spacing: 8
-
-                  RowLayout {
-                    spacing: 8
-                    IconImage {
-                      Layout.preferredHeight: 16
-                      Layout.preferredWidth: 16
-                      asynchronous: true
-                      source: Quickshell.iconPath(notificationRoot.modelData.appIcon, true)
-                    }
-
-                    MinshText {
-                      text: notificationRoot.modelData?.summary ?? ""
-                      size: 14
-                    }
-                  }
-
-
-                  MinshText {
-                    Layout.fillWidth: true
-                    text: notificationRoot.modelData?.body ?? ""
-                    textFormat: Text.MarkdownText
-                    wrapMode: Text.WordWrap
-                    maximumLineCount: 2
-                  }
-
-                  RowLayout {
-                    spacing: 8
-                    Repeater {
-                      model: notificationRoot.modelData.actions
-                      delegate: MinshWrapperRectangle {
-                        required property NotificationAction modelData
-                        MinshButton {
-                          text: parent.modelData?.text ?? ""
-                          onClicked: {
-                            notificationRoot.modelData.dismiss(parent.modelData)
-                          }
-                        }
-                      } 
-                    }
-                  }
-                }
-              }
-            }
+            delegate: NotificationItem {}
           }
         }
       }
@@ -131,6 +70,98 @@ Scope {
       shadowEnabled: true
       blurMax: 16
       shadowColor: "black"
+    }
+  }
+
+  component NotificationItem:WrapperMouseArea {
+    id: notificationRoot
+    required property var modelData
+    property NotificationAction activateAction
+
+    property bool isActionOnlyActivate: {
+      const actions = notificationRoot.modelData.actions
+      if (actions.length > 1) {
+        return false
+      }
+      const activateAction = actions?.find(a => a.text.toLowerCase().includes("activate"))
+
+      notificationRoot.activateAction = activateAction
+
+      if (activateAction) {
+        return true
+      }
+    }
+
+    Layout.fillWidth: true
+    acceptedButtons: Qt.RightButton | Qt.LeftButton
+    onClicked: event => {
+      if (event.button == Qt.RightButton) {
+        modelData.dismiss()
+      }
+
+      if (event.button == Qt.LeftButton && isActionOnlyActivate && activateAction) {
+        notificationRoot.modelData.dismiss(activateAction)
+      }
+    }
+
+    MinshWrapperRectangle {
+      color: Colorscheme.base00
+      radius: 8
+      margin: 8
+      border.width: 2
+      border.color: Colorscheme.base07
+      ColumnLayout {
+        implicitHeight: notificationRoot.implicitHeight
+        implicitWidth: notificationRoot.implicitWidth
+        spacing: 8
+
+        RowLayout {
+          spacing: 8
+          IconImage {
+            Layout.preferredHeight: 16
+            Layout.preferredWidth: 16
+            asynchronous: true
+            source: Quickshell.iconPath(notificationRoot.modelData.appIcon, true)
+          }
+
+          MinshText {
+            text: notificationRoot.modelData?.summary ?? ""
+            size: 14
+          }
+        }
+
+
+        MinshText {
+          Layout.fillWidth: true
+          text: notificationRoot.modelData?.body ?? ""
+          textFormat: Text.MarkdownText
+          wrapMode: Text.WordWrap
+          maximumLineCount: 2
+        }
+
+        NotificationActions {
+          visible: !notificationRoot.isActionOnlyActivate
+          actions: notificationRoot.modelData.actions
+        }
+      }
+    }
+  }
+
+  component NotificationActions: RowLayout {
+    id: notificationActions
+    required property list<NotificationAction> actions
+    spacing: 8
+    Repeater {
+      model: notificationRoot.modelData.actions
+      delegate: MinshWrapperRectangle {
+        required property NotificationAction modelData
+        MinshButton {
+          text: parent.modelData?.text ?? ""
+          onClicked: {
+            notificationRoot.modelData.dismiss(parent.modelData)
+          }
+        }
+      }
     }
   }
 }
