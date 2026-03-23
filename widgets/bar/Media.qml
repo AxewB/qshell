@@ -22,6 +22,7 @@ MinshWrapperRectangle {
 
   component MediaButton: WrapperMouseArea {
     property alias icon: mediaButtonIcon.icon
+    cursorShape: Qt.PointingHandCursor
 
     MinshIcon {
       id: mediaButtonIcon
@@ -61,6 +62,8 @@ MinshWrapperRectangle {
     }
   }
   component MediaInfo: WrapperMouseArea {
+    cursorShape: Qt.PointingHandCursor
+
     RowLayout {
       MediaImage {}
 
