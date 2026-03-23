@@ -12,10 +12,20 @@ MinshWrapperRectangle {
   readonly property string trackArtist: MprisService.trackArtist
   readonly property string trackTitle: MprisService.trackTitle
   readonly property string trackArtUrl: MprisService.trackArtUrl
+  readonly property alias hovered: wrapperMouseArea.hovered
 
-  RowLayout {
-    MediaInfo {}
-    MediaButtons {}
+  WrapperMouseArea {
+    id: wrapperMouseArea
+    hoverEnabled: true
+
+    readonly property bool hovered: this.containsMouse
+
+    RowLayout {
+      MediaInfo {}
+      MediaButtons {
+          visible: root.hovered
+      }
+    }
   }
 
   // // // // // components
