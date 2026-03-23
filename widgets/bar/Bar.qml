@@ -138,11 +138,13 @@ Scope {
   }
   component CenterGroup: RowLayout {
     spacing: 8
-    Time {}
+    Clock {}
   }
   component CenterRightGroup: RowLayout {
     spacing: 8
-    Media {}
+    Media {
+      visible: MprisService.players.length > 0
+    }
     Vpn {}
   }
   component RightGroup: RowLayout {
