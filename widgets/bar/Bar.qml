@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
-import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick.Layouts
 import qs.components
@@ -11,151 +10,166 @@ import qs.config
 Scope {
   id: root
 
+  readonly property bool floating: Config.bar.floating
+  property bool active: false
+
   Variants {
     model: Quickshell.screens
 
     MinshPanelWindow {
       id: panelWindow
+
       required property var modelData
-      readonly property bool floating: Config.bar.floating
-      property bool active: false
 
+      exclusiveZone: root.floating ? 1 : 32
+      implicitHeight: !root.floating ? 32 : (root.active ? 32 : 1)
       screen: modelData
-      implicitHeight: !floating ? 32 : (active ? 32 : 1)
-
-      exclusiveZone: floating ? 1 : 32
 
       MouseArea {
         id: mouseArea
-        anchors.fill: windowRect
-        hoverEnabled: true
 
         property bool hovered: containsMouse
 
+        anchors.fill: windowRect
+        hoverEnabled: true
+
         onHoveredChanged: {
-          if (!panelWindow.floating) {
+          if (!root.floating) {
             return;
           }
-          panelWindow.active = true
+          root.active = true;
           if (hovered) {
-            hideTimer.stop()
+            hideTimer.stop();
           } else {
-            hideTimer.restart()
+            hideTimer.restart();
           }
         }
       }
 
-
       anchors {
-        top: true
         left: true
         right: true
+        top: true
       }
 
       Rectangle {
         id: windowRect
-        width: panelWindow.width
-        height: panelWindow.height
+
         color: Colorscheme.base00
+        height: panelWindow.height
+        width: panelWindow.width
       }
 
       Item {
         id: sectionsAnchor
+
         property int margin: 16
+
         anchors.centerIn: windowRect
         width: panelWindow.width - this.margin * 2
 
         MinshWrapperRectangle {
           anchors.left: sectionsAnchor.left
           anchors.verticalCenter: sectionsAnchor.verticalCenter
+
           LeftGroup {}
         }
 
         MinshWrapperRectangle {
           anchors.right: centerrow.left
-          anchors.verticalCenter: sectionsAnchor.verticalCenter
           anchors.rightMargin: 4
+          anchors.verticalCenter: sectionsAnchor.verticalCenter
+
           CenterLeftGroup {}
         }
 
         MinshWrapperRectangle {
           id: centerrow
+
           anchors.centerIn: sectionsAnchor
-          anchors.rightMargin: 4
           anchors.leftMargin: 4
+          anchors.rightMargin: 4
+
           CenterGroup {}
         }
 
         MinshWrapperRectangle {
           anchors.left: centerrow.right
-          anchors.verticalCenter: sectionsAnchor.verticalCenter
           anchors.leftMargin: 4
+          anchors.verticalCenter: sectionsAnchor.verticalCenter
+
           CenterRightGroup {}
         }
 
         MinshWrapperRectangle {
           anchors.right: sectionsAnchor.right
           anchors.verticalCenter: sectionsAnchor.verticalCenter
+
           RightGroup {}
         }
       }
 
       Timer {
         id: hideTimer
+
         interval: 500
+
         onTriggered: {
-          panelWindow.active = false
+          root.active = false;
         }
       }
     }
   }
 
-
-
-
-  component LeftGroup: RowLayout {
+  component CenterGroup: RowLayout {
     spacing: 8
+
+    Workspaces {}
+  }
+  component CenterLeftGroup: RowLayout {
+    layoutDirection: Qt.RightToLeft
+    spacing: 8
+
+    Divider {}
+
+    Media {
+      visible: MprisService.players.length > 0
+    }
+  }
+  component CenterRightGroup: RowLayout {
+    spacing: 8
+
     WrapperMouseArea {
       onClicked: Config.bar.floating = !Config.bar.floating
 
       MinshIcon {
-        icon: !panelWindow.floating ? "toggle_on" : "toggle_off"
-
-        size: 20
         color: Colorscheme.base07
+        fill: !root.floating ? 1 : 0
+        icon: !root.floating ? "toggle_on" : "toggle_off"
+        size: 20
       }
     }
 
-    Workspaces {}
-    CurrentApp {}
-  }
-
-  component CenterLeftGroup: RowLayout {
-    spacing: 8
-    layoutDirection: Qt.RightToLeft
-    Divider {}
-    ResourceMonitor {}
-  }
-  component CenterGroup: RowLayout {
-    spacing: 8
-    Clock {}
-  }
-  component CenterRightGroup: RowLayout {
-    spacing: 8
-    Media {
-      visible: MprisService.players.length > 0
-    }
     Vpn {}
-  }
-  component RightGroup: RowLayout {
-    spacing: 8
-    layoutDirection: Qt.RightToLeft
-    Controls {}
-    Tray {}
   }
   component Divider: MinshRectangle {
     height: 2
-    width: 16
     radius: height
+    width: 16
+  }
+  component LeftGroup: RowLayout {
+    spacing: 8
+
+    CurrentApp {}
+    ResourceMonitor {}
+  }
+  component RightGroup: RowLayout {
+    layoutDirection: Qt.RightToLeft
+    spacing: 8
+
+    Clock {}
+    Divider {}
+    Controls {}
+    Tray {}
   }
 }

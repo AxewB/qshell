@@ -85,5 +85,4 @@ MinshWrapperRectangle {
       if (event.button == Qt.RightButton) MprisService.previousPlayer()
     }
   }
-
 }

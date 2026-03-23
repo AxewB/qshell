@@ -12,6 +12,11 @@ import qs.widgets.notifications
 import qs.services
 
 Scope {
+  Component.onCompleted: {
+    console.log("Loaded configuration at:", Qt.formatDateTime(new Date(), "hh:mm:ss"))
+    console.log(Colorscheme.base00)
+  }
+
   Bar {
     id: bar_component
   }
@@ -19,11 +24,5 @@ Scope {
   Wallpaper {}
   OSD {}
   RightPanel {}
-
   Notifications {}
-
-  Component.onCompleted: {
-    console.log("Loaded configuration at:", Qt.formatDateTime(new Date(), "hh:mm:ss"))
-    console.log(Colorscheme.base00)
-  }
 }
