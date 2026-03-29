@@ -15,10 +15,28 @@ Singleton {
 
     for (const con of root.activeVpnConnections) {
       console.log(`disconnecting ${con} vpn`)
-      Quickshell.execDetached(["sh", "-c", `nmcli connection down ${con}`])
+      downVpnProcess.run(con)
     }
 
     activeVpnConnectionsProcess.running = true;
+  }
+
+  Process {
+    id: downVpnProcess
+
+    function run(connection) {
+      downVpnProcess.command = ["sh", "-c", `nmcli connection down ${connection}`]
+      downVpnProcess.running = true
+    }
+
+    command: []
+
+    stdout: StdioCollector {
+      onStreamFinished: {
+        activeVpnConnectionsProcess.running = true
+        downVpnProcess.command = []
+      }
+    }
   }
 
   Process {
