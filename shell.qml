@@ -3,7 +3,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
-import qs.widgets.bar
+// import qs.widgets.bar
+import qs.widgets.bar_simple
 import qs.widgets.launcher
 import qs.widgets.wallpaper
 import qs.widgets.rightpanel

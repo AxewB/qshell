@@ -21,8 +21,8 @@ Scope {
 
       required property var modelData
 
-      exclusiveZone: root.floating ? 1 : 32
-      implicitHeight: !root.floating ? 32 : (root.active ? 32 : 1)
+      exclusiveZone: root.floating ? 1 : 25
+      implicitHeight: !root.floating ? 25 : (root.active ? 25 : 1)
       screen: modelData
 
       anchors.left: true
@@ -50,7 +50,9 @@ Scope {
         }
       }
 
-      Rectangle {
+
+
+      MinshRectangle {
         id: windowRect
 
         color: Colorscheme.base00
@@ -58,13 +60,14 @@ Scope {
         width: panelWindow.width
       }
 
+
       Item {
         id: sectionsAnchor
 
-        property int margin: 16
 
-        anchors.centerIn: windowRect
-        width: panelWindow.width - this.margin * 2
+        anchors.top: windowRect.top
+        anchors.topMargin: 12
+        width: panelWindow.width
 
         MinshWrapperRectangle {
           anchors.left: sectionsAnchor.left
@@ -107,6 +110,14 @@ Scope {
         }
       }
 
+      MinshRectangle {
+          anchors.bottom: windowRect.bottom
+          anchors.right: windowRect.right
+          anchors.left: windowRect.left
+          height: 1
+          color: Colorscheme.base01
+      }
+
       Timer {
         id: hideTimer
 
@@ -122,23 +133,37 @@ Scope {
   component CenterGroup: RowLayout {
     spacing: 8
 
-    Workspaces {}
+    Clock {}
   }
   component CenterLeftGroup: RowLayout {
     layoutDirection: Qt.RightToLeft
     spacing: 8
-
-    Divider {}
-    ResourceMonitor {}
-    Divider {}
-    Media {
-      visible: MprisService.players.length > 0
-    }
+    Spacer { }
+    Media {}
   }
   component CenterRightGroup: RowLayout {
     spacing: 8
+  }
+  component Spacer: MinshRectangle {
+    height: 2
+    radius: height
+    width: 16
+  }
+  component LeftGroup: RowLayout {
+    spacing: 8
 
-    Divider {}
+    Workspaces {}
+    Spacer {}
+    CurrentApp {}
+    Spacer {}
+    ResourceMonitor {}
+    Spacer {}
+
+  }
+  component RightGroup: RowLayout {
+    layoutDirection: Qt.RightToLeft
+    spacing: 0
+
     WrapperMouseArea {
       onClicked: Config.bar.floating = !Config.bar.floating
 
@@ -151,24 +176,11 @@ Scope {
     }
 
     Vpn {}
-  }
-  component Divider: MinshRectangle {
-    height: 2
-    radius: height
-    width: 16
-  }
-  component LeftGroup: RowLayout {
-    spacing: 8
 
-    CurrentApp {}
-  }
-  component RightGroup: RowLayout {
-    layoutDirection: Qt.RightToLeft
-    spacing: 8
-
-    Clock {}
-    Divider {}
     Controls {}
+
+    Spacer {}
+
     Tray {}
   }
 }

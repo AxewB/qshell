@@ -46,7 +46,7 @@ Singleton {
     return result;
   }
 
-  function goToWorkspace(id) {
-    Hyprland.dispatch(`workspace ${id}`);
+  function focus_ws(id) {
+    Quickshell.execDetached(["sh", "-c", `hyprctl dispatch "hl.dsp.focus({workspace = ${id}})"`])
   }
 }
